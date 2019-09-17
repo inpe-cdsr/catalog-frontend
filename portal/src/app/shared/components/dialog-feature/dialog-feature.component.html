@@ -1,0 +1,27 @@
+<section class="dialog-feature">
+    <header class="header">
+        <h1>
+            <mat-icon style="margin-right: 10px">list</mat-icon>
+            {{ feature.id }}
+        </h1>
+        <span>
+            <p><b>CUBE:</b> {{ feature.collection }}</p>
+            <p><b>DATE:</b> {{ getDateFormated(feature.properties.datetime) }}</p>
+        </span>
+    </header>
+
+    <div class="box-assets">
+
+        <div class="assets_features">
+            <div *ngFor="let band of bandsList">
+                <div class="assets" *ngIf="feature.assets[band]">
+                    <p>{{ band.toUpperCase() }}</p>
+                    <a [href]="feature.assets[band].href" target="_blank">
+                        <mat-icon style="color: #000">arrow_downward</mat-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
