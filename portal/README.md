@@ -16,7 +16,7 @@ Make sure you have the following libraries installed:
 npm install
 ```
 
-## Runnig
+## Running
 
 * firstly, configure the files in the `src/environments` folder.
 
