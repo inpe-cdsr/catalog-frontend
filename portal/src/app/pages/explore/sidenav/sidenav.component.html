@@ -1,35 +1,35 @@
 <aside class="sidenav">
-    <div class="container-sidenav">
-        <header>
-            <div class="sidenav_logo">
-                LOGO
-            </div>
-        </header>
+  <div class="container-sidenav">
+    <header>
+      <div class="sidenav_logo">
+        LOGO
+      </div>
+    </header>
 
-        <mat-accordion>
-            <!-- SEARCH BOX -->
-            <mat-expansion-panel [expanded]="step == 0" (click)="changeStep(0)">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>search</mat-icon> Search
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+    <mat-accordion>
+      <!-- SEARCH BOX -->
+      <mat-expansion-panel [expanded]="step == 0" (click)="changeStep(0)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>search</mat-icon> Search
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-              <app-search (stepToEmit)="changeStep($event)"></app-search>
-            </mat-expansion-panel>
+        <app-search (stepToEmit)="changeStep($event)"></app-search>
+      </mat-expansion-panel>
 
-            <!-- COLLECTION BOX -->
-            <mat-expansion-panel *ngIf="features$.length" [expanded]="step == 1" (click)="changeStep(1)">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>list</mat-icon> Tiles
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+      <!-- COLLECTION BOX -->
+      <mat-expansion-panel *ngIf="features$.length" [expanded]="step == 1" (click)="changeStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>list</mat-icon> Tiles
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-              <app-collection></app-collection>
-            </mat-expansion-panel>
+        <app-collection></app-collection>
+      </mat-expansion-panel>
 
-          </mat-accordion>
+    </mat-accordion>
 
-    </div>
+  </div>
 </aside>

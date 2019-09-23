@@ -12,7 +12,7 @@ Make sure you have the following libraries installed:
 cd ../portal && npm install
 ```
 
-## Runnig
+## Running
 
 * firstly, configure the files in the `src/environments` folder.
 
