@@ -46,7 +46,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
   /**
    * get Height of the toolbar and footer components
-   * when initialize this component
+   * when initializing this component
    */
   ngOnInit() {
     this.toolbarHeight = this.toolbar.nativeElement.offsetHeight;
@@ -56,7 +56,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
   /**
    * get Height of the toolbar and footer components
-   * after initialize this component
+   * after initializing this component
    */
   ngAfterViewInit() {
     this.toolbarHeight = this.toolbar.nativeElement.offsetHeight;

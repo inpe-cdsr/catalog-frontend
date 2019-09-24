@@ -1,141 +1,147 @@
 <div class="container-search">
 
-    <form [formGroup]="formSearch" (ngSubmit)="search()">
-        <mat-form-field appearance="fill">
-            <mat-label>Select Providers</mat-label>
-            <mat-select [(value)]="searchObj.providers" multiple formControlName="providers" required>
-                <mat-option *ngFor="let provider of providers" [value]="provider" (click)="getCollections()">{{ provider }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-                <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-            </mat-error>
-        </mat-form-field>
+  <form [formGroup]="formSearch" (ngSubmit)="search()">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Providers</mat-label>
+      <mat-select [(value)]="searchObj.providers" multiple formControlName="providers" required>
+        <mat-option *ngFor="let provider of providers" [value]="provider" (click)="getCollections()">
+          {{ provider }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
+        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="fill" *ngIf="collections.length">
-            <mat-label>Select Collections</mat-label>
-            <mat-select [(value)]="searchObj.collections" multiple formControlName="collections" required>
-                <mat-option *ngFor="let collection of collections" [value]="collection">{{ collection }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-                <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="collections.length">
+      <mat-label>Select Collections</mat-label>
+      <mat-select [(value)]="searchObj.collections" multiple formControlName="collections" required>
+        <mat-option *ngFor="let collection of collections" [value]="collection">
+          {{ collection }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
+        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
+      </mat-error>
+    </mat-form-field>
 
-        <hr />
+    <hr />
 
-        <div class="search__region-box">
-            <div class="box-content">
-                <div class="box-coordinates">
-                    <mat-form-field appearance="outline"
-                        style="margin-bottom: -15px !important"
-                        class="field-top-bottom">
-                        <mat-label>North</mat-label>
-                        <input matInput
-                            type="number"
-                            name="north"
-                            placeholder="N"
-                            [(ngModel)]="searchObj.bbox.north"
-                            formControlName="north"
-                            required />
-                    </mat-form-field>
+    <div class="search__region-box">
+      <!-- North / West / East / South -->
+      <div class="box-content">
+        <div class="box-coordinates">
+          <mat-form-field appearance="outline"
+            style="margin-bottom: -15px !important"
+            class="field-top-bottom">
+            <mat-label>North</mat-label>
+            <input matInput
+              type="number"
+              name="north"
+              placeholder="N"
+              [(ngModel)]="searchObj.bbox.north"
+              formControlName="north"
+              required />
+          </mat-form-field>
 
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>West</mat-label>
-                            <input matInput
-                                type="number"
-                                name="west"
-                                placeholder="W"
-                                [(ngModel)]="searchObj.bbox.west"
-                                formControlName="west"
-                                required />
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>East</mat-label>
-                            <input matInput
-                                type="number"
-                                name="east"
-                                placeholder="E"
-                                [(ngModel)]="searchObj.bbox.east"
-                                formControlName="east"
-                                required />
-                        </mat-form-field>
-                    </div>
-
-                    <mat-form-field appearance="outline"
-                        style="margin-top: -25px !important"
-                        class="field-top-bottom">
-                        <mat-label>South</mat-label>
-                        <input matInput
-                            type="number"
-                            name="south"
-                            placeholder="S"
-                            [(ngModel)]="searchObj.bbox.south"
-                            formControlName="south"
-                            required />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="region__btn-functions">
-                <button type="button"
-                    mat-stroked-button
-                    class="preview_box"
-                    *ngIf="bboxNotEmpty()">
-                    <mat-icon (click)="previewBbox()" class="preview">visibility</mat-icon>
-                    |
-                    <mat-icon (click)="removeLayerBbox()">clear</mat-icon>
-                </button>
-            </div>
-        </div>
-
-        <hr  style="margin-top: 15px" />
-
-        <div>
-            <mat-form-field appearance="fill" style="width: 50%">
-                <mat-label>Start Date</mat-label>
-                <input matInput
-                    [matDatepicker]="start_date"
-                    placeholder="Start Date"
-                    name="start_date"
-                    formControlName="start_date"
-                    required
-                    [(ngModel)]="searchObj.start_date">
-                <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
-                <mat-datepicker #start_date></mat-datepicker>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>West</mat-label>
+              <input matInput
+                type="number"
+                name="west"
+                placeholder="W"
+                [(ngModel)]="searchObj.bbox.west"
+                formControlName="west"
+                required />
             </mat-form-field>
-
-            <mat-form-field appearance="fill" style="width: 50%">
-                <mat-label>Last Date</mat-label>
-                <input matInput
-                    [matDatepicker]="last_date"
-                    placeholder="Last Date"
-                    name="last_date"
-                    formControlName="last_date"
-                    required
-                    [(ngModel)]="searchObj.last_date">
-                <mat-datepicker-toggle matSuffix [for]="last_date"></mat-datepicker-toggle>
-                <mat-datepicker #last_date></mat-datepicker>
+            <mat-form-field appearance="outline">
+              <mat-label>East</mat-label>
+              <input matInput
+                type="number"
+                name="east"
+                placeholder="E"
+                [(ngModel)]="searchObj.bbox.east"
+                formControlName="east"
+                required />
             </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline"
+            style="margin-top: -25px !important"
+            class="field-top-bottom">
+            <mat-label>South</mat-label>
+            <input matInput
+              type="number"
+              name="south"
+              placeholder="S"
+              [(ngModel)]="searchObj.bbox.south"
+              formControlName="south"
+              required />
+          </mat-form-field>
         </div>
+      </div>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Cloud Cover (min)</mat-label>
-            <input type="number"
-                min="0"
-                max="100"
-                matInput
-                name="cloud"
-                [(ngModel)]="searchObj.cloud"
-                formControlName="cloud">
-            <span matSuffix>%</span>
-            <mat-error *ngIf="formSearch.get('cloud').status === 'INVALID'">
-                <form-field-error [errors]="formSearch.get('cloud').errors"></form-field-error>
-            </mat-error>
-        </mat-form-field>
-
-        <button type="submit" mat-raised-button color="primary" class="btn-filter">
-            FILTER
+      <!-- visibility and clear buttons -->
+      <div class="region__btn-functions">
+        <button type="button"
+          mat-stroked-button
+          class="preview_box"
+          *ngIf="bboxNotEmpty()">
+          <mat-icon (click)="previewBbox()" class="preview">visibility</mat-icon>
+          |
+          <mat-icon (click)="removeLayerBbox()">clear</mat-icon>
         </button>
-    </form>
+      </div>
+    </div>
+
+    <hr  style="margin-top: 15px" />
+
+    <div>
+      <mat-form-field appearance="fill" style="width: 50%">
+        <mat-label>Start Date</mat-label>
+        <input matInput
+          [matDatepicker]="start_date"
+          placeholder="Start Date"
+          name="start_date"
+          formControlName="start_date"
+          required
+          [(ngModel)]="searchObj.start_date">
+        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+        <mat-datepicker #start_date></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 50%">
+        <mat-label>Last Date</mat-label>
+        <input matInput
+          [matDatepicker]="last_date"
+          placeholder="Last Date"
+          name="last_date"
+          formControlName="last_date"
+          required
+          [(ngModel)]="searchObj.last_date">
+        <mat-datepicker-toggle matSuffix [for]="last_date"></mat-datepicker-toggle>
+        <mat-datepicker #last_date></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cloud Cover (min)</mat-label>
+      <input type="number"
+          min="0"
+          max="100"
+          matInput
+          name="cloud"
+          [(ngModel)]="searchObj.cloud"
+        formControlName="cloud">
+      <span matSuffix>%</span>
+      <mat-error *ngIf="formSearch.get('cloud').status === 'INVALID'">
+        <form-field-error [errors]="formSearch.get('cloud').errors"></form-field-error>
+      </mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary" class="btn-filter">
+      FILTER
+    </button>
+  </form>
 </div>

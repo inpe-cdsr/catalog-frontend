@@ -44,33 +44,34 @@ export class SearchComponent implements OnInit {
     private snackBar: MatSnackBar,
     private store: Store<ExploreState>,
     private fb: FormBuilder) {
-      this.store.pipe(select('explore')).subscribe(res => {
-        if (res.layers) {
-          this.layers = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
-        }
-        if (res.bbox) {
-          const bbox = Object.values(res.bbox);
-          this.searchObj['bbox'] = {
-            north: bbox[1]['lat'],
-            south: bbox[0]['lat'],
-            west: bbox[0]['lng'],
-            east: bbox[1]['lng']
-          };
-        }
-      });
 
-      this.formSearch = this.fb.group({
-        providers: ['', [Validators.required]],
-        collections: ['', [Validators.required]],
-        north: ['', [Validators.required]],
-        west: ['', [Validators.required]],
-        east: ['', [Validators.required]],
-        south: ['', [Validators.required]],
-        start_date: ['', [Validators.required]],
-        last_date: ['', [Validators.required]],
-        cloud: ['']
-      })
-    }
+    this.store.pipe(select('explore')).subscribe(res => {
+      if (res.layers) {
+        this.layers = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
+      }
+      if (res.bbox) {
+        const bbox = Object.values(res.bbox);
+        this.searchObj['bbox'] = {
+          north: bbox[1]['lat'],
+          south: bbox[0]['lat'],
+          west: bbox[0]['lng'],
+          east: bbox[1]['lng']
+        };
+      }
+    });
+
+    this.formSearch = this.fb.group({
+      providers: ['', [Validators.required]],
+      collections: ['', [Validators.required]],
+      north: ['', [Validators.required]],
+      west: ['', [Validators.required]],
+      east: ['', [Validators.required]],
+      south: ['', [Validators.required]],
+      start_date: ['', [Validators.required]],
+      last_date: ['', [Validators.required]],
+      cloud: ['']
+    })
+  }
 
   /** set basic values used to mount component */
   ngOnInit() {
@@ -85,6 +86,7 @@ export class SearchComponent implements OnInit {
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
     } catch(err) {
+      console.log('getProviders() error: ', err);
     }
   }
 
@@ -96,6 +98,7 @@ export class SearchComponent implements OnInit {
         this.collections = [...this.collections, ...response[p].map( c => `${p.toLocaleLowerCase()}: ${c}`) ]
       })
     } catch(err) {
+      console.log('getCollections() error: ', err);
     }
   }
 
@@ -114,11 +117,13 @@ export class SearchComponent implements OnInit {
       query += `&time=${formatDateUSA(startDate)}T00:00:00`;
       query += `/${formatDateUSA(lastDate)}T23:59:00`;
       query += `&limit=10000`;
+
       if (parseInt(this.searchObj['cloud']) > 0) {
         query += `&cloud=${this.searchObj['cloud']}`;
       }
 
       const response = await this.ss.searchSTAC(query);
+
       if (response.meta.found > 0) {
         this.store.dispatch(setFeatures(response.features));
         this.changeStepNav(1);
