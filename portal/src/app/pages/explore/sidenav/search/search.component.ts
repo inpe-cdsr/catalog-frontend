@@ -91,8 +91,15 @@ export class SearchComponent implements OnInit {
   }
 
   public async getCollections() {
+    let providers = this.searchObj['providers'];
+
+    // when there is not one provider, it is not necessary to request providers to the server
+    if (providers.length === 0) {
+      return;
+    }
+
     try {
-      const response = await this.ss.getCollections(this.searchObj['providers']);
+      const response = await this.ss.getCollections(providers);
       this.collections = [];
       Object.keys(response).forEach( p => {
         this.collections = [...this.collections, ...response[p].map( c => `${p.toLocaleLowerCase()}: ${c}`) ]
