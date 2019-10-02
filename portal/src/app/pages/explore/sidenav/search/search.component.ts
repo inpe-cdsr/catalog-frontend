@@ -11,6 +11,9 @@ import {
   showLoading, closeLoading, setLayers, setPositionMap, setFeatures
 } from '../../explore.action';
 
+// this is just an example in order to test, it can be removed
+import { example_of_features } from './example';
+
 /**
  * component to search data of the BDC project
  * search => STAC and WMS
@@ -35,6 +38,10 @@ export class SearchComponent implements OnInit {
   private layers: Layer[];
   /** available providers */
   public providers: string[];
+
+  public providers_with_its_collections: object;
+
+  public features_separate_by_providers: object;
 
   public formSearch: FormGroup;
 
@@ -76,6 +83,8 @@ export class SearchComponent implements OnInit {
   /** set basic values used to mount component */
   ngOnInit() {
     this.collections = [];
+    this.providers_with_its_collections = {};
+    this.features_separate_by_providers = {};
     this.getProviders();
     this.resetSearch();
   }
@@ -99,14 +108,72 @@ export class SearchComponent implements OnInit {
     }
 
     try {
-      const response = await this.ss.getCollections(providers);
+      this.providers_with_its_collections = await this.ss.getCollections(providers);
       this.collections = [];
-      Object.keys(response).forEach( p => {
-        this.collections = [...this.collections, ...response[p].map( c => `${p.toLocaleLowerCase()}: ${c}`) ]
+
+      Object.keys(this.providers_with_its_collections).forEach( provider => {
+        this.collections = [
+          ...this.collections,
+          ...this.providers_with_its_collections[provider].map(
+            collection => `${provider.toLocaleLowerCase()}: ${collection}`
+          )
+        ]
       })
     } catch(err) {
       console.log('getCollections() error: ', err);
     }
+  }
+
+  private getFeaturesSeparateByCollectionsAndProviders (features) {
+    console.log('\n getFeaturesSeparateByCollectionsAndProviders()');
+
+    // separate features by collections
+
+    let features_by_collections = {};
+    let collection = '';
+
+    for (let i=0; i<features.length; i++) {
+      let feature = features[i];
+
+      // if 'collection' attribute is inside 'properties', then get it from there
+      if ('collection' in feature.properties) {
+        collection = feature.properties.collection.toLocaleLowerCase();
+      } else {
+        // else get it from 'feature'
+        collection = feature.collection.toLocaleLowerCase();
+      }
+
+      // if there is this 'collection' inside 'features_by_collections' object, then add the feature to the list
+      if (collection in features_by_collections) {
+        features_by_collections[collection].push(feature);
+      } else {
+        // else create an empty list and add the feature to the new list
+        features_by_collections[collection] = []
+        features_by_collections[collection].push(feature);
+      }
+    }
+
+    // separate collections by providers
+
+    let features_separate_by_providers = {};
+
+    for (let provider_original in this.providers_with_its_collections) {
+      let collections = this.providers_with_its_collections[provider_original];
+      let provider = provider_original.toLocaleLowerCase();
+
+      // create a complex object to separate features by collections and providers
+      features_separate_by_providers[provider] = {};
+
+      for (let i=0; i<collections.length; i++) {
+        let collection = collections[i].toLocaleLowerCase();
+
+        // create a complex object to separate features by collections and providers
+        features_separate_by_providers[provider][collection] = {};
+        features_separate_by_providers[provider][collection]['features'] = features_by_collections[collection];
+      }
+    }
+
+    return features_separate_by_providers;
   }
 
   /** search feature/items in STAC-COMPOSE */
@@ -126,18 +193,37 @@ export class SearchComponent implements OnInit {
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${lastDate}T23:59:00`;
-      query += `&limit=3`;
+      query += `&limit=10`;
       // query += `&limit=10000`;
 
       if (parseInt(this.searchObj['cloud']) > 0) {
         query += `&cloud=${this.searchObj['cloud']}`;
       }
 
-      // console.log('\nquery: ', query)
+      console.log('\nquery: ', query)
 
       const response = await this.ss.searchSTAC(query);
 
-      // console.log('\nfeatures: ', response.features)
+
+
+
+      // ****************************************************************************************************
+      // example - simulate a response
+
+      // let features_by_collection = getFeaturesSeparateByCollectionsAndProviders(response.features);
+      this.features_separate_by_providers = this.getFeaturesSeparateByCollectionsAndProviders(example_of_features);
+
+      console.log('\n this.features_separate_by_providers: ', this.features_separate_by_providers)
+
+      // ****************************************************************************************************
+
+
+      console.log('\n collections: ', this.collections);
+
+      console.log('\n features: ', response.features);
+
+
+
 
       if (response.meta.found > 0) {
         this.store.dispatch(setFeatures(response.features));
