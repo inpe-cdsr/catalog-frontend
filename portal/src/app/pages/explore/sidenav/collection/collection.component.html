@@ -3,6 +3,7 @@
   <!-- FEATURE -->
   <div class="box-features">
     <div *ngFor="let feature of features$">
+
       <div [ngClass]="(feature.enabled === true) ? 'feature feature-enabled' : 'feature'"
             (click)="enableFeatureActions(feature.id)">
         <div class="feature_ql">
@@ -17,24 +18,19 @@
 
       <!-- ACTIONS FEATURE -->
       <div [ngClass]="(feature.enabled === true) ? 'feature-actions feature-enabled' : 'feature-actions'"
-        *ngIf="feature.actions">
-        <mat-slide-toggle
-          [(ngModel)]="feature.enabled"
-          (change)="onChangeLayer($event, feature)">
+            *ngIf="feature.actions">
+        <mat-slide-toggle [(ngModel)]="feature.enabled" (change)="onChangeLayer($event, feature)">
         </mat-slide-toggle>
 
-        <mat-icon
-          (click)="setZoomByFeature(feature)"
-          class="btns">
+        <mat-icon (click)="setZoomByFeature(feature)" class="btns">
           zoom_out_map
         </mat-icon>
 
-        <mat-icon
-          (click)="viewFeatureDetails(feature)"
-          class="btns">
+        <mat-icon (click)="viewFeatureDetails(feature)" class="btns">
           cloud_download
         </mat-icon>
       </div>
+
     </div>
   </div>
 

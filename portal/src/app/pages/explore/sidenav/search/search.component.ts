@@ -114,22 +114,30 @@ export class SearchComponent implements OnInit {
     try {
       this.store.dispatch(showLoading());
 
-      // set FIRST DAY in start date and LAST DAY in last date
-      const startDate = new Date(this.searchObj['start_date'].setDate(1));
-      const lastDate = new Date(this.searchObj['last_date'].setDate(getLastDateMonth(new Date(this.searchObj['last_date']))));
+      // set first day of the month on start date and last day of the month on last date
+      // const startDate = formatDateUSA(new Date(this.searchObj['start_date'].setDate(1)));
+      // const lastDate = formatDateUSA(new Date(this.searchObj['last_date'].setDate(getLastDateMonth(new Date(this.searchObj['last_date'])))));
+
+      const startDate = formatDateUSA(new Date(this.searchObj['start_date']));
+      const lastDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
       let query = `collections=${this.searchObj['collections'].join(',').replace(/ /g, '')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
-      query += `&time=${formatDateUSA(startDate)}T00:00:00`;
-      query += `/${formatDateUSA(lastDate)}T23:59:00`;
-      query += `&limit=10000`;
+      query += `&time=${startDate}T00:00:00`;
+      query += `/${lastDate}T23:59:00`;
+      query += `&limit=3`;
+      // query += `&limit=10000`;
 
       if (parseInt(this.searchObj['cloud']) > 0) {
         query += `&cloud=${this.searchObj['cloud']}`;
       }
 
+      // console.log('\nquery: ', query)
+
       const response = await this.ss.searchSTAC(query);
+
+      // console.log('\nfeatures: ', response.features)
 
       if (response.meta.found > 0) {
         this.store.dispatch(setFeatures(response.features));
@@ -174,6 +182,8 @@ export class SearchComponent implements OnInit {
       cloud: null,
       start_date: '',
       last_date: ''
+      // start_date: '2019-08-01',
+      // last_date: '2019-09-01'
     };
   }
 
