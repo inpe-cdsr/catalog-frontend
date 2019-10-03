@@ -124,7 +124,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  private getFeaturesSeparateByCollectionsAndProviders (features) {
+  private getFeaturesSeparateByProvidersAndCollections (features) {
     console.log('\n getFeaturesSeparateByCollectionsAndProviders()');
 
     // separate features by collections
@@ -185,6 +185,7 @@ export class SearchComponent implements OnInit {
       // const startDate = formatDateUSA(new Date(this.searchObj['start_date'].setDate(1)));
       // const lastDate = formatDateUSA(new Date(this.searchObj['last_date'].setDate(getLastDateMonth(new Date(this.searchObj['last_date'])))));
 
+      // get the start and end date, and format them
       const startDate = formatDateUSA(new Date(this.searchObj['start_date']));
       const lastDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
@@ -200,30 +201,11 @@ export class SearchComponent implements OnInit {
         query += `&cloud=${this.searchObj['cloud']}`;
       }
 
-      console.log('\nquery: ', query)
-
+      // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
-
-
-
-      // ****************************************************************************************************
-      // example - simulate a response
-
-      // let features_by_collection = getFeaturesSeparateByCollectionsAndProviders(response.features);
-      this.features_separate_by_providers = this.getFeaturesSeparateByCollectionsAndProviders(example_of_features);
-
-      console.log('\n this.features_separate_by_providers: ', this.features_separate_by_providers)
-
-      // ****************************************************************************************************
-
-
-      console.log('\n collections: ', this.collections);
-
-      console.log('\n features: ', response.features);
-
-
-
+      // separate features by providers and collections
+      this.features_separate_by_providers = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
       if (response.meta.found > 0) {
         this.store.dispatch(setFeatures(response.features));
