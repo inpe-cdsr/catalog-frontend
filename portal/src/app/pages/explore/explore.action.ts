@@ -11,6 +11,14 @@ export const setFeatures = createAction(
 );
 
 /**
+ * set Features in store application
+ */
+export const setFeaturesSeparateByProviders = createAction(
+  '[Explore Component] Features Separate by Providers',
+  props<Object>()
+);
+
+/**
  * set Layers enabled in the map
  */
 export const setLayers = createAction(

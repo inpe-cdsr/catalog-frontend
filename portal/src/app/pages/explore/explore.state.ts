@@ -5,6 +5,8 @@ import { Layer, LatLngBoundsExpression } from 'leaflet';
 export interface ExploreState {
   /** all selected features */
   readonly features: Feature[];
+  /** all selected features separate by providers */
+  readonly features_separate_by_providers: Object;
   /** layers visible in the map */
   readonly layers: Layer[];
   /** bounding box of the map */

@@ -1,18 +1,31 @@
+// angular
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Store, select } from '@ngrx/store';
+
+// leaflet
 import { rectangle, LatLngBoundsExpression, Layer } from 'leaflet';
 
+// service
 import { SearchService } from './search.service';
+
+// state management
 import { ExploreState } from '../../explore.state';
-import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import {
-  showLoading, closeLoading, setLayers, setPositionMap, setFeatures
+  showLoading,
+  closeLoading,
+  setLayers,
+  setPositionMap,
+  setFeatures,
+  setFeaturesSeparateByProviders
 } from '../../explore.action';
 
-// this is just an example in order to test, it can be removed
-import { example_of_features } from './example';
+// other
+// import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
+import { formatDateUSA } from 'src/app/shared/helpers/date';
+import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+
 
 /**
  * component to search data of the BDC project
@@ -41,8 +54,6 @@ export class SearchComponent implements OnInit {
 
   public providers_with_its_collections: object;
 
-  public features_separate_by_providers: object;
-
   public formSearch: FormGroup;
 
   /** get infos of store application and set group of validators */
@@ -54,8 +65,11 @@ export class SearchComponent implements OnInit {
 
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.layers) {
-        let layers = Object.values(res.layers);
-        this.layers = layers.slice(0, layers.length - 1) as Layer[];
+        // let layers = Object.values(res.layers);
+        // this.layers = layers.slice(0, layers.length - 1) as Layer[];
+
+        this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
+        console.log('search.layers: ', this.layers);
       }
       if (res.bbox) {
         const bbox = Object.values(res.bbox);
@@ -85,7 +99,6 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.collections = [];
     this.providers_with_its_collections = {};
-    this.features_separate_by_providers = {};
     this.getProviders();
     this.resetSearch();
   }
@@ -126,8 +139,6 @@ export class SearchComponent implements OnInit {
   }
 
   private getFeaturesSeparateByProvidersAndCollections (features) {
-    console.log('\n getFeaturesSeparateByCollectionsAndProviders()');
-
     // separate features by collections
 
     let features_by_collections = {};
@@ -182,10 +193,6 @@ export class SearchComponent implements OnInit {
     try {
       this.store.dispatch(showLoading());
 
-      // set first day of the month on start date and last day of the month on last date
-      // const startDate = formatDateUSA(new Date(this.searchObj['start_date'].setDate(1)));
-      // const lastDate = formatDateUSA(new Date(this.searchObj['last_date'].setDate(getLastDateMonth(new Date(this.searchObj['last_date'])))));
-
       // get the start and end date, and format them
       const startDate = formatDateUSA(new Date(this.searchObj['start_date']));
       const lastDate = formatDateUSA(new Date(this.searchObj['last_date']));
@@ -206,10 +213,11 @@ export class SearchComponent implements OnInit {
       const response = await this.ss.searchSTAC(query);
 
       // separate features by providers and collections
-      this.features_separate_by_providers = this.getFeaturesSeparateByProvidersAndCollections(response.features);
+      let features_separate_by_providers = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
       if (response.meta.found > 0) {
         this.store.dispatch(setFeatures(response.features));
+        this.store.dispatch(setFeaturesSeparateByProviders(features_separate_by_providers));
         this.changeStepNav(1);
 
       } else {
@@ -243,16 +251,14 @@ export class SearchComponent implements OnInit {
       providers: '',
       collections: '',
       bbox: {
-        north: null,
-        south: null,
-        west: null,
-        east: null
+        north: 14.349547837185362,
+        south: 57.61230468750001,
+        west: 54.88769531250001,
+        east: 15.919073517982413
       },
       cloud: null,
-      start_date: '',
-      last_date: ''
-      // start_date: '2019-08-01',
-      // last_date: '2019-09-01'
+      start_date: '2019-09-01T00:00:00',
+      last_date: '2019-09-10T00:00:00'
     };
   }
 

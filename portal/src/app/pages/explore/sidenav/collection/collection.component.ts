@@ -1,12 +1,21 @@
+// angular
 import { Component } from '@angular/core';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 
-import { Feature } from './collection.interface';
-import { ExploreState } from '../../explore.state';
+// leaflet
 import { imageOverlay,  Layer, geoJSON, } from 'leaflet';
+
+// state management
+import { ExploreState } from '../../explore.state';
 import { setLayers, setPositionMap, setFeatures } from '../../explore.action';
-import { MatSnackBar, MatDialog } from '@angular/material';
+
+import { Feature } from './collection.interface';
 import { DialogFeatureComponent } from 'src/app/shared/components/dialog-feature/dialog-feature.component';
+
+// other
+import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+
 
 @Component({
   selector: 'app-collection',
@@ -17,6 +26,8 @@ export class CollectionComponent {
 
   /** all selected features in the search form */
   public features$: Feature[] = [];
+  /** all selected features separate by providers */
+  public features_separate_by_providers$: Feature[] = [];
   /** selected period in the slider */
   public period: number;
   /** value of the opacity cube in the map */
@@ -27,15 +38,25 @@ export class CollectionComponent {
   private layers: Layer[];
 
   /** get infos by store application */
-  constructor(public dialog: MatDialog,
-              private snackBar: MatSnackBar,
-              private store: Store<ExploreState>) {
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        this.features$ = Object.values(res.features).slice(0, (Object.values(res.features).length - 1)) as Feature[];
+        // let features = Object.values(res.features);
+        // this.features$ = features.slice(0, features.length - 1) as Feature[];
+
+        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+        console.log('collection.features$: ', this.features$);
+      }
+      if (res.features_separate_by_providers) {
+        this.features_separate_by_providers$ = res.features_separate_by_providers;
+        console.log('collection.features_separate_by_providers$: ', this.features_separate_by_providers$);
       }
       if (res.layers) {
-        this.layers = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
+        // let layers = Object.values(res.layers);
+        // this.layers = layers.slice(0, layers.length - 1) as Layer[];
+
+        this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
+        console.log('collection.layers: ', this.layers);
       }
     });
   }

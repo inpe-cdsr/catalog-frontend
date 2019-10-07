@@ -6,13 +6,15 @@ import {
   setBbox,
   setPositionMap,
   setRangeTemporal,
-  setFeatures
+  setFeatures,
+  setFeaturesSeparateByProviders
 } from './explore.action';
 import { ExploreState } from './explore.state';
 
 /** initial values to Explore State */
 const initialState: ExploreState = {
   features: [],
+  features_separate_by_providers: {},
   layers: [],
   positionMap: null,
   loading: false,
@@ -27,6 +29,9 @@ const initialState: ExploreState = {
 export const reducer = createReducer(initialState,
   on(setFeatures, (state, payload) => {
     return { ...state, features: payload };
+  }),
+  on(setFeaturesSeparateByProviders, (state, payload) => {
+    return { ...state, features_separate_by_providers: payload };
   }),
   on(setLayers, (state, payload) => {
     return { ...state, layers: payload };

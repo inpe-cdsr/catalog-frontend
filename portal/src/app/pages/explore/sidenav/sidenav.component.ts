@@ -1,7 +1,14 @@
+// angular
 import { Component } from '@angular/core';
-import { Feature } from './collection/collection.interface';
 import { Store, select } from '@ngrx/store';
+
+import { Feature } from './collection/collection.interface';
 import { ExploreState } from '../explore.state';
+
+// other
+// import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+import { convertArrayAsObjectToArray } from '../../../shared/helpers/common';
+
 
 /**
  * Sidenav component
@@ -23,8 +30,11 @@ export class SidenavComponent {
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        let features = Object.values(res.features);
-        this.features$ = features.slice(0, features.length - 1) as Feature[];
+        // let features = Object.values(res.features);
+        // this.features$ = features.slice(0, features.length - 1) as Feature[];
+
+        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+        console.log('sidenav.features$: ', this.features$);
       }
     });
   }
