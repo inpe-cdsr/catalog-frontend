@@ -23,7 +23,8 @@ export class SidenavComponent {
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        this.features$ = Object.values(res.features).slice(0, (Object.values(res.features).length - 1)) as Feature[];
+        let features = Object.values(res.features);
+        this.features$ = features.slice(0, features.length - 1) as Feature[];
       }
     });
   }

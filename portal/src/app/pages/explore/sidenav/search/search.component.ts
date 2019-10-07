@@ -54,7 +54,8 @@ export class SearchComponent implements OnInit {
 
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.layers) {
-        this.layers = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
+        let layers = Object.values(res.layers);
+        this.layers = layers.slice(0, layers.length - 1) as Layer[];
       }
       if (res.bbox) {
         const bbox = Object.values(res.bbox);

@@ -1,5 +1,6 @@
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,20 +22,25 @@ import {
   MatBottomSheetModule,
   MatCheckboxModule
 } from '@angular/material';
-import { ChartsModule } from 'ng2-charts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ChartsModule } from 'ng2-charts';
+import { Ng5SliderModule } from 'ng5-slider';
+
+// store
+import { StoreModule } from '@ngrx/store';
+
+// reducer
+import * as fromExplore from './explore.reducer';
+
+// components
 import { ExploreComponent } from './explore.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MapComponent } from './map/map.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CollectionComponent } from './sidenav/collection/collection.component';
-import { StoreModule } from '@ngrx/store';
-import { Ng5SliderModule } from 'ng5-slider';
-import * as fromExplore from './explore.reducer';
-
 
 /**
  * Explore Module
