@@ -65,9 +65,6 @@ export class SearchComponent implements OnInit {
 
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.layers) {
-        // let layers = Object.values(res.layers);
-        // this.layers = layers.slice(0, layers.length - 1) as Layer[];
-
         this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
         console.log('search.layers: ', this.layers);
       }
@@ -195,15 +192,14 @@ export class SearchComponent implements OnInit {
 
       // get the start and end date, and format them
       const startDate = formatDateUSA(new Date(this.searchObj['start_date']));
-      const lastDate = formatDateUSA(new Date(this.searchObj['last_date']));
+      const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
       let query = `collections=${this.searchObj['collections'].join(',').replace(/ /g, '')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
-      query += `/${lastDate}T23:59:00`;
-      query += `&limit=10`;
-      // query += `&limit=10000`;
+      query += `/${endDate}T23:59:00`;
+      query += `&limit=${this.searchObj['limit']}`;
 
       if (parseInt(this.searchObj['cloud']) > 0) {
         query += `&cloud=${this.searchObj['cloud']}`;
@@ -216,12 +212,14 @@ export class SearchComponent implements OnInit {
       let features_separate_by_providers = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
       if (response.meta.found > 0) {
+        // save 'features' and 'features_separate_by_providers' in the memory
         this.store.dispatch(setFeatures(response.features));
         this.store.dispatch(setFeaturesSeparateByProviders(features_separate_by_providers));
+        // chance the tab on sidebar in order to show the 'tiles' tab
         this.changeStepNav(1);
-
       } else {
         this.store.dispatch(setFeatures([]));
+        // chance the tab on sidebar in order to show the 'search' tab
         this.changeStepNav(0);
         this.snackBar.open('RESULTS NOT FOUND!', '', {
           duration: 5000,
@@ -258,7 +256,9 @@ export class SearchComponent implements OnInit {
       },
       cloud: null,
       start_date: '2019-09-01T00:00:00',
-      last_date: '2019-09-10T00:00:00'
+      last_date: '2019-09-10T00:00:00',
+      // limit: 10000
+      limit: 10
     };
   }
 

@@ -41,9 +41,6 @@ export class CollectionComponent {
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        // let features = Object.values(res.features);
-        // this.features$ = features.slice(0, features.length - 1) as Feature[];
-
         this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
         console.log('collection.features$: ', this.features$);
       }
@@ -52,11 +49,7 @@ export class CollectionComponent {
         console.log('collection.features_separate_by_providers$: ', this.features_separate_by_providers$);
       }
       if (res.layers) {
-        // let layers = Object.values(res.layers);
-        // this.layers = layers.slice(0, layers.length - 1) as Layer[];
-
         this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
-        console.log('collection.layers: ', this.layers);
       }
     });
   }
