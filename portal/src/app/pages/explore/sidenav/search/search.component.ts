@@ -66,7 +66,6 @@ export class SearchComponent implements OnInit {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.layers) {
         this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
-        console.log('search.layers: ', this.layers);
       }
       if (res.bbox) {
         const bbox = Object.values(res.bbox);

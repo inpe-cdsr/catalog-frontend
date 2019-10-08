@@ -6,8 +6,8 @@ import { Feature } from './collection/collection.interface';
 import { ExploreState } from '../explore.state';
 
 // other
-// import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-import { convertArrayAsObjectToArray } from '../../../shared/helpers/common';
+import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+// import { FEATURES } from 'src/app/shared/example/feature';
 
 
 /**
@@ -30,7 +30,12 @@ export class SidenavComponent {
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
+        // original
         this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+
+        // example (it can be removed)
+        // this.features$ = FEATURES as Feature[];
+
         console.log('sidenav.features$: ', this.features$);
       }
     });

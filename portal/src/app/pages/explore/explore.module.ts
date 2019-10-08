@@ -20,7 +20,9 @@ import {
   MatSliderModule,
   MatSnackBarModule,
   MatBottomSheetModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatPaginatorModule,
+  MatTableModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -79,6 +81,8 @@ import { CollectionComponent } from './sidenav/collection/collection.component';
     MatSlideToggleModule,
     MatSliderModule,
     MatSnackBarModule,
+    MatPaginatorModule,
+    MatTableModule,
     Ng5SliderModule,
     MatCheckboxModule,
     ChartsModule,
