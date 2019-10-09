@@ -12,7 +12,7 @@ import { Feature } from '../collection.interface';
 })
 export class FeatureTablePaginationComponent implements OnInit {
 
-  displayedColumns: string[] = ['collection', 'id'];
+  displayedColumns: string[] = ['quicklook', 'id', 'collection'];
   dataSource: MatTableDataSource<Feature>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -22,6 +22,10 @@ export class FeatureTablePaginationComponent implements OnInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource<Feature>(this.features);
     this.dataSource.paginator = this.paginator;
+  }
+
+  doesFeatureHaveTheKey (feature, key) {
+    return key in feature
   }
 
 }

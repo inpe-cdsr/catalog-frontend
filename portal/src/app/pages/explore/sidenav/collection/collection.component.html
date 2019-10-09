@@ -2,7 +2,7 @@
 
   <div *ngFor="let provider of getKeysFromObject(features_separate_by_providers$)">
     <h2> {{ provider }} </h2>
-  
+
     <div *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])">
       <h1> {{ collection }} </h1>
 
@@ -15,7 +15,6 @@
   </div>
 
   <!-- FEATURE -->
-  <!--
   <div class="box-features">
     <div *ngFor="let feature of features$">
 
@@ -31,7 +30,7 @@
         </div>
       </div>
 
-      <!- - ACTIONS FEATURE - ->
+      <!-- FEATURE ACTIONS -->
       <div [ngClass]="(feature.enabled === true) ? 'feature-actions feature-enabled' : 'feature-actions'"
             *ngIf="feature.actions">
         <mat-slide-toggle [(ngModel)]="feature.enabled" (change)="onChangeLayer($event, feature)">
@@ -48,6 +47,5 @@
 
     </div>
   </div>
-  -->
 
 </div>

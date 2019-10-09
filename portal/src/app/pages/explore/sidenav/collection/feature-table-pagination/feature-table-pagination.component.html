@@ -1,20 +1,40 @@
 <div>
 
-  <div class='mat-elevation-z8'>
+  <div class='example-container mat-elevation-z8'>
     <table mat-table [dataSource]='dataSource'>
 
       <!-- Quick look Column -->
-      <ng-container matColumnDef='collection'>
-          <th mat-header-cell *matHeaderCellDef> Quick look </th>
-          <td mat-cell *matCellDef='let feature'>
-            <img [src]='feature.assets.thumbnail.href' class='feature-quicklook' />
-          </td>
-        </ng-container>
+      <ng-container matColumnDef='quicklook'>
+        <th mat-header-cell *matHeaderCellDef> Quick look </th>
+        <td mat-cell *matCellDef='let feature'>
+          <img [src]='feature.assets.thumbnail.href' class='feature-quicklook' />
+        </td>
+      </ng-container>
 
       <!-- ID Column -->
       <ng-container matColumnDef='id'>
         <th mat-header-cell *matHeaderCellDef> ID </th>
         <td mat-cell *matCellDef='let feature'> {{ feature.id }} </td>
+      </ng-container>
+
+      <!-- Collection Column -->
+      <ng-container matColumnDef='collection'>
+        <th mat-header-cell *matHeaderCellDef> collection </th>
+        <!-- <td mat-cell *matCellDef='let feature'> {{ feature.properties.collection }} </td> -->
+        <!-- <td mat-cell *matCellDef='let feature'>
+          {{ 'collection' in feature ? feature.collection : feature.properties.collection }}
+        </td> -->
+        <td mat-cell *matCellDef='let feature'>
+          {{ doesFeatureHaveTheKey(feature, 'collection') ? feature.collection : feature.properties.collection }}
+        </td>
+      </ng-container>
+
+      <!-- Star Column -->
+      <ng-container matColumnDef="star" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon>more_vert</mat-icon>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef='displayedColumns'></tr>
