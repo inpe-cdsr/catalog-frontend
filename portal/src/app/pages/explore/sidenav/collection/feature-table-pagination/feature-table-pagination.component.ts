@@ -12,7 +12,7 @@ import { Feature } from '../collection.interface';
 })
 export class FeatureTablePaginationComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'collection'];
+  displayedColumns: string[] = ['collection', 'id'];
   dataSource: MatTableDataSource<Feature>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

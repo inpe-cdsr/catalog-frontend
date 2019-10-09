@@ -1,25 +1,27 @@
 <div>
 
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+  <div class='mat-elevation-z8'>
+    <table mat-table [dataSource]='dataSource'>
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="id">
+      <!-- Quick look Column -->
+      <ng-container matColumnDef='collection'>
+          <th mat-header-cell *matHeaderCellDef> Quick look </th>
+          <td mat-cell *matCellDef='let feature'>
+            <img [src]='feature.assets.thumbnail.href' class='feature-quicklook' />
+          </td>
+        </ng-container>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef='id'>
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let feature"> {{ feature.id }} </td>
+        <td mat-cell *matCellDef='let feature'> {{ feature.id }} </td>
       </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="collection">
-        <th mat-header-cell *matHeaderCellDef> Collection </th>
-        <td mat-cell *matCellDef="let feature"> {{ feature.properties.collection }} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef='displayedColumns'></tr>
+      <tr mat-row *matRowDef='let row; columns: displayedColumns;'></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]='[5, 10, 20]' showFirstLastButtons></mat-paginator>
   </div>
 
 </div>
