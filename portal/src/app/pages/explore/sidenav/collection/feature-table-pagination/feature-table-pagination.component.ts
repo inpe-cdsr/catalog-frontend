@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+
+import { Feature } from '../collection.interface';
 
 export interface PeriodicElement {
   name: string;
@@ -43,6 +45,8 @@ export class FeatureTablePaginationComponent implements OnInit {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  @Input() features: Array<Feature> = [];
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;

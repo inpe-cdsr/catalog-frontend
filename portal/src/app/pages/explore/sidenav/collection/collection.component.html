@@ -61,7 +61,9 @@
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div> -->
 
-      <app-feature-table-pagination></app-feature-table-pagination>
+      <app-feature-table-pagination
+        [features]="features_separate_by_providers$[provider][collection]['features']"
+      ></app-feature-table-pagination>
     </div>
 
     <br>
