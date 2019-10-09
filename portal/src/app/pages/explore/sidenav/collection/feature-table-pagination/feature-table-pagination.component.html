@@ -15,7 +15,10 @@
       <!-- ID Column -->
       <ng-container matColumnDef='id'>
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef='let feature'> {{ feature.id }} </td>
+        <td mat-cell *matCellDef='let feature'>
+          <p>{{ feature.id }}</p>
+          <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
+        </td>
       </ng-container>
 
       <!-- Collection Column -->

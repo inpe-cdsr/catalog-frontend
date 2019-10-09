@@ -113,7 +113,7 @@ export class CollectionComponent{
   }
 
   /** convert date to USA format */
-  public getDateFormated(dateStr: string): string {
+  public getFormattedDate(dateStr: string): string {
     const dates = dateStr.split('/');
     const startDate = (new Date(dates[0])).toLocaleDateString();
     return `${startDate}`;

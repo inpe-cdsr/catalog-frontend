@@ -27,7 +27,14 @@ export class FeatureTablePaginationComponent implements OnInit {
   }
 
   doesFeatureHaveTheKey (feature, key) {
-    return key in feature
+    return key in feature;
+  }
+
+  /** convert date to USA format */
+  public getFormattedDate(dateString: string): string {
+    const dates = dateString.split('/');
+    const date = (new Date(dates[0])).toLocaleDateString();
+    return `${date}`;
   }
 
 }
