@@ -7,7 +7,7 @@ import { ExploreState } from '../explore.state';
 
 // other
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-// import { FEATURES } from 'src/app/shared/example/feature';
+import { FEATURES } from 'src/app/shared/example/feature';
 
 
 /**
@@ -22,7 +22,9 @@ import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 export class SidenavComponent {
 
   /** step opened menu of the sidenav */
-  public step = 0;
+  // default
+  // public step = 0;
+  public step = 1;
   /** features selected by search in this period */
   public features$: Feature[] = [];
 
@@ -31,10 +33,10 @@ export class SidenavComponent {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
         // original
-        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+        // this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
 
         // example (it can be removed)
-        // this.features$ = FEATURES as Feature[];
+        this.features$ = FEATURES as Feature[];
 
         console.log('sidenav.features$: ', this.features$);
       }

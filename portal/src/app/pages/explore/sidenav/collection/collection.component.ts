@@ -17,7 +17,7 @@ import { DialogFeatureComponent } from 'src/app/shared/components/dialog-feature
 
 // other
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-// import { FEATURES, FEATURES_BY_PROVIDERS } from 'src/app/shared/example/feature';
+import { FEATURES, FEATURES_BY_PROVIDERS, FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
 
 
 export interface PeriodicElement {
@@ -80,19 +80,24 @@ export class CollectionComponent implements OnInit{
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
         // original
-        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+        // this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
 
         // example (it can be removed)
-        // this.features$ = FEATURES as Feature[];
+        this.features$ = FEATURES as Feature[];
 
         console.log('collection.features$: ', this.features$);
       }
       if (res.features_separate_by_providers) {
         // original
-        this.features_separate_by_providers$ = res.features_separate_by_providers;
+        // this.features_separate_by_providers$ = res.features_separate_by_providers;
 
         // example (it can be removed)
-        // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS;
+        this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
+
+        // if 'object' has attribute 'type', then remove it, because it is unnecessary
+        if ('type' in this.features_separate_by_providers$) {
+          delete this.features_separate_by_providers$['type'];
+        }
 
         console.log('collection.features_separate_by_providers$: ', this.features_separate_by_providers$);
       }
@@ -104,6 +109,11 @@ export class CollectionComponent implements OnInit{
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  getKeysFromObject(object) : Array<string> {
+    // get the keys of an 'object' and sort the list
+    return Object.keys(object).sort();
   }
 
   /** convert date to USA format */
