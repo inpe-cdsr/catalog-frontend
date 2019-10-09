@@ -1,65 +1,10 @@
 <div class="features">
 
-  <!-- paginator -->
-  <!-- <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  </div> -->
-
   <div *ngFor="let provider of getKeysFromObject(features_separate_by_providers$)">
     <h2> {{ provider }} </h2>
+  
     <div *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])">
       <h1> {{ collection }} </h1>
-
-      <!-- add features to the paginator -->
-      <!-- <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="getMatTableDataSourceFeature(features_separate_by_providers$[provider][collection]['features'])">
-
-          <ng-container matColumnDef="quicklook">
-            <th mat-header-cell *matHeaderCellDef> Quicklook </th>
-            <td mat-cell *matCellDef="let feature">
-              <div style="height: 50px;">
-                <img [src]="feature.assets.thumbnail.href" style="height: 100%;" />
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID </th>
-            <td mat-cell *matCellDef="let feature"> {{ feature.id }} </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      </div> -->
 
       <app-feature-table-pagination
         [features]="features_separate_by_providers$[provider][collection]['features']"

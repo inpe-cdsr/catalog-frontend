@@ -1,8 +1,6 @@
 // angular
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { Store, select } from '@ngrx/store';
 
 // leaflet
@@ -62,7 +60,7 @@ export interface PeriodicElement {
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.scss']
 })
-export class CollectionComponent implements OnInit{
+export class CollectionComponent{
 
   /** all selected features in the search form */
   public features$: Feature[] = [];
@@ -76,14 +74,6 @@ export class CollectionComponent implements OnInit{
   public opacityEnabled = false;
   /** layers enabled inthe map */
   private layers: Layer[];
-
-  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-
-  displayedColumns: string[] = ['quicklook', 'id'];
-
-  // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   /** get infos by store application */
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private store: Store<ExploreState>) {
@@ -117,19 +107,9 @@ export class CollectionComponent implements OnInit{
     });
   }
 
-  ngOnInit() {
-    // this.dataSource.paginator = this.paginator;
-  }
-
   getKeysFromObject(object) : Array<string> {
     // get the keys of an 'object' and sort the list
     return Object.keys(object).sort();
-  }
-
-  getMatTableDataSourceFeature(list_of_objects) : MatTableDataSource<Feature>{
-    let dataSource = new MatTableDataSource<Feature>(list_of_objects);
-    dataSource.paginator = this.paginator;
-    return dataSource;
   }
 
   /** convert date to USA format */
