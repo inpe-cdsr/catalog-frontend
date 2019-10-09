@@ -43,6 +43,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
 import { CollectionComponent } from './sidenav/collection/collection.component';
+import { FeatureTablePaginationComponent } from './sidenav/collection/feature-table-pagination/feature-table-pagination.component';
 
 /**
  * Explore Module
@@ -55,7 +56,8 @@ import { CollectionComponent } from './sidenav/collection/collection.component';
     MapComponent,
     SidenavComponent,
     SearchComponent,
-    CollectionComponent
+    CollectionComponent,
+    FeatureTablePaginationComponent
   ],
   exports: [
     RouterModule

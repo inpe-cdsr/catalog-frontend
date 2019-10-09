@@ -50,6 +50,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];
 
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
+
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.component.html',
@@ -70,8 +77,11 @@ export class CollectionComponent implements OnInit{
   /** layers enabled inthe map */
   private layers: Layer[];
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+
+  displayedColumns: string[] = ['quicklook', 'id'];
+
+  // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -108,12 +118,18 @@ export class CollectionComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
   }
 
   getKeysFromObject(object) : Array<string> {
     // get the keys of an 'object' and sort the list
     return Object.keys(object).sort();
+  }
+
+  getMatTableDataSourceFeature(list_of_objects) : MatTableDataSource<Feature>{
+    let dataSource = new MatTableDataSource<Feature>(list_of_objects);
+    dataSource.paginator = this.paginator;
+    return dataSource;
   }
 
   /** convert date to USA format */
