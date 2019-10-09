@@ -14,9 +14,11 @@ export class FeatureTablePaginationComponent implements OnInit {
 
   displayedColumns: string[] = ['quicklook', 'id', 'collection'];
   dataSource: MatTableDataSource<Feature>;
+  pageSizeOptions: number[] = [3, 5, 10, 20];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  // I receive this attribute by binding, because of that, the '@Input()' decorator
   @Input() features: Array<Feature> = [];
 
   ngOnInit() {
