@@ -1,59 +1,23 @@
 // angular
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 
 // leaflet
-import { imageOverlay,  Layer, geoJSON, } from 'leaflet';
+import { imageOverlay,  Layer, geoJSON } from 'leaflet';
 
 // state management
-import { ExploreState } from '../../explore.state';
-import { setLayers, setPositionMap, setFeatures } from '../../explore.action';
+import { ExploreState } from 'src/app/pages/explore/explore.state';
+import { setLayers, setPositionMap, setFeatures } from 'src/app/pages/explore/explore.action';
 
+// interface
 import { Feature } from './collection.interface';
-import { DialogFeatureComponent } from 'src/app/shared/components/dialog-feature/dialog-feature.component';
 
 // other
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+import { DialogFeatureComponent } from 'src/app/shared/components/dialog-feature/dialog-feature.component';
 import { FEATURES, FEATURES_BY_PROVIDERS, FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
 
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
 @Component({
   selector: 'app-collection',
@@ -72,7 +36,7 @@ export class CollectionComponent{
   public opacity = 10;
   /** status visible opacity box */
   public opacityEnabled = false;
-  /** layers enabled inthe map */
+  /** enabled layers on the map */
   private layers: Layer[];
 
   /** get infos by store application */
@@ -111,6 +75,11 @@ export class CollectionComponent{
     // get the keys of an 'object' and sort the list
     return Object.keys(object).sort();
   }
+
+
+
+
+  // TODO: remove these functions
 
   /** convert date to USA format */
   public getFormattedDate(dateStr: string): string {

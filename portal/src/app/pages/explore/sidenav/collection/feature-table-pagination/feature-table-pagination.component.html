@@ -22,14 +22,29 @@
       </ng-container>
 
       <!-- Collection Column -->
-      <ng-container matColumnDef='collection'>
+      <!-- <ng-container matColumnDef='collection'>
         <th mat-header-cell *matHeaderCellDef> collection </th>
-        <!-- <td mat-cell *matCellDef='let feature'> {{ feature.properties.collection }} </td> -->
-        <!-- <td mat-cell *matCellDef='let feature'>
-          {{ 'collection' in feature ? feature.collection : feature.properties.collection }}
-        </td> -->
         <td mat-cell *matCellDef='let feature'>
           {{ doesFeatureHaveTheKey(feature, 'collection') ? feature.collection : feature.properties.collection }}
+        </td>
+      </ng-container> -->
+
+      <!-- Collection Column -->
+      <ng-container matColumnDef='actions'>
+        <th mat-header-cell *matHeaderCellDef> actions </th>
+        <td mat-cell *matCellDef='let feature'>
+          <div class='actions-box'>
+            <mat-slide-toggle [(ngModel)]='feature.enabled' (change)='onChangeLayer($event, feature)'>
+            </mat-slide-toggle>
+
+            <mat-icon (click)='setZoomByFeature(feature)' class='action'>
+              zoom_out_map
+            </mat-icon>
+
+            <mat-icon (click)='viewFeatureDetails(feature)' class='action'>
+              cloud_download
+            </mat-icon>
+          </div>
         </td>
       </ng-container>
 
