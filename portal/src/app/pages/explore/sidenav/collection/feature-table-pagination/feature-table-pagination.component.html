@@ -7,7 +7,8 @@
       <!-- Quick look Column -->
       <ng-container matColumnDef='quicklook'>
         <th mat-header-cell *matHeaderCellDef> Quick look </th>
-        <td mat-cell *matCellDef='let feature'>
+        <td mat-cell *matCellDef='let feature'
+            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
           <img [src]='feature.assets.thumbnail.href' class='ftp-quicklook' />
         </td>
       </ng-container>
@@ -15,7 +16,8 @@
       <!-- ID Column -->
       <ng-container matColumnDef='id'>
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef='let feature' class='ftp-td'>
+        <td mat-cell *matCellDef='let feature' class='ftp-td'
+            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
           <p>{{ feature.id }}</p>
           <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
         </td>
@@ -32,7 +34,8 @@
       <!-- Collection Column -->
       <ng-container matColumnDef='actions'>
         <th mat-header-cell *matHeaderCellDef> actions </th>
-        <td mat-cell *matCellDef='let feature'>
+        <td mat-cell *matCellDef='let feature'
+            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
           <div class='ftp-actions-box'>
             <mat-slide-toggle [(ngModel)]='feature.enabled' (change)='onChangeLayer($event, feature)'>
             </mat-slide-toggle>

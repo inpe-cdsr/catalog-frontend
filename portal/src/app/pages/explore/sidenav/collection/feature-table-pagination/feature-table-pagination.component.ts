@@ -57,6 +57,11 @@ export class FeatureTablePaginationComponent implements OnInit {
     return key in feature;
   }
 
+  getFeatureEnabledCssClassIfNecessary (feature) {
+    // if 'feature' is enabled, then add 'ftp-feature-enabled' CSS class
+    return feature.enabled ? 'ftp-feature-enabled' : ''
+  }
+
   /** convert date to USA format */
   public getFormattedDate(dateString: string): string {
     const dates = dateString.split('/');
