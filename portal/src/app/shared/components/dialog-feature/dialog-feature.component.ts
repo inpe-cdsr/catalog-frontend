@@ -1,8 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 import { formatDateUSA } from '../../helpers/date';
 
 /**

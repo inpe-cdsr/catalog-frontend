@@ -42,8 +42,8 @@ import { MapComponent } from './map/map.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
-import { CollectionComponent } from './sidenav/collection/collection.component';
-import { FeatureTablePaginationComponent } from './sidenav/collection/feature-table-pagination/feature-table-pagination.component';
+import { TileComponent } from './sidenav/tile/tile.component';
+import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
 
 /**
  * Explore Module
@@ -56,7 +56,7 @@ import { FeatureTablePaginationComponent } from './sidenav/collection/feature-ta
     MapComponent,
     SidenavComponent,
     SearchComponent,
-    CollectionComponent,
+    TileComponent,
     FeatureTablePaginationComponent
   ],
   exports: [

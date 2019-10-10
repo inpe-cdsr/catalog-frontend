@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { ExploreState } from 'src/app/pages/explore/explore.state';
 
 // interface
-import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
 // import { FEATURES } from 'src/app/shared/example/feature';

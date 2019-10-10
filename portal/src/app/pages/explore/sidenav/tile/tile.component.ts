@@ -10,11 +10,11 @@ import { ExploreState } from 'src/app/pages/explore/explore.state';
 
 
 @Component({
-  selector: 'app-collection',
-  templateUrl: './collection.component.html',
-  styleUrls: ['./collection.component.scss']
+  selector: 'app-tile',
+  templateUrl: './tile.component.html',
+  styleUrls: ['./tile.component.scss']
 })
-export class CollectionComponent{
+export class TileComponent{
 
   /** all selected features separate by providers */
   public features_separate_by_providers$: Object;

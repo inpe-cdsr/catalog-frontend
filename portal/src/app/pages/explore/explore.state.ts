@@ -1,5 +1,7 @@
-import { Feature } from './sidenav/collection/collection.interface';
 import { Layer, LatLngBoundsExpression } from 'leaflet';
+
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+
 
 /** State Model - used in Explore module */
 export interface ExploreState {

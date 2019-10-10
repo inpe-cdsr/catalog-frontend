@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { Feature } from './sidenav/collection/collection.interface';
+
 import { Layer, LatLngBounds } from 'leaflet';
+
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+
 
 /**
  * set Features in store application

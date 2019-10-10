@@ -13,7 +13,7 @@ import { ExploreState } from 'src/app/pages/explore/explore.state';
 import { setLayers, setPositionMap, setFeatures } from 'src/app/pages/explore/explore.action';
 
 // interface
-import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
