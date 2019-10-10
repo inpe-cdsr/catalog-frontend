@@ -17,6 +17,8 @@ export interface Feature {
     geometry?: object;
     /** properties returned by STAC response */
     properties?: object;
+    /** this field is not returned by STAC response, it is created on JS */
+    enabled: boolean;
 }
 
 /**

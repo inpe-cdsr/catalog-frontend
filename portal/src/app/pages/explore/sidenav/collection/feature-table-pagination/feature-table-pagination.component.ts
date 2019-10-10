@@ -13,7 +13,7 @@ import { ExploreState } from 'src/app/pages/explore/explore.state';
 import { setLayers, setPositionMap, setFeatures } from 'src/app/pages/explore/explore.action';
 
 // interface
-import { Feature } from '../collection.interface';
+import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
 
 // other
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
@@ -33,7 +33,7 @@ export class FeatureTablePaginationComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  // I receive this attribute by binding, because of that, the '@Input()' decorator
+  // I receive this attribute by binding, because of that, I use '@Input()' decorator
   @Input() features: Array<Feature> = [];
 
   // enabled layers on the map
@@ -49,16 +49,19 @@ export class FeatureTablePaginationComponent implements OnInit {
   }
 
   ngOnInit() {
+    // when component is initialized, then a 'dataSource' (i.e. features on the table) is created ...
     this.dataSource = new MatTableDataSource<Feature>(this.features);
+    // ... and a paginator is added to this 'dataSource'
     this.dataSource.paginator = this.paginator;
   }
 
-  doesFeatureHaveTheKey (feature, key) {
-    return key in feature;
-  }
+  // public doesFeatureHaveTheKey (feature: Feature, key: string): boolean {
+  //   console.log('key in feature: ', key in feature);
+  //   return key in feature;
+  // }
 
-  getFeatureEnabledCssClassIfNecessary (feature) {
-    // if 'feature' is enabled, then add 'ftp-feature-enabled' CSS class
+  /** if 'feature' is enabled, then add 'ftp-feature-enabled' CSS class */
+  public getFeatureEnabledCssClassIfNecessary (feature: Feature): string {
     return feature.enabled ? 'ftp-feature-enabled' : ''
   }
 
