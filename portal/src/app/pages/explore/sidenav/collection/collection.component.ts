@@ -5,12 +5,8 @@ import { Store, select } from '@ngrx/store';
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
 
-// interface
-import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
-
 // other
 // import { FEATURES, FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
-import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 
 
 @Component({
@@ -20,21 +16,12 @@ import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 })
 export class CollectionComponent{
 
-  /** all selected features in the search form */
-  public features$: Feature[] = [];
   /** all selected features separate by providers */
   public features_separate_by_providers$: Object;
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
-      if (res.features) {
-        // original
-        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
-
-        // test/example (it can be removed)
-        // this.features$ = FEATURES as Feature[];
-      }
       if (res.features_separate_by_providers) {
         // original
         this.features_separate_by_providers$ = res.features_separate_by_providers;
