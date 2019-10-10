@@ -2,12 +2,15 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
-import { Feature } from './collection/collection.interface';
-import { ExploreState } from '../explore.state';
+// state management
+import { ExploreState } from 'src/app/pages/explore/explore.state';
+
+// interface
+import { Feature } from 'src/app/pages/explore/sidenav/collection/collection.interface';
 
 // other
+// import { FEATURES } from 'src/app/shared/example/feature';
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-import { FEATURES } from 'src/app/shared/example/feature';
 
 
 /**
@@ -22,10 +25,9 @@ import { FEATURES } from 'src/app/shared/example/feature';
 export class SidenavComponent {
 
   /** step opened menu of the sidenav */
-  // default
-  // public step = 0;
-  public step = 1;
-  /** features selected by search in this period */
+  public step = 0;  // default
+  // public step = 1;
+  /** features selected by search */
   public features$: Feature[] = [];
 
   /** get infos by store application */
@@ -33,12 +35,10 @@ export class SidenavComponent {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
         // original
-        // this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
 
-        // example (it can be removed)
-        this.features$ = FEATURES as Feature[];
-
-        console.log('sidenav.features$: ', this.features$);
+        // test/example (it can be removed)
+        // this.features$ = FEATURES as Feature[];
       }
     });
   }
