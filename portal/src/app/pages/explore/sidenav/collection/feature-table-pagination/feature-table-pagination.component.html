@@ -1,21 +1,21 @@
 <div>
 
   <!-- table -->
-  <div class='example-container mat-elevation-z8'>
+  <div class='ftp-container mat-elevation-z8'>
     <table mat-table [dataSource]='dataSource'>
 
       <!-- Quick look Column -->
       <ng-container matColumnDef='quicklook'>
         <th mat-header-cell *matHeaderCellDef> Quick look </th>
         <td mat-cell *matCellDef='let feature'>
-          <img [src]='feature.assets.thumbnail.href' class='feature-quicklook' />
+          <img [src]='feature.assets.thumbnail.href' class='ftp-quicklook' />
         </td>
       </ng-container>
 
       <!-- ID Column -->
       <ng-container matColumnDef='id'>
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef='let feature'>
+        <td mat-cell *matCellDef='let feature' class='ftp-td'>
           <p>{{ feature.id }}</p>
           <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
         </td>
@@ -33,15 +33,15 @@
       <ng-container matColumnDef='actions'>
         <th mat-header-cell *matHeaderCellDef> actions </th>
         <td mat-cell *matCellDef='let feature'>
-          <div class='actions-box'>
+          <div class='ftp-actions-box'>
             <mat-slide-toggle [(ngModel)]='feature.enabled' (change)='onChangeLayer($event, feature)'>
             </mat-slide-toggle>
 
-            <mat-icon (click)='setZoomByFeature(feature)' class='action'>
+            <mat-icon (click)='setZoomByFeature(feature)' class='ftp-action'>
               zoom_out_map
             </mat-icon>
 
-            <mat-icon (click)='viewFeatureDetails(feature)' class='action'>
+            <mat-icon (click)='viewFeatureDetails(feature)' class='ftp-action'>
               cloud_download
             </mat-icon>
           </div>

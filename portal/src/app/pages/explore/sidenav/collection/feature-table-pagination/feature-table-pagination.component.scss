@@ -1,18 +1,30 @@
-.feature-quicklook {
-  height: 50px;
-}
-
-.example-container {
-  // height: 400px;
-  // width: 550px;
-  overflow: auto;
-}
+/*
+  general
+*/
 
 table{
   width: 100%;
 }
 
-.action {
+/*
+  ftp = feature table pagination component
+*/
+
+.ftp-container {
+  // height: 400px;
+  // width: 550px;
+  overflow: auto;
+}
+
+.ftp-quicklook {
+  height: 50px;
+}
+
+.ftp-td {
+  padding: 0px 10px;
+}
+
+.ftp-action {
   margin-left: 10px;
   cursor: pointer;
   border-radius: 5px;
@@ -22,6 +34,6 @@ table{
   }
 }
 
-.actions-box{
+.ftp-actions-box {
   width: 105px;
 }
