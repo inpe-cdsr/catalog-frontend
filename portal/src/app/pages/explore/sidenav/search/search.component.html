@@ -1,6 +1,7 @@
 <div class='container-search'>
 
   <form [formGroup]='formSearch' (ngSubmit)='search()'>
+    <!-- select providers -->
     <mat-form-field appearance='fill'>
       <mat-label>Select Providers</mat-label>
       <mat-select [(value)]='searchObj.providers' multiple formControlName='providers' required>
@@ -17,6 +18,7 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- select collections -->
     <mat-form-field appearance='fill' *ngIf='collections.length'>
       <mat-label>Select Collections</mat-label>
       <mat-select [(value)]='searchObj.collections' multiple formControlName='collections' required>

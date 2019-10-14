@@ -21,6 +21,9 @@ import {
   setFeaturesSeparateByProviders
 } from '../../explore.action';
 
+// interface
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+
 // other
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
@@ -134,7 +137,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  private getFeaturesSeparateByProvidersAndCollections (features) {
+  private getFeaturesSeparateByProvidersAndCollections (features: Feature[]) {
     // separate features by collections
 
     let features_by_collections = {};
@@ -144,11 +147,11 @@ export class SearchComponent implements OnInit {
       let feature = features[i];
 
       // if 'collection' attribute is inside 'properties', then get it from there
-      if ('collection' in feature.properties) {
-        collection = feature.properties.collection.toLocaleLowerCase();
+      if ('collection' in feature['properties']) {
+        collection = feature['properties']['collection'].toLocaleLowerCase();
       } else {
         // else get it from 'feature'
-        collection = feature.collection.toLocaleLowerCase();
+        collection = feature['collection'].toLocaleLowerCase();
       }
 
       // if there is this 'collection' inside 'features_by_collections' object, then add the feature to the list

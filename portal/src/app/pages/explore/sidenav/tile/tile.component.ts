@@ -4,6 +4,8 @@ import { Store, select } from '@ngrx/store';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
+import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+import { Feature } from './tile.interface';
 
 // other
 // import { FEATURES, FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
@@ -18,10 +20,14 @@ export class TileComponent{
 
   /** all selected features separate by providers */
   public features_separate_by_providers$: Object;
+  public features: Feature[] = [];
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
+      if (res.features) {
+        this.features = convertArrayAsObjectToArray(res.features) as Feature[];
+      }
       if (res.features_separate_by_providers) {
         // original
         this.features_separate_by_providers$ = res.features_separate_by_providers;
