@@ -159,8 +159,7 @@ export class SearchComponent implements OnInit {
         features_by_collections[collection].push(feature);
       } else {
         // else create an empty list and add the feature to the new list
-        features_by_collections[collection] = []
-        features_by_collections[collection].push(feature);
+        features_by_collections[collection] = [ feature ];
       }
     }
 
@@ -177,10 +176,14 @@ export class SearchComponent implements OnInit {
 
       for (let i=0; i<collections.length; i++) {
         let collection = collections[i].toLocaleLowerCase();
+        let features = features_by_collections[collection];
 
-        // create a complex object to separate features by collections and providers
-        features_separate_by_providers[provider][collection] = {};
-        features_separate_by_providers[provider][collection]['features'] = features_by_collections[collection];
+        // if there are features related to the collection, then get them and add to the object
+        if (features !== undefined && features.length > 0) {
+          // create a complex object to separate features by collections and providers
+          features_separate_by_providers[provider][collection] = {};
+          features_separate_by_providers[provider][collection]['features'] = features;
+        }
       }
     }
 
