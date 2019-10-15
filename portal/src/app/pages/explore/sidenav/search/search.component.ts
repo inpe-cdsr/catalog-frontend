@@ -115,7 +115,7 @@ export class SearchComponent implements OnInit {
   public async getCollections() {
     let providers = this.searchObj['providers'];
 
-    // when there is not one provider, it is not necessary to request providers to the server
+    // when there is not one provider, it is not necessary to request collections to the server
     if (providers.length === 0) {
       return;
     }
