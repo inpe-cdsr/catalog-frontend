@@ -139,53 +139,17 @@ export class SearchComponent implements OnInit {
 
   private getFeaturesSeparateByProvidersAndCollections (features: Feature[]) {
     // separate features by collections
-
-    let features_by_collections = {};
-    let collection = '';
-
-    for (let i=0; i<features.length; i++) {
-      let feature = features[i];
-
-      // if 'collection' attribute is inside 'properties', then get it from there
-      if ('collection' in feature['properties']) {
-        collection = feature['properties']['collection'].toLocaleLowerCase();
-      } else {
-        // else get it from 'feature'
-        collection = feature['collection'].toLocaleLowerCase();
-      }
-
-      // if there is this 'collection' inside 'features_by_collections' object, then add the feature to the list
-      if (collection in features_by_collections) {
-        features_by_collections[collection].push(feature);
-      } else {
-        // else create an empty list and add the feature to the new list
-        features_by_collections[collection] = [ feature ];
-      }
-    }
-
-    // separate collections by providers
-
     let features_separate_by_providers = {};
 
-    for (let provider_original in this.providers_with_its_collections) {
-      let collections = this.providers_with_its_collections[provider_original];
-      let provider = provider_original.toLocaleLowerCase();
+    features.forEach( f => {
+      let collection = (f['properties']['collection'] || f['collection']).toLocaleLowerCase();
+      let provider = this.collections.filter( pc => 
+          pc.toLocaleLowerCase().split(':')[1].trim() === collection)[0].split(':')[0];
 
-      // create a complex object to separate features by collections and providers
-      features_separate_by_providers[provider] = {};
-
-      for (let i=0; i<collections.length; i++) {
-        let collection = collections[i].toLocaleLowerCase();
-        let features = features_by_collections[collection];
-
-        // if there are features related to the collection, then get them and add to the object
-        if (features !== undefined && features.length > 0) {
-          // create a complex object to separate features by collections and providers
-          features_separate_by_providers[provider][collection] = {};
-          features_separate_by_providers[provider][collection]['features'] = features;
-        }
-      }
-    }
+      features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
+      features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || [];
+      features_separate_by_providers[provider][collection].push(f);
+    })
 
     return features_separate_by_providers;
   }
@@ -193,6 +157,7 @@ export class SearchComponent implements OnInit {
   /** search feature/items in STAC-COMPOSE */
   public async search() {
     try {
+      this.store.dispatch(setFeatures([]));
       this.store.dispatch(showLoading());
 
       // get the start and end date, and format them
@@ -212,18 +177,18 @@ export class SearchComponent implements OnInit {
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
-
-      // separate features by providers and collections
-      let features_separate_by_providers = this.getFeaturesSeparateByProvidersAndCollections(response.features);
-
+      
       if (response.meta.found > 0) {
+        // separate features by providers and collections
+        let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
+
         // save 'features' and 'features_separate_by_providers' in the memory
         this.store.dispatch(setFeatures(response.features));
-        this.store.dispatch(setFeaturesSeparateByProviders(features_separate_by_providers));
+        this.store.dispatch(setFeaturesSeparateByProviders(f_by_p));
+
         // chance the tab on sidebar in order to show the 'tiles' tab
         this.changeStepNav(1);
       } else {
-        this.store.dispatch(setFeatures([]));
         // chance the tab on sidebar in order to show the 'search' tab
         this.changeStepNav(0);
         this.snackBar.open('RESULTS NOT FOUND!', '', {

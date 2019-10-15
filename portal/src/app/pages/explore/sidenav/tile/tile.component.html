@@ -1,7 +1,7 @@
-<div class="features" *ngIf="features.length">
+<div class="features" *ngIf="features.length && providers.length">
 
   <!-- get provider -->
-  <div *ngFor="let provider of getKeysFromObject(features_separate_by_providers$)">
+  <div *ngFor="let provider of providers">
     <h2> {{ provider }} </h2>
 
     <!-- get collection -->
@@ -10,8 +10,7 @@
 
       <!-- get features and pass to the child component create the table with pagination -->
       <app-feature-table-pagination
-        *ngIf="features_separate_by_providers$[provider][collection]['features']"
-        [features]="features_separate_by_providers$[provider][collection]['features']"
+        [features]="features_separate_by_providers$[provider][collection]"
       ></app-feature-table-pagination>
     </div>
 
