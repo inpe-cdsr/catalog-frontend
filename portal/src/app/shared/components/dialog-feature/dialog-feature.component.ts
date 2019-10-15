@@ -34,8 +34,12 @@ export class DialogFeatureComponent {
   }
 
   /** format date to USA template */
-  getDateFormated(date: string) {
+  getFormattedDate(date: string) {
     return formatDateUSA(new Date(date));
+  }
+
+  getCollectionFromFeature(feature: Feature): string {
+    return 'collection' in feature ? feature['collection'] : feature['properties']['collection'];
   }
 
 }

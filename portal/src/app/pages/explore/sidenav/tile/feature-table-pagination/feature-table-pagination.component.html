@@ -9,7 +9,9 @@
         <th mat-header-cell *matHeaderCellDef> Quick look </th>
         <td mat-cell *matCellDef='let feature'
             [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
-          <img [src]='feature.assets.thumbnail.href' class='ftp-quicklook' />
+          <a [href]='feature.assets.thumbnail.href' target='_blank'>
+            <img [src]='feature.assets.thumbnail.href' class='ftp-quicklook' />
+          </a>
         </td>
       </ng-container>
 
