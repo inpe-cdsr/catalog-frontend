@@ -1,23 +1,39 @@
-<section class="dialog-feature">
-  <header class="header">
-    <h1>
-      <mat-icon style="margin-right: 10px">list</mat-icon>
-      {{ feature.id }}
-    </h1>
-    <span>
-      <p><b>Collection:</b> {{ getCollectionFromFeature(feature) }}</p>
-      <p><b>Date:</b> {{ getFormattedDate(feature.properties.datetime) }}</p>
-    </span>
+<section class='dialog-feature'>
+  <header class='header'>
+
+    <table>
+      <tr>
+        <th rowspan='3'>
+          <a [href]='feature.assets.thumbnail.href' target='_blank'>
+            <img [src]='feature.assets.thumbnail.href' class='quicklook' />
+          </a>
+        </th>
+        <td>
+          <b>ID:</b> {{ feature.id }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Collection:</b> {{ getCollectionFromFeature(feature) }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Date:</b> {{ getFormattedDate(feature.properties.datetime) }}
+        </td>
+      </tr>
+    </table>
+
   </header>
 
-  <div class="box-assets">
+  <div class='box-assets'>
 
-    <div class="assets_features">
-      <div *ngFor="let band of bandsList">
-        <div class="assets" *ngIf="feature.assets[band]">
+    <div class='assets_features'>
+      <div *ngFor='let band of bandsList'>
+        <div class='assets' *ngIf='feature.assets[band]'>
           <p>{{ band.toUpperCase() }}</p>
-          <a [href]="feature.assets[band].href" target="_blank">
-            <mat-icon style="color: #000">arrow_downward</mat-icon>
+          <a [href]='feature.assets[band].href' target='_blank'>
+            <mat-icon style='color: #000'>arrow_downward</mat-icon>
           </a>
         </div>
       </div>
