@@ -21,6 +21,7 @@ export class TileComponent{
   /** all selected features separate by providers */
   public features_separate_by_providers$: Object;
   public features: Feature[] = [];
+  public providers: string[];
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>) {
@@ -30,15 +31,8 @@ export class TileComponent{
       }
       if (res.features_separate_by_providers) {
         // original
+        this.providers = Object.keys(res.features_separate_by_providers).filter( f => f !== 'type');
         this.features_separate_by_providers$ = res.features_separate_by_providers;
-
-        // test/example (it can be removed)
-        // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
-
-        // if 'object' has attribute 'type', then remove it, because it is unnecessary
-        if ('type' in this.features_separate_by_providers$) {
-          delete this.features_separate_by_providers$['type'];
-        }
       }
     });
   }
