@@ -138,16 +138,31 @@ export class SearchComponent implements OnInit {
   }
 
   private getFeaturesSeparateByProvidersAndCollections (features: Feature[]) {
-    // separate features by collections
+    // separate features by providers and collections
     let features_separate_by_providers = {};
 
+    // 'f' is one 'feature'
     features.forEach( f => {
+      // get the collection related to the feature
       let collection = (f['properties']['collection'] || f['collection']).toLocaleLowerCase();
-      let provider = this.collections.filter( pc => 
-          pc.toLocaleLowerCase().split(':')[1].trim() === collection)[0].split(':')[0];
 
+      // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
+      let providers_by_collection = this.collections.filter(
+        // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
+        pc => {
+          // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
+          // then return the 'pc' variable inside a new list
+          return pc.toLocaleLowerCase().split(':')[1].trim() === collection
+        }
+      );
+      // get the only 'provider:collection' in the array and get just the provider
+      let provider = providers_by_collection[0].split(':')[0];
+
+      // if a 'provider' already exists, then return the existing content, else create an empty provider object
       features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
+      // if a 'collection' already exists, then return the existing content, else create an empty collection list
       features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || [];
+      // add the feature to the array
       features_separate_by_providers[provider][collection].push(f);
     })
 
@@ -177,7 +192,7 @@ export class SearchComponent implements OnInit {
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
-      
+
       if (response.meta.found > 0) {
         // separate features by providers and collections
         let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
