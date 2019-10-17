@@ -105,10 +105,14 @@ export class SearchComponent implements OnInit {
   /** get available cubes */
   private async getProviders() {
     try {
+      this.store.dispatch(showLoading());
+
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
     } catch(err) {
       console.log('getProviders() error: ', err);
+    } finally {
+      this.store.dispatch(closeLoading());
     }
   }
 
@@ -121,6 +125,8 @@ export class SearchComponent implements OnInit {
     }
 
     try {
+      this.store.dispatch(showLoading());
+
       this.providers_with_its_collections = await this.ss.getCollections(providers);
       this.collections = [];
 
@@ -134,6 +140,8 @@ export class SearchComponent implements OnInit {
       })
     } catch(err) {
       console.log('getCollections() error: ', err);
+    } finally {
+      this.store.dispatch(closeLoading());
     }
   }
 
