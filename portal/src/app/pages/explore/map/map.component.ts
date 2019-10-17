@@ -175,30 +175,44 @@ export class MapComponent implements OnInit {
         circlemarker: false,
         rectangle: {
           shapeOptions: {
-            color: '#AAA'
+            color: '#AAA',
+            // color: '#CCC'
           }
         }
       }
     });
     this.map.addControl(drawControl);
 
+    // this.map.on(Draw.Event.DRAWSTART, _ => {
+    //   this.layers$ = this.layers$.filter( lyr => lyr['options'].className !== 'previewBbox');
+    //   this.store.dispatch(setLayers(this.layers$));
+    // });
+
+    // remove last bbox
     this.map.on(Draw.Event.DRAWSTART, _ => {
-      this.layers$ = this.layers$.filter( lyr => lyr['options'].className !== 'previewBbox');
-      this.store.dispatch(setLayers(this.layers$));
+      this.map.eachLayer( l => {
+        if (l['options'].className === 'previewBbox') {
+          this.map.removeLayer(l);
+        }
+      });
     });
 
     this.map.on(Draw.Event.CREATED, e => {
       const layer: any = e['layer'];
-      const newLayers = rectangle(layer.getBounds(), {
+      const newLayer = rectangle(layer.getBounds(), {
         color: '#666',
+        // color: '#CCC',
         weight: 1,
-        className: 'previewBbox',
+        interactive: false,
+        className: 'previewBbox'
       });
 
-      this.layers$.push(newLayers);
-      this.store.dispatch(setLayers(this.layers$));
-      this.store.dispatch(setBbox(newLayers.getBounds()));
-      this.store.dispatch(setPositionMap(newLayers.getBounds()));
+      // this.layers$.push(newLayer);
+      this.map.addLayer(newLayer);
+
+      // this.store.dispatch(setLayers(this.layers$));
+      this.store.dispatch(setBbox(newLayer.getBounds()));
+      this.store.dispatch(setPositionMap(newLayer.getBounds()));
     });
   }
 
