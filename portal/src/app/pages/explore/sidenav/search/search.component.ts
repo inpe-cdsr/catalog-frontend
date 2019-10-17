@@ -102,7 +102,7 @@ export class SearchComponent implements OnInit {
     this.resetSearch();
   }
 
-  /** get available cubes */
+  /** getting available provider */
   private async getProviders() {
     try {
       this.store.dispatch(showLoading());
@@ -116,6 +116,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /** getting available collections */
   public async getCollections() {
     let providers = this.searchObj['providers'];
 
@@ -145,6 +146,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /** separating features by providers and collections */
   private getFeaturesSeparateByProvidersAndCollections (features: Feature[]) {
     // separate features by providers and collections
     let features_separate_by_providers = {};
@@ -177,7 +179,7 @@ export class SearchComponent implements OnInit {
     return features_separate_by_providers;
   }
 
-  /** search feature/items in STAC-COMPOSE */
+  /** searching feature/items on STAC-COMPOSE */
   public async search() {
     try {
       this.store.dispatch(setFeatures([]));
@@ -236,7 +238,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  /** clean fields in the search form */
+  /** cleaning fields on the search form */
   private resetSearch() {
     this.searchObj = {
       providers: '',
@@ -255,20 +257,20 @@ export class SearchComponent implements OnInit {
     };
   }
 
-  /**
-   * change menu displayed
-   */
+  /** changing displayed menu */
   private changeStepNav(step: number) {
     this.stepToEmit.emit(step);
   }
 
-  /** view bounding box in map */
+  /** viewing bounding box on the map */
   public previewBbox() {
     this.removeLayerBbox();
+
     const bounds: LatLngBoundsExpression = [
-      [this.searchObj['bbox'].north, this.searchObj['bbox'].east],
-      [this.searchObj['bbox'].south, this.searchObj['bbox'].west]
+      [ this.searchObj['bbox'].north, this.searchObj['bbox'].east ],
+      [ this.searchObj['bbox'].south, this.searchObj['bbox'].west ]
     ];
+
     const newLayers = rectangle(bounds, {
       color: '#666',
       weight: 1,
@@ -276,17 +278,18 @@ export class SearchComponent implements OnInit {
     }).bringToFront();
 
     this.layers.push(newLayers);
+
     this.store.dispatch(setLayers(this.layers));
     this.store.dispatch(setPositionMap(newLayers.getBounds()));
   }
 
-  /** remove bounding box of the map */
+  /** removing bounding box of the map */
   public removeLayerBbox() {
-    this.layers = this.layers.filter( lyr => lyr['options'].className !== 'previewBbox');
+    this.layers = this.layers.filter( layer => layer['options'].className !== 'previewBbox');
     this.store.dispatch(setLayers(this.layers));
   }
 
-  /** return if exists all selected coordinates */
+  /** if it exists all selected coordinates, then it returns true, else it returns false */
   public bboxNotEmpty(): boolean {
     return this.searchObj['bbox'].north && this.searchObj['bbox'].south && this.searchObj['bbox'].east && this.searchObj['bbox'].west;
   }
