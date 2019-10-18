@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Store, select } from '@ngrx/store';
@@ -64,7 +64,8 @@ export class SearchComponent implements OnInit {
     private ss: SearchService,
     private snackBar: MatSnackBar,
     private store: Store<ExploreState>,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private ref: ChangeDetectorRef) {
 
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.layers) {
@@ -78,6 +79,9 @@ export class SearchComponent implements OnInit {
           west: bbox[0]['lng'],
           east: bbox[1]['lng']
         };
+
+        // update the component template (HTML) manually
+        this.ref.detectChanges();
       }
     });
 
@@ -244,10 +248,15 @@ export class SearchComponent implements OnInit {
       providers: '',
       collections: '',
       bbox: {
-        north: 14.349547837185362,
-        south: 57.61230468750001,
-        west: 54.88769531250001,
-        east: 15.919073517982413
+        // test values
+        // north: 14.349547837185362,
+        // south: 57.61230468750001,
+        // west: 54.88769531250001,
+        // east: 15.919073517982413
+        north: null,
+        south: null,
+        west: null,
+        east: null
       },
       cloud: null,
       start_date: '2019-09-01T00:00:00',
