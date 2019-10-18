@@ -4,11 +4,9 @@ import { Store, select } from '@ngrx/store';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
-import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-import { Feature } from './tile.interface';
 
 // other
-import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
+// import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
 
 
 @Component({
@@ -18,9 +16,7 @@ import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
 })
 export class TileComponent{
 
-  /** all selected features separate by providers */
   public features_separate_by_providers$: Object;
-  // public features: Feature[] = [];
   public providers: string[];
 
   /** get infos by store application */
@@ -38,9 +34,14 @@ export class TileComponent{
     });
   }
 
-  public getKeysFromObject(object: Object) : Array<string> {
-    // get the keys of an 'object' and sort the list
+  public getKeysFromObject(object: Object): Array<string> {
+    // get the keys of an 'object' and sort the array
     return Object.keys(object).sort();
+  }
+
+  public openDownloadDialog(collection: string): void {
+    console.log('openDownloadDialog')
+    // TODO: download a txt file with the list of URLs to download based on 'collection'
   }
 
 }

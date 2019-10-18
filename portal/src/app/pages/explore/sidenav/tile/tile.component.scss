@@ -2,6 +2,21 @@
     padding: 0;
     margin: 15px 0;
 
+    h1 {
+      // removing newline after <h1> tags
+      display: inline;
+    }
+
+    .tile-download-button {
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background: rgba(#000, 0.1);
+      }
+    }
+
     .box-features {
         padding: 10px 0;
 
