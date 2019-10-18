@@ -80,7 +80,8 @@ export class SearchComponent implements OnInit {
           east: bbox[1]['lng']
         };
 
-        // update the component template (HTML) manually
+        // update the component template (HTML) manually, because for some reason,
+        // the template is not updated automatically when I add the coordinates to the form
         this.ref.detectChanges();
       }
     });
