@@ -8,7 +8,7 @@ import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 import { Feature } from './tile.interface';
 
 // other
-// import { FEATURES, FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
+import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
 
 
 @Component({
@@ -20,19 +20,20 @@ export class TileComponent{
 
   /** all selected features separate by providers */
   public features_separate_by_providers$: Object;
-  public features: Feature[] = [];
+  // public features: Feature[] = [];
   public providers: string[];
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
-      if (res.features) {
-        this.features = convertArrayAsObjectToArray(res.features) as Feature[];
-      }
       if (res.features_separate_by_providers) {
         // original
-        this.providers = Object.keys(res.features_separate_by_providers).filter( f => f !== 'type');
+        this.providers = Object.keys(res.features_separate_by_providers).filter( feature => feature !== 'type' );
         this.features_separate_by_providers$ = res.features_separate_by_providers;
+
+        // test / example
+        // this.providers = Object.keys(FEATURES_BY_PROVIDERS_SAMPLE).filter( feature => feature !== 'type' );
+        // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
       }
     });
   }

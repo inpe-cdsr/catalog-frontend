@@ -156,10 +156,9 @@ export class SearchComponent implements OnInit {
     // separate features by providers and collections
     let features_separate_by_providers = {};
 
-    // 'f' is one 'feature'
-    features.forEach( f => {
+    features.forEach( feature => {
       // get the collection related to the feature
-      let collection = (f['properties']['collection'] || f['collection']).toLocaleLowerCase();
+      let collection = (feature['properties']['collection'] || feature['collection']).toLocaleLowerCase();
 
       // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
       let providers_by_collection = this.collections.filter(
@@ -175,10 +174,12 @@ export class SearchComponent implements OnInit {
 
       // if a 'provider' already exists, then return the existing content, else create an empty provider object
       features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
-      // if a 'collection' already exists, then return the existing content, else create an empty collection list
-      features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || [];
-      // add the feature to the array
-      features_separate_by_providers[provider][collection].push(f);
+      // if a 'collection' already exists, then return the existing content, else create an empty collection object
+      features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || {};
+      // if 'features' already exists, then return the existing content, else create an empty 'features' list
+      features_separate_by_providers[provider][collection]['features'] = features_separate_by_providers[provider][collection]['features'] || [];
+      // add the 'feature' to the array of 'features'
+      features_separate_by_providers[provider][collection]['features'].push(feature);
     })
 
     return features_separate_by_providers;
