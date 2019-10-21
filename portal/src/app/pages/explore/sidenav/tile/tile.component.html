@@ -9,7 +9,7 @@
       <div style='padding: 15px 0px;'>
         <h1> {{ collection }} </h1>
 
-        <mat-icon (click)='openDownloadDialog(collection)' class='tile-download-button'>
+        <mat-icon (click)='openCollectionDownloadDialog(collection, features_separate_by_providers$[provider][collection]["features"])' class='tile-download-button'>
           cloud_download
         </mat-icon>
       </div>

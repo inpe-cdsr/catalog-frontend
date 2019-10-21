@@ -1,9 +1,17 @@
 // angular
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
+
+// lodash
+import * as cloneDeep from 'lodash/cloneDeep';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+
+// component
+import { DialogCollectionDownloadComponent } from 'src/app/shared/components/dialog-collection-download/dialog-collection-download.component';
 
 // other
 // import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
@@ -20,7 +28,7 @@ export class TileComponent{
   public providers: string[];
 
   /** get infos by store application */
-  constructor(private store: Store<ExploreState>) {
+  constructor(private store: Store<ExploreState>, public dialog: MatDialog) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features_separate_by_providers) {
         // original
@@ -39,9 +47,28 @@ export class TileComponent{
     return Object.keys(object).sort();
   }
 
-  public openDownloadDialog(collection: string): void {
-    console.log('openDownloadDialog')
-    // TODO: download a txt file with the list of URLs to download based on 'collection'
+  public openCollectionDownloadDialog(collection_name: string, features: Feature[]): void {
+    // create a list with just the necessary attributes of the features
+    let features_to_send = [];
+
+    features.forEach((feature: Feature) => {
+      let new_feature = {};
+
+      // copying just the necessary attributes in order to avoid overloading of memory
+      new_feature['id'] = feature['id'];
+      new_feature['assets'] = cloneDeep(feature['assets']);
+
+      features_to_send.push(new_feature);
+    })
+
+    this.dialog.open(DialogCollectionDownloadComponent, {
+      // width: '600px',
+      // height: '550px',
+      data: {
+        collection_name,
+        features: features_to_send
+      }
+    });
   }
 
 }

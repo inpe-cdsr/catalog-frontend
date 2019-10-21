@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  MatButtonModule,
   MatIconModule,
-  MatSelectModule,
-  MatRadioModule,
   MatInputModule,
-  MatCheckboxModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatCardModule,
+  MatDialogModule,
+  MatRadioModule,
+  MatSelectModule,
 } from '@angular/material';
 
 import { SelectLangComponent } from './components/select-lang/select-lang.component';
@@ -15,6 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DialogFeatureComponent } from './components/dialog-feature/dialog-feature.component';
+import { DialogCollectionDownloadComponent } from './components/dialog-collection-download/dialog-collection-download.component';
 import { FormFieldErrorComponent } from './components/form-field-input/form-field-error.component';
 
 /**
@@ -27,7 +30,8 @@ import { FormFieldErrorComponent } from './components/form-field-input/form-fiel
     FooterComponent,
     LoadingComponent,
     FormFieldErrorComponent,
-    DialogFeatureComponent
+    DialogFeatureComponent,
+    DialogCollectionDownloadComponent
   ],
   exports: [
     SelectLangComponent,
@@ -37,17 +41,20 @@ import { FormFieldErrorComponent } from './components/form-field-input/form-fiel
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
-    MatIconModule,
     FormsModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatInputModule,
+    NgxSpinnerModule,
+    MatButtonModule,
     MatCheckboxModule,
-    NgxSpinnerModule
+    MatCardModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule
   ],
   entryComponents: [
-    DialogFeatureComponent
+    DialogFeatureComponent,
+    DialogCollectionDownloadComponent
   ]
 })
 export class SharedModule { }

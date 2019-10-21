@@ -1,0 +1,30 @@
+<h1 mat-dialog-title> Download '{{ collection_name }}' collection </h1>
+<div mat-dialog-content>
+
+  <!-- <div *ngFor='let assetCheckbox of assetsCheckboxes'>
+    <p>{{ assetCheckbox.name }} - {{ assetCheckbox.checked }} </p>
+  </div> -->
+
+  <mat-card>
+    <mat-card-content>
+      <h2 class='dcd-h2'>Select the assets in order to download the collection</h2>
+
+      <section class='dcd-section'>
+        <mat-checkbox
+          *ngFor='let assetCheckbox of assetsCheckboxes'
+          [(ngModel)]='assetCheckbox.checked'
+          class='dcd-margin'
+        >
+          {{ assetCheckbox.name }}
+        </mat-checkbox>
+      </section>
+
+    </mat-card-content>
+  </mat-card>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)='closeDialog()'>Close</button>
+  <button mat-button (click)='downloadCollection()' cdkFocusInitial>Download Collection</button>
+  <!-- <button mat-button [mat-dialog-close]='data.animal' cdkFocusInitial>Ok</button> -->
+</div>
