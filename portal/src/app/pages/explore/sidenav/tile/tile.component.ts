@@ -62,7 +62,7 @@ export class TileComponent{
     })
 
     this.dialog.open(DialogCollectionDownloadComponent, {
-      // width: '600px',
+      width: '650px',
       // height: '550px',
       data: {
         collection_name,
