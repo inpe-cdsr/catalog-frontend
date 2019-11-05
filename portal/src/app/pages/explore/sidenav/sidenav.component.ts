@@ -37,7 +37,7 @@ export class SidenavComponent {
         // original
         this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
 
-        // test/example (it can be removed)
+        // test/example (this line can be removed) (tile.component must be updated as well)
         // this.features$ = FEATURES as Feature[];
       }
     });

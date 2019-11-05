@@ -35,7 +35,7 @@ export class TileComponent{
         this.providers = Object.keys(res.features_separate_by_providers).filter( feature => feature !== 'type' );
         this.features_separate_by_providers$ = res.features_separate_by_providers;
 
-        // test / example
+        // test/example (these lines can be removed) (sidenav.component must be updated as well)
         // this.providers = Object.keys(FEATURES_BY_PROVIDERS_SAMPLE).filter( feature => feature !== 'type' );
         // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
       }
