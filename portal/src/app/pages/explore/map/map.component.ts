@@ -108,7 +108,7 @@ export class MapComponent implements OnInit {
 
   /**
    * get the layer objects from a list of BdcLayerWFS
-   * mount the overlayers with GeoJson's consulted from the Geoserver
+   * mount the overlayers with GeoJson's consulted from the GeoServer
    */
   private async mountGridsLayers(listLayersId: BdcLayerWFS[]) {
     try {
