@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
   public options: MapOptions;
   /** layers displayed on the Leaflet control component */
   public layersControl: any;
-  /** visible layers in the map */
+  /** visible layers on the map */
   public layers$: Layer[];
 
   /** all overlay layers read and mounted */
@@ -207,10 +207,9 @@ export class MapComponent implements OnInit {
         className: 'previewBbox'
       });
 
-      // this.layers$.push(newLayer);
-      this.map.addLayer(newLayer);
+      this.layers$.push(newLayer);
 
-      // this.store.dispatch(setLayers(this.layers$));
+      this.store.dispatch(setLayers(this.layers$));
       this.store.dispatch(setBbox(newLayer.getBounds()));
       this.store.dispatch(setPositionMap(newLayer.getBounds()));
     });
