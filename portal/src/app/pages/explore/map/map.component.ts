@@ -87,6 +87,11 @@ export class MapComponent implements OnInit {
       center: latLng(-16, -52)
     };
 
+    this.layersControl = {
+      baseLayers: this.baseLayers,
+      overlays: this.overlays
+    }
+
     this.getBaseLayers(this.ls.getBaseLayers());
     setTimeout(() => {
       this.mountGridsLayers(this.ls.getGridsLayers());
@@ -188,8 +193,9 @@ export class MapComponent implements OnInit {
     });
     this.map.addControl(drawControl);
 
+    // remove last bbox
     // this.map.on(Draw.Event.DRAWSTART, _ => {
-    //   this.layers$ = this.layers$.filter( lyr => lyr['options'].className !== 'previewBbox');
+    //   this.layers$ = this.layers$.filter(layer => layer['options'].className !== 'previewBbox');
     //   this.store.dispatch(setLayers(this.layers$));
     // });
 
