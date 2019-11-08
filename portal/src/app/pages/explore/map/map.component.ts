@@ -116,7 +116,7 @@ export class MapComponent implements OnInit {
       this.overlayers = [];
 
       await listLayersId.forEach( async (l: BdcLayerWFS) => {
-        const responseGeoJson: GeoJsonObject = await this.ls.getGeoJsonByLayer(l.ds, l.title);
+        const responseGeoJson: GeoJsonObject = await this.ls.getGeoJsonByLayer('brazil-data-cube', l.ds, l.title);
 
         const layerGeoJson = geoJSON(responseGeoJson, {});
         vm.overlays[l.name] = layerGeoJson;

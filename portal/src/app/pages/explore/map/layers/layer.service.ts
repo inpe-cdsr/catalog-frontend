@@ -39,10 +39,10 @@ export class LayerService {
    * gets GeoJson object from a layer in the BDC project GeoServer
    * @returns layer GeoJson
    */
-  public getGeoJsonByLayer(dataStore: string, title: string): Promise<any> {
+  public getGeoJsonByLayer(geoServerId: string, dataStore: string, title: string): Promise<any> {
     const urlSuffix = `?service=WFS&version=1.0.0&request=GetFeature&typeName=${dataStore}:${title}&&outputFormat=application%2Fjson`;
 
-    let geoServer = this.environment.getGeoServerById('brazil-data-cube');
+    let geoServer = this.environment.getGeoServerById(geoServerId);
 
     return this.http.get(`${geoServer['url']}/${dataStore}/ows${urlSuffix}`).toPromise();
   }
