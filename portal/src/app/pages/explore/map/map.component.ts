@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { latLng, MapOptions, Layer, geoJSON, Map as MapLeaflet,
   LatLngBoundsExpression, Control, Draw, rectangle } from 'leaflet';
 import { GeoJsonObject } from 'geojson';
@@ -54,7 +54,8 @@ export class MapComponent implements OnInit {
   constructor(
     private ls: LayerService,
     private ss: SearchService,
-    private store: Store<ExploreState>) {
+    private store: Store<ExploreState>,
+    private ref: ChangeDetectorRef) {
       this.store.pipe(select('explore')).subscribe(res => {
         if (res.layers) {
           this.layers$ = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
@@ -67,6 +68,10 @@ export class MapComponent implements OnInit {
               return lyr;
             });
           }
+
+          // update the component template (HTML) manually, because for some reason,
+          // the template is not updated automatically when I add the coordinates to the form
+          // this.ref.detectChanges();
         }
         if (res.positionMap && res.positionMap !== this.bbox) {
           this.bbox = res.positionMap;
@@ -190,9 +195,9 @@ export class MapComponent implements OnInit {
 
     // remove last bbox
     this.map.on(Draw.Event.DRAWSTART, _ => {
-      this.map.eachLayer( l => {
-        if (l['options'].className === 'previewBbox') {
-          this.map.removeLayer(l);
+      this.map.eachLayer( layer => {
+        if (layer['options'].className === 'previewBbox') {
+          this.map.removeLayer(layer);
         }
       });
     });
@@ -207,9 +212,10 @@ export class MapComponent implements OnInit {
         className: 'previewBbox'
       });
 
-      this.layers$.push(newLayer);
+      // this.layers$.push(newLayer);
+      this.map.addLayer(newLayer);
 
-      this.store.dispatch(setLayers(this.layers$));
+      // this.store.dispatch(setLayers(this.layers$));
       this.store.dispatch(setBbox(newLayer.getBounds()));
       this.store.dispatch(setPositionMap(newLayer.getBounds()));
     });
