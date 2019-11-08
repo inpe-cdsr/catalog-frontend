@@ -99,10 +99,9 @@ export class MapComponent implements OnInit {
   /**
    * get the layer objects from a list of BdcLayer
    */
-  private getBaseLayers(listLayers: BdcLayer[]) {
-    const vm = this;
-    listLayers.forEach( (l: BdcLayer) => {
-      vm.baseLayers[l.name] = l.layer;
+  private getBaseLayers(layersList: BdcLayer[]) {
+    layersList.forEach((layer: BdcLayer) => {
+      this.baseLayers[layer.name] = layer.layer;
     });
   }
 
@@ -112,25 +111,26 @@ export class MapComponent implements OnInit {
    */
   private async mountGridsLayers(listLayersId: BdcLayerWFS[]) {
     try {
-      const vm = this;
       this.overlayers = [];
 
-      await listLayersId.forEach( async (l: BdcLayerWFS) => {
-        const responseGeoJson: GeoJsonObject = await this.ls.getGeoJsonByLayer('brazil-data-cube', l.ds, l.title);
+      await listLayersId.forEach( async (layer: BdcLayerWFS) => {
+        const responseGeoJson: GeoJsonObject = await this.ls.getGeoJsonByLayer('brazil-data-cube', layer.ds, layer.title);
 
         const layerGeoJson = geoJSON(responseGeoJson, {});
-        vm.overlays[l.name] = layerGeoJson;
+        this.overlays[layer.name] = layerGeoJson;
 
-        const layer: BdcLayer = {
-          id: l.title,
-          name: l.name,
-          enabled: l.enabled,
+        const bdcLayer: BdcLayer = {
+          id: layer.title,
+          name: layer.name,
+          enabled: layer.enabled,
           layer: layerGeoJson
         };
-        vm.overlayers.push(layer);
+        this.overlayers.push(bdcLayer);
       });
 
     } catch (err) {
+      console.log('mountGridsLayers()');
+      console.log('err: ', err);
     } finally {
       this.setControlLayers();
 
