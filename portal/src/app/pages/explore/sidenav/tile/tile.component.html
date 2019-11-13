@@ -9,26 +9,35 @@
   <!-- get provider -->
   <div *ngIf="providers.length">
     <div *ngFor="let provider of providers" class="box-providers">
-      <h2 class="providers_header"> {{ formatProvider(provider) }} </h2>
+      <h2 
+        class="providers_header"
+        (click)="changeVisibleFeatByProvider(provider)"> 
+        {{ formatProvider(provider) }}
+      </h2>
 
       <!-- get collection -->
-      <div 
-        *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])" 
-        class="box-collection">
-        <header>
-          <h1>{{ collection }}</h1>
+      <div *ngIf="providersVisible[provider]">
+        <div 
+          *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])" 
+          class="box-collection">
+          <header>
+            <h1>
+              {{ collection }} 
+              <span style="color: #000;">({{ features_separate_by_providers$[provider][collection]["features"].length }})</span>
+            </h1>
 
-          <mat-icon 
-            (click)='openCollectionDownloadDialog(collection, features_separate_by_providers$[provider][collection]["features"])' 
-            class='tile-download-button'>
-            cloud_download
-          </mat-icon>
-        </header>
+            <mat-icon 
+              class='tile-download-button'>
+              add_shopping_cart
+            </mat-icon>
+          </header>
 
-        <!-- get features and pass to the child component create the table with pagination -->
-        <app-feature-table-pagination
-          [features]="features_separate_by_providers$[provider][collection]['features']"
-          ></app-feature-table-pagination>
+          <!-- get features and pass to the child component create the table with pagination -->
+          <app-feature-table-pagination
+            [collection]="collection"
+            [features]="features_separate_by_providers$[provider][collection]['features']"
+            ></app-feature-table-pagination>
+        </div>
       </div>
     </div>
   </div>

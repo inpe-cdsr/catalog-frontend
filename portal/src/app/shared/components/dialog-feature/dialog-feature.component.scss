@@ -1,79 +1,33 @@
 .dialog-feature {
-    width: 100%;
+    height: 260px;
     overflow: auto;
+    display: flex;
+    align-items: center;
 
-    .header {
-        border-bottom: 1px solid #999;
-        padding: 0 10px 10px 10px;
-
-        h1 {
-            display: flex;
-            align-items: center;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin: 5px 0 0 0;
-            font-size: 1.2em;
-        }
-
-        .quicklook {
-          height: 70px;
-        }
+    img {
+        width: 200px;
+        box-shadow: 0px 0px 10px #666;
+        margin-right: 10px;
     }
 
-    .box-assets {
-        padding: 15px 10px;
-        width: 100%;
+    .content {
         display: flex;
         flex-direction: column;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #CCC;
 
-        .assets_features {
-            .assets {
-                display: flex;
-                border: 1px solid #999;
-                padding: 0px 15px;
-                justify-content: space-between;
-                align-items: center;
-
-                a {
-                    background: rgba(#000, 0.2);
-                    border-radius: 50%;
-                    padding: 5px 5px 0 5px;
-
-                    &:hover {
-                        background: rgba(#000, 0.4);
-                    }
-                }
-            }
-        }
-
-        .assets_cubes {
-            padding: 20px;
+        p {
+            margin: 10px 0;
+            padding: 0;
             display: flex;
-            flex-wrap: wrap;
+            justify-items: center;
+            font-size: 1.2em;
+            font-family: Roboto, "Helvetica Neue", sans-serif;
 
-            .checkbox {
-                padding: 5px 20px;
-                font-size: 1.2em;
-            }
-
-            .buttons {
-                width: 100%;
-                margin-top: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                a {
-                    padding: 10px;
-                    margin-left: 10px;
-
-                    &:hover {
-                        color: var(--mainColor);
-                    }
-                }
+            .mat-icon {
+                margin-top: -1px;
+                margin-right: 10px;
             }
         }
     }

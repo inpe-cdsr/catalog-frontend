@@ -24,12 +24,14 @@ import {
   MatCheckboxModule,
   MatPaginatorModule,
   MatTableModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ChartsModule } from 'ng2-charts';
 import { Ng5SliderModule } from 'ng5-slider';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // store
 import { StoreModule } from '@ngrx/store';
@@ -81,6 +83,7 @@ import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.compone
     MatBottomSheetModule,
     MatInputModule,
     FormsModule,
+    MatTooltipModule,
     MatBadgeModule,
     ReactiveFormsModule,
     MatDatepickerModule,
@@ -93,6 +96,7 @@ import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.compone
     MatTableModule,
     Ng5SliderModule,
     MatCheckboxModule,
+    NgxPaginationModule,
     ChartsModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),

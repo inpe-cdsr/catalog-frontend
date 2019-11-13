@@ -26,20 +26,33 @@ export class TileComponent{
 
   public features_separate_by_providers$: Object;
   public providers: string[];
+  public providersVisible = {};
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>, public dialog: MatDialog) {
     this.store.pipe(select('explore')).subscribe(res => {
+      const lastFeatures = this.features_separate_by_providers$;
       if (res.features_separate_by_providers) {
         // original
         this.providers = Object.keys(res.features_separate_by_providers).filter( feature => feature !== 'type' );
+        
         this.features_separate_by_providers$ = res.features_separate_by_providers;
+        if (!lastFeatures ||
+            lastFeatures != this.features_separate_by_providers$) {
+          this.providers.forEach( (p, i) => {
+            this.providersVisible[p] = i === 0;
+          });
+        }
 
         // test/example (these lines can be removed) (sidenav.component must be updated as well)
         // this.providers = Object.keys(FEATURES_BY_PROVIDERS_SAMPLE).filter( feature => feature !== 'type' );
         // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
       }
     });
+  }
+
+  public changeVisibleFeatByProvider(provider) {
+    this.providersVisible[provider] = !this.providersVisible[provider];
   }
 
   public getKeysFromObject(object: Object): Array<string> {

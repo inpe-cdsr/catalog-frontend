@@ -17,20 +17,12 @@ export class DialogFeatureComponent {
 
   /** feature selected by user */
   public feature: Feature;
-  /** bands of the cube */
-  public bands: object = {};
-  /** bands name */
-  public bandsList = [];
 
   /** receive infos to display in this component */
   constructor(
     public dialogRef: MatDialogRef<DialogFeatureComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.feature = data.feature;
-      data['bands'].forEach( (band: string) => {
-        this.bands[band] = true;
-      });
-      this.bandsList = data['bands'];
   }
 
   /** format date to USA template */
@@ -40,6 +32,10 @@ export class DialogFeatureComponent {
 
   getCollectionFromFeature(feature: Feature): string {
     return 'collection' in feature ? feature['collection'] : feature['properties']['collection'];
+  }
+
+  getCloudCover(feature: Feature) {
+    return 'eo:cloud_cover' in feature['properties'] ? feature['properties']['eo:cloud_cover'] : feature['properties']['cloud_cover'];
   }
 
 }

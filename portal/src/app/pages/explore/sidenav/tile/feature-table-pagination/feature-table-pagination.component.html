@@ -1,66 +1,38 @@
-<div>
+<div class="box-features">
 
-  
+  <div *ngFor="let feature of features | paginate: { id: collection, itemsPerPage: page[collection].perPage, currentPage: page[collection].page }" class="card">
+    <a 
+      [matTooltip]="getInfosFeature(feature)"
+      matTooltipClass="tooltip-features"
+      matTooltipPosition="above"
+      (click)="viewFeatureDetails(feature)">
+      <img [src]='feature.assets.thumbnail.href'/>
+    </a>
 
-  <!-- table -->
-  <div class='ftp-container mat-elevation-z8'>
-    <table mat-table [dataSource]='dataSource'>
+    <div class="actions">
+      <mat-slide-toggle 
+        [(ngModel)]='feature.enabled'
+        (change)='onChangeLayer($event, feature)'>
+      </mat-slide-toggle>
 
-      <!-- Quick look Column -->
-      <ng-container matColumnDef='quicklook'>
-        <th mat-header-cell *matHeaderCellDef> Quick look </th>
-        <td mat-cell *matCellDef='let feature'
-            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
-          <a [href]='feature.assets.thumbnail.href' target='_blank'>
-            <img [src]='feature.assets.thumbnail.href' class='ftp-quicklook' />
-          </a>
-        </td>
-      </ng-container>
+      <mat-icon (click)='setZoomByFeature(feature)'>
+          fullscreen
+      </mat-icon>
 
-      <!-- ID Column -->
-      <ng-container matColumnDef='id'>
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef='let feature' class='ftp-td'
-            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
-          <p>{{ feature.id }}</p>
-          <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
-        </td>
-      </ng-container>
-
-      <!-- Collection Column -->
-      <!-- <ng-container matColumnDef='collection'>
-        <th mat-header-cell *matHeaderCellDef> collection </th>
-        <td mat-cell *matCellDef='let feature'>
-          {{ doesFeatureHaveTheKey(feature, 'collection') ? feature.collection : feature.properties.collection }}
-        </td>
-      </ng-container> -->
-
-      <!-- Collection Column -->
-      <ng-container matColumnDef='actions'>
-        <th mat-header-cell *matHeaderCellDef> actions </th>
-        <td mat-cell *matCellDef='let feature'
-            [ngClass]='getFeatureEnabledCssClassIfNecessary(feature)'>
-          <div class='ftp-actions-box'>
-            <mat-slide-toggle [(ngModel)]='feature.enabled' (change)='onChangeLayer($event, feature)'>
-            </mat-slide-toggle>
-
-            <mat-icon (click)='setZoomByFeature(feature)' class='ftp-action'>
-              zoom_out_map
-            </mat-icon>
-
-            <mat-icon (click)='viewFeatureDetails(feature)' class='ftp-action'>
-              cloud_download
-            </mat-icon>
-          </div>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef='displayedColumns'></tr>
-      <tr mat-row *matRowDef='let row; columns: displayedColumns;'></tr>
-    </table>
+      <mat-icon>
+        add_shopping_cart
+      </mat-icon>
+    </div>
   </div>
 
-  <!-- paginator -->
-  <mat-paginator [pageSizeOptions]='pageSizeOptions' showFirstLastButtons></mat-paginator>
+</div>
 
+<div class="box-paginator">
+  <pagination-controls
+    [id]="collection"
+    (pageChange)="page[collection].page = $event"
+    responsive="true"
+    previousLabel=""
+    nextLabel="">
+  </pagination-controls>
 </div>

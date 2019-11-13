@@ -15,6 +15,7 @@
     .box-providers {
         border-radius: 10px;
         background: #FFF;
+        margin-top: 10px;
         border-top: 1px solid var(--mainColor);
         border-bottom: 1px solid var(--mainColor);
 
@@ -22,10 +23,15 @@
             text-transform: capitalize;
             background: #CCC;
             padding: 10px;
-            color: #FFF;
+            color: #333;
             font-weight: 400;
             margin: 0;
             border-radius: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background: #BBB;
+            }
         }
 
         .box-collection {
@@ -48,75 +54,4 @@
             }
         }
     }
-
-    .box-features {
-        padding: 10px 0;
-
-        .feature {
-            background: rgba(#000, 0.1);
-            border-top: 1px solid rgba(#000, 0.2);
-            border-bottom: 1px solid rgba(#000, 0.2);
-            display: flex;
-            margin-top: 5px;
-            width: 100%;
-            align-items: center;
-            cursor: pointer;
-
-            &:hover {
-                background: rgba(#000, 0.15);
-            }
-
-            .feature_ql {
-                width: 25%;
-                padding: 5px 5px 0 5px;
-                border-right: 1px solid rgba(#000, 0.1);
-
-                img {
-                    width: 100%;
-                    border-radius: 5px;
-                }
-            }
-
-            .feature_desc {
-                width: 100%;
-                padding: 5px 10px;
-                p {
-                    margin: 0;
-                }
-            }
-
-        }
-
-        .feature-enabled {
-            background: rgba(0, 255, 0, 0.1);
-
-            &:hover {
-                background: rgba(0, 255, 0, 0.15);
-            }
-        }
-
-        .feature-actions {
-            padding: 5px 10px;
-            background: rgba(#000, 0.15);
-            border-bottom: 1px solid rgba(#000, 0.2);
-            border-radius: 0px 0px 0px 15px;
-            display: flex;
-            justify-content: flex-end;
-            margin-left: 210px;
-
-            .btns {
-                margin-left: 10px;
-                cursor: pointer;
-                border-radius: 5px;
-
-                &:hover {
-                    background: rgba(#000, 0.1);
-                }
-            }
-        }
-    }
-}
-
-table {
-  width: 100%;
 }
