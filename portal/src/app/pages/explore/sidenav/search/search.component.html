@@ -2,43 +2,30 @@
 
   <form [formGroup]='formSearch' (ngSubmit)='search()'>
     <!-- select providers -->
-    <mat-form-field appearance='fill'>
+    <mat-form-field appearance='outline'>
       <mat-label>Select Providers</mat-label>
       <mat-select [(value)]='searchObj.providers' multiple formControlName='providers' required>
-        <!--
-          every time a user selects/unselects a 'provider' on the list,
-          it calls 'getCollections()' function
-        -->
         <mat-option *ngFor='let provider of providers' [value]='provider' (click)='getCollections()'>
           {{ provider }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
 
     <!-- select collections -->
-    <mat-form-field appearance='fill' *ngIf='collections.length'>
+    <mat-form-field appearance='outline' *ngIf='collections.length'>
       <mat-label>Select Collections</mat-label>
       <mat-select [(value)]='searchObj.collections' multiple formControlName='collections' required>
         <mat-option *ngFor='let collection of collections' [value]='collection'>
           {{ collection }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
-
-    <hr />
 
     <div class='search__region-box'>
       <!-- north / west / east / south -->
       <div class='box-content'>
         <div class='box-coordinates'>
           <mat-form-field appearance='outline'
-            style='margin-bottom: -15px !important'
             class='field-top-bottom'>
             <mat-label>North</mat-label>
             <input matInput
@@ -74,7 +61,6 @@
           </div>
 
           <mat-form-field appearance='outline'
-            style='margin-top: -25px !important'
             class='field-top-bottom'>
             <mat-label>South</mat-label>
             <input matInput
@@ -101,11 +87,9 @@
       </div>
     </div>
 
-    <hr  style='margin-top: 15px' />
-
     <!-- start/End Date -->
     <div>
-      <mat-form-field appearance='fill' style='width: 50%'>
+      <mat-form-field appearance='outline' style='width: 50%'>
         <mat-label>Start Date</mat-label>
         <input matInput
           [matDatepicker]='start_date'
@@ -117,7 +101,7 @@
         <mat-datepicker-toggle matSuffix [for]='start_date'></mat-datepicker-toggle>
         <mat-datepicker #start_date></mat-datepicker>
       </mat-form-field>
-      <mat-form-field appearance='fill' style='width: 50%'>
+      <mat-form-field appearance='outline' style='width: 50%'>
         <mat-label>Last Date</mat-label>
         <input matInput
           [matDatepicker]='last_date'
@@ -132,8 +116,8 @@
     </div>
 
     <!-- cloud Cover -->
-    <mat-form-field appearance='fill'>
-      <mat-label>Cloud Cover (min)</mat-label>
+    <mat-form-field appearance='outline'>
+      <mat-label>Cloud Cover (max)</mat-label>
       <input type='number'
           min='0'
           max='100'
@@ -142,9 +126,6 @@
           [(ngModel)]='searchObj.cloud'
         formControlName='cloud'>
       <span matSuffix>%</span>
-      <mat-error *ngIf="formSearch.get('cloud').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('cloud').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
 
     <!-- button -->

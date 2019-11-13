@@ -8,7 +8,7 @@ export const Grids: BdcLayerWFS[] = [
   {
     ds: 'grids',
     title: 'aea_500k',
-    enabled: true,
+    enabled: false,
     name: 'WFI'
   },
   {

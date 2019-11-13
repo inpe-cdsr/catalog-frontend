@@ -152,7 +152,7 @@ export class MapComponent implements OnInit {
 
   /** apply the layers that are visible on the map */
   applyLayersInMap(): void {
-    const baseLayer = this.ls.getBaseLayers().filter((l: BdcLayer) => l.id === 'osm');
+    const baseLayer = this.ls.getBaseLayers().filter((l: BdcLayer) => l.id === 'google_hybrid');
 
     if (this.overlayers[0] && this.overlayers[0].layer) {
       const newLayers: Layer[] = this.overlayers
