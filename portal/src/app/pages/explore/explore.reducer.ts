@@ -7,7 +7,8 @@ import {
   setPositionMap,
   setRangeTemporal,
   setFeatures,
-  setFeaturesSeparateByProviders
+  setFeaturesSeparateByProviders,
+  removeGroupLayer
 } from './explore.action';
 import { ExploreState } from './explore.state';
 
@@ -15,6 +16,7 @@ import { ExploreState } from './explore.state';
 const initialState: ExploreState = {
   features: [],
   features_separate_by_providers: {},
+  layerGroupToDisabled: [],
   layers: [],
   positionMap: null,
   loading: false,
@@ -29,6 +31,9 @@ const initialState: ExploreState = {
 export const reducer = createReducer(initialState,
   on(setFeatures, (state, payload) => {
     return { ...state, features: payload };
+  }),
+  on(removeGroupLayer, (state, payload) => {
+    return { ...state, layerGroupToDisabled: payload };
   }),
   on(setFeaturesSeparateByProviders, (state, payload) => {
     return { ...state, features_separate_by_providers: payload };

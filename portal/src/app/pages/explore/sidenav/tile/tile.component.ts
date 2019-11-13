@@ -71,4 +71,8 @@ export class TileComponent{
     });
   }
 
+  public formatProvider(provider) {
+    return provider.toLowerCase().replace('_stac', '').replace(/_/g, ' ');
+  }
+
 }

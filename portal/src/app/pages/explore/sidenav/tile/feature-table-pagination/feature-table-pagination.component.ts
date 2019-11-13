@@ -10,7 +10,7 @@ import { imageOverlay,  Layer, geoJSON } from 'leaflet';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
-import { setLayers, setPositionMap, setFeatures } from 'src/app/pages/explore/explore.action';
+import { setLayers, setPositionMap, setFeatures, removeGroupLayer } from 'src/app/pages/explore/explore.action';
 
 // interface
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
@@ -104,8 +104,10 @@ export class FeatureTablePaginationComponent implements OnInit {
         return f;
       });
 
-      const newLayers = this.layers.filter( lyr => !lyr['options'].alt || (lyr['options'].alt && lyr['options'].alt != `qls_${feature.id}`) );
-      this.store.dispatch(setLayers(newLayers));
+      this.store.dispatch(removeGroupLayer({
+        key: 'alt',
+        prefix: `qls_${feature.id}`
+      }));
       this.snackBar.open('LAYERS DISABLED!', '', {
         duration: 2000,
         verticalPosition: 'top',

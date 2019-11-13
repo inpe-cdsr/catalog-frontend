@@ -30,6 +30,14 @@ export const setLayers = createAction(
 );
 
 /**
+ * remove Layers group enabled in the map
+ */
+export const removeGroupLayer = createAction(
+    '[Map Component] name group layer',
+    props<object>()
+);
+
+/**
  * set position of the map
  */
 export const setPositionMap = createAction(

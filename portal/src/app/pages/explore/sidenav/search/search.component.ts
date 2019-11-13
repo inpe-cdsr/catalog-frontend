@@ -18,7 +18,9 @@ import {
   setLayers,
   setPositionMap,
   setFeatures,
-  setFeaturesSeparateByProviders
+  setFeaturesSeparateByProviders,
+  setBbox,
+  removeGroupLayer
 } from '../../explore.action';
 
 // interface
@@ -50,8 +52,6 @@ export class SearchComponent implements OnInit {
   public typesCollection: string[];
   /** infos with parameters to search Cube */
   public searchObj: object;
-  /** layers enabled in the map */
-  private layers: Layer[];
   /** available providers */
   public providers: string[];
 
@@ -68,9 +68,6 @@ export class SearchComponent implements OnInit {
     private ref: ChangeDetectorRef) {
 
     this.store.pipe(select('explore')).subscribe(res => {
-      if (res.layers) {
-        this.layers = convertArrayAsObjectToArray(res.layers) as Layer[];
-      }
       if (res.bbox) {
         const bbox = Object.values(res.bbox);
         this.searchObj['bbox'] = {
@@ -203,7 +200,7 @@ export class SearchComponent implements OnInit {
       query += `&limit=${this.searchObj['limit']}`;
 
       if (parseInt(this.searchObj['cloud']) > 0) {
-        query += `&cloud=${this.searchObj['cloud']}`;
+        query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
       // look for features on STAC service
@@ -238,8 +235,10 @@ export class SearchComponent implements OnInit {
       });
 
     } finally {
-      const newLayers = this.layers.filter( lyr => !lyr['options'].alt || (lyr['options'].alt && lyr['options'].alt.indexOf('qls_') < 0));
-      this.store.dispatch(setLayers(newLayers));
+      this.store.dispatch(removeGroupLayer({
+        key: 'alt',
+        prefix: 'qls_'
+      }));
       this.store.dispatch(closeLoading());
     }
   }
@@ -274,30 +273,34 @@ export class SearchComponent implements OnInit {
   }
 
   /** viewing bounding box on the map */
-  public previewBbox() {
+  public previewBbox(bbox) {
     this.removeLayerBbox();
 
     const bounds: LatLngBoundsExpression = [
-      [ this.searchObj['bbox'].north, this.searchObj['bbox'].east ],
-      [ this.searchObj['bbox'].south, this.searchObj['bbox'].west ]
+      [bbox.north, bbox.east],
+      [bbox.south, bbox.west]
     ];
 
     const newLayers = rectangle(bounds, {
-      color: '#666',
-      weight: 1,
+      color: '#FFF',
+      weight: 3,
+      fill: false,
+      dashArray: '10',
+      interactive: false,
       className: 'previewBbox'
-    }).bringToFront();
+    });
 
-    this.layers.push(newLayers);
-
-    this.store.dispatch(setLayers(this.layers));
+    this.store.dispatch(setLayers([newLayers]));
+    this.store.dispatch(setBbox(newLayers.getBounds()));
     this.store.dispatch(setPositionMap(newLayers.getBounds()));
   }
 
   /** removing bounding box of the map */
   public removeLayerBbox() {
-    this.layers = this.layers.filter( layer => layer['options'].className !== 'previewBbox');
-    this.store.dispatch(setLayers(this.layers));
+    this.store.dispatch(removeGroupLayer({
+      key: 'className',
+      prefix: 'previewBbox'
+    }));
   }
 
   /** if it exists all selected coordinates, then it returns true, else it returns false */

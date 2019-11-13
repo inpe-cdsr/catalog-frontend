@@ -19,6 +19,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { DialogFeatureComponent } from './components/dialog-feature/dialog-feature.component';
 import { DialogCollectionDownloadComponent } from './components/dialog-collection-download/dialog-collection-download.component';
 import { FormFieldErrorComponent } from './components/form-field-input/form-field-error.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 /**
  * Shared Module
@@ -31,11 +32,13 @@ import { FormFieldErrorComponent } from './components/form-field-input/form-fiel
     LoadingComponent,
     FormFieldErrorComponent,
     DialogFeatureComponent,
+    AlertComponent,
     DialogCollectionDownloadComponent
   ],
   exports: [
     SelectLangComponent,
     FooterComponent,
+    AlertComponent,
     FormFieldErrorComponent,
     LoadingComponent
   ],

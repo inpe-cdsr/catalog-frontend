@@ -1,26 +1,36 @@
-<div class="features" *ngIf="providers.length">
+<div class="results">
+
+  <app-alert
+    type="warning"
+    message="No results Found!"
+    *ngIf="providers.length === 0">
+  </app-alert>
 
   <!-- get provider -->
-  <div *ngFor="let provider of providers">
-    <h2> {{ provider }} </h2>
+  <div *ngIf="providers.length">
+    <div *ngFor="let provider of providers" class="box-providers">
+      <h2 class="providers_header"> {{ formatProvider(provider) }} </h2>
 
-    <!-- get collection -->
-    <div *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])">
-      <div style='padding: 15px 0px;'>
-        <h1> {{ collection }} </h1>
+      <!-- get collection -->
+      <div 
+        *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])" 
+        class="box-collection">
+        <header>
+          <h1>{{ collection }}</h1>
 
-        <mat-icon (click)='openCollectionDownloadDialog(collection, features_separate_by_providers$[provider][collection]["features"])' class='tile-download-button'>
-          cloud_download
-        </mat-icon>
+          <mat-icon 
+            (click)='openCollectionDownloadDialog(collection, features_separate_by_providers$[provider][collection]["features"])' 
+            class='tile-download-button'>
+            cloud_download
+          </mat-icon>
+        </header>
+
+        <!-- get features and pass to the child component create the table with pagination -->
+        <app-feature-table-pagination
+          [features]="features_separate_by_providers$[provider][collection]['features']"
+          ></app-feature-table-pagination>
       </div>
-
-      <!-- get features and pass to the child component create the table with pagination -->
-      <app-feature-table-pagination
-        [features]="features_separate_by_providers$[provider][collection]['features']"
-      ></app-feature-table-pagination>
     </div>
-
-    <br>
   </div>
 
 </div>

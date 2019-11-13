@@ -23,7 +23,8 @@ import {
   MatBottomSheetModule,
   MatCheckboxModule,
   MatPaginatorModule,
-  MatTableModule
+  MatTableModule,
+  MatBadgeModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -45,6 +46,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
 import { TileComponent } from './sidenav/tile/tile.component';
 import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
+import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
 
 /**
  * Explore Module
@@ -55,6 +57,7 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     ExploreComponent,
     ToolbarComponent,
     MapComponent,
+    ShoppingCartComponent,
     SidenavComponent,
     SearchComponent,
     TileComponent,
@@ -78,6 +81,7 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     MatBottomSheetModule,
     MatInputModule,
     FormsModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,

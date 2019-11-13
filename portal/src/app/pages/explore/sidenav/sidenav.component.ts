@@ -11,6 +11,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 // other
 // import { FEATURES } from 'src/app/shared/example/feature';
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+import { FormControl } from '@angular/forms';
 
 
 /**
@@ -25,8 +26,7 @@ import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 export class SidenavComponent {
 
   /** step opened menu of the sidenav */
-  public step = 0;  // default
-  // public step = 1;
+  public selected = new FormControl(0);
   /** features selected by search */
   public features$: Feature[] = [];
 
@@ -45,7 +45,7 @@ export class SidenavComponent {
 
   /** change opened menu */
   changeStep(value: number) {
-    this.step = value;
+    this.selected.setValue(value);
   }
 
 }

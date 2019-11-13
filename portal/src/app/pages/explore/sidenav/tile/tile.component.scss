@@ -1,11 +1,6 @@
-.features {
+.results {
     padding: 0;
     margin: 15px 0;
-
-    h1 {
-      // removing newline after <h1> tags
-      display: inline;
-    }
 
     .tile-download-button {
       margin-left: 10px;
@@ -15,6 +10,43 @@
       &:hover {
         background: rgba(#000, 0.1);
       }
+    }
+
+    .box-providers {
+        border-radius: 10px;
+        background: #FFF;
+        border-top: 1px solid var(--mainColor);
+        border-bottom: 1px solid var(--mainColor);
+
+        .providers_header {
+            text-transform: capitalize;
+            background: #CCC;
+            padding: 10px;
+            color: #FFF;
+            font-weight: 400;
+            margin: 0;
+            border-radius: 10px;
+        }
+
+        .box-collection {
+            border: 1px solid #CCC;
+            width: 95%;
+            margin: 10px 2.5%;
+
+            header {
+                padding: 5px 10px;
+                background: rgba(#000, 0.05);
+                display: flex;
+                align-items: center;
+                text-transform: capitalize;
+                color: #666;
+                justify-content: space-between;
+                
+                h1 {
+                    margin: 10px 0;
+                }
+            }
+        }
     }
 
     .box-features {

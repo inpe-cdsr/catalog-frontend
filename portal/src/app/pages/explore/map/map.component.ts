@@ -13,7 +13,7 @@ import { BdcLayer, BdcLayerWFS } from './layers/layer.interface';
 import { LayerService } from './layers/layer.service';
 import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../explore.state';
-import { setLayers, setPositionMap, setBbox } from '../explore.action';
+import { setLayers, setPositionMap, setBbox, removeGroupLayer } from '../explore.action';
 import { SearchService } from '../sidenav/search/search.service';
 
 /**
@@ -53,26 +53,30 @@ export class MapComponent implements OnInit {
   /** start Layer and Seatch Services */
   constructor(
     private ls: LayerService,
-    private ss: SearchService,
-    private store: Store<ExploreState>,
-    private ref: ChangeDetectorRef) {
+    private store: Store<ExploreState>) {
       this.store.pipe(select('explore')).subscribe(res => {
-        if (res.layers) {
-          this.layers$ = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
-          if (res.opacity) {
-            const opacity = parseFloat(res.opacity);
-            this.layers$ = this.layers$.map( (lyr: L.ImageOverlay) => {
-              if (lyr['options'].alt && lyr['options'].alt.indexOf('qls_') >= 0) {
-                lyr.setOpacity(opacity);
-              }
-              return lyr;
-            });
-          }
-
-          // update the component template (HTML) manually, because for some reason,
-          // the template is not updated automatically when I add the coordinates to the form
-          // this.ref.detectChanges();
+        // add layers
+        if (Object.values(res.layers).length > 1) {
+          const lyrs = Object.values(res.layers).slice(0, (Object.values(res.layers).length - 1)) as Layer[];
+          lyrs.forEach( l => {
+            this.map.addLayer(l);
+          });
+          this.store.dispatch(setLayers([]));
         }
+        
+        // remove layers by prefix
+        if (res.layerGroupToDisabled['key'] && res.layerGroupToDisabled['prefix']) {
+          const key = res.layerGroupToDisabled['key'];
+          const prefix = res.layerGroupToDisabled['prefix'];
+          this.map.eachLayer( l => {
+            if (l['options'][key] && l['options'][key].indexOf(prefix) >= 0) {
+              this.map.removeLayer(l);
+            }
+          });
+          this.store.dispatch(removeGroupLayer({}));
+        }
+
+        // set position map
         if (res.positionMap && res.positionMap !== this.bbox) {
           this.bbox = res.positionMap;
           this.setPosition(res.positionMap);
@@ -194,37 +198,36 @@ export class MapComponent implements OnInit {
     this.map.addControl(drawControl);
 
     // remove last bbox
-    // this.map.on(Draw.Event.DRAWSTART, _ => {
-    //   this.layers$ = this.layers$.filter(layer => layer['options'].className !== 'previewBbox');
-    //   this.store.dispatch(setLayers(this.layers$));
-    // });
-
-    // remove last bbox
     this.map.on(Draw.Event.DRAWSTART, _ => {
-      this.map.eachLayer( layer => {
-        if (layer['options'].className === 'previewBbox') {
-          this.map.removeLayer(layer);
+      this.map.eachLayer( l => {
+        if (l['options'].className === 'previewBbox') {
+          this.map.removeLayer(l);
         }
       });
     });
 
+    // add bbox in the map
     this.map.on(Draw.Event.CREATED, e => {
       const layer: any = e['layer'];
       const newLayer = rectangle(layer.getBounds(), {
-        color: '#666',
-        // color: '#CCC',
-        weight: 1,
+        color: '#FFF',
+        weight: 3,
+        fill: false,
+        dashArray: '10',
         interactive: false,
         className: 'previewBbox'
       });
 
-      // this.layers$.push(newLayer);
       this.map.addLayer(newLayer);
-
-      // this.store.dispatch(setLayers(this.layers$));
       this.store.dispatch(setBbox(newLayer.getBounds()));
       this.store.dispatch(setPositionMap(newLayer.getBounds()));
     });
+  }
+
+  public setScaleControl() {
+    L.control.scale({
+      imperial: false
+    }).addTo(this.map);
   }
 
   /** set FullScreen option in the map */
@@ -258,20 +261,25 @@ export class MapComponent implements OnInit {
     const vm = this;
 
     searchControl.on('results', data => {
-      vm.layers$ = vm.layers$.filter( lyr => lyr['options'].className !== 'previewBbox');
-      vm.store.dispatch(setLayers(vm.layers$));
+      vm.map.eachLayer( l => {
+        if (l['options'].className === 'previewBbox') {
+          vm.map.removeLayer(l);
+        }
+      });
 
       for (let i = data.results.length - 1; i >= 0; i--) {
-        const newLayers = rectangle(data.results[i].bounds, {
-          color: '#666',
-          weight: 1,
-          className: 'previewBbox',
+        const newLayer = rectangle(data.results[i].bounds, {
+          color: '#FFF',
+          weight: 3,
+          fill: false,
+          dashArray: '10',
+          interactive: false,
+          className: 'previewBbox'
         });
 
-        vm.layers$.push(newLayers);
-        vm.store.dispatch(setLayers(vm.layers$));
-        vm.store.dispatch(setBbox(newLayers.getBounds()));
-        vm.store.dispatch(setPositionMap(newLayers.getBounds()));
+        vm.map.addLayer(newLayer);
+        vm.store.dispatch(setBbox(newLayer.getBounds()));
+        vm.store.dispatch(setPositionMap(newLayer.getBounds()));
       }
     });
   }
@@ -283,5 +291,6 @@ export class MapComponent implements OnInit {
     this.setDrawControl();
     this.setCoordinatesControl();
     this.setGeocoderControl();
+    this.setScaleControl();
   }
 }

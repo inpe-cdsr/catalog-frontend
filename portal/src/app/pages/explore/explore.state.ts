@@ -9,6 +9,8 @@ export interface ExploreState {
   readonly features: Feature[];
   /** all selected features separate by providers */
   readonly features_separate_by_providers: Object;
+  /** list of group layer to remove in the map */
+  readonly layerGroupToDisabled: object;
   /** layers visible in the map */
   readonly layers: Layer[];
   /** bounding box of the map */
