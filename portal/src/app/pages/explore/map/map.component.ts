@@ -187,6 +187,57 @@ export class MapComponent implements OnInit {
     }).addTo(this.map);
   }
 
+  /**
+   * active view/remove feature
+   */
+  private setViewInfo() {
+    // add  to delete feature
+    this.map.on('contextmenu', async evt => {
+      // get infos point
+      const latlng = evt['latlng'];
+      const point = this.map.latLngToContainerPoint(latlng);
+      const size = this.map.getSize();
+
+      try {
+        let has = false;
+        this.map.eachLayer(async l => {
+          if (!has && l['options'].alt && l['options'].alt.indexOf('grid_') >= 0) {
+            const layerName = l['options'].alt.replace('grid_', '');
+            const response = await this.ls.getInfoByWMS(
+              layerName, this.map.getBounds().toBBoxString(), point.x, point.y, size.y, size.x);
+
+            if (response.features.length > 0) {
+              this.displayPopup(layerName, response.features[0].properties, latlng);
+              has = true;
+            }
+          }
+        });
+      } catch (err) {
+        this.map.closePopup();
+        return;
+      }
+    });
+  }
+
+  /**
+   * open popup with infos feature
+   */
+  public displayPopup(title, contentJSON, latlng) {
+    let content = '<table class="view_info-table">';
+    content += `<caption>${title}</caption>`;
+    Object.keys(contentJSON).forEach(key => {
+      if (key !== 'bbox') {
+        content += `<tr><td><b>${key}</b></td><td>${contentJSON[key]}</td></tr>`;
+      }
+    });
+    content += '</table>';
+
+    L.popup({ maxWidth: 800})
+      .setLatLng(latlng)
+      .setContent(content)
+      .openOn(this.map);
+  }
+
   /** set FullScreen option in the map */
   setFullscreenControl() {
     (L.control as any).fullscreen({
@@ -249,5 +300,6 @@ export class MapComponent implements OnInit {
     this.setCoordinatesControl();
     this.setGeocoderControl();
     this.setScaleControl();
+    this.setViewInfo();
   }
 }

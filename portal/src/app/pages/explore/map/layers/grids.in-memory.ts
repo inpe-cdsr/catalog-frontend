@@ -7,7 +7,7 @@ export const Grids: Grid[] = [
   {
     id: 'grid_ibge_states',
     enabled: false,
-    name: 'STATES',
+    name: 'States',
     layer: null,
     style: 'states'
   },
@@ -20,7 +20,13 @@ export const Grids: Grid[] = [
   {
     id: 'grid_landsat_tm_amsul',
     enabled: false,
-    name: 'WRS',
+    name: 'LandSat',
+    layer: null
+  },
+  {
+    id: 'grid_landsat_tm_amsul',
+    enabled: false,
+    name: 'Sentinel',
     layer: null
   }
 ];

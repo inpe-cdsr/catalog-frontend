@@ -35,4 +35,16 @@ export class LayerService {
     return Grids;
   }
 
+  /**
+     * get info feature WMS
+     */
+    public async getInfoByWMS(layer, bbox, x, y, height, width): Promise<any> {
+      const basePath = '/vector_data/wms?REQUEST=GetFeatureInfo&SERVICE=WMS&SRS=EPSG:4326&VERSION=1.1.1';
+      let urlSuffix = `${basePath}&BBOX=${bbox}&HEIGHT=${height}&WIDTH=${width}`;
+      urlSuffix += `&LAYERS=vector_data:${layer}&QUERY_LAYERS=vector_data:${layer}&INFO_FORMAT=application/json&X=${x}&Y=${y}`;
+
+      const response = await this.http.get(`${this.environment.urlGeoServer}${urlSuffix}`).toPromise();
+      return response;
+  }
+
 }
