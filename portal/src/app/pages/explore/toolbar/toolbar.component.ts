@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { LoginComponent } from '../../auth/login/login.component';
+import { MatDialog } from '@angular/material';
 
 /**
  * Toolbar component
@@ -11,12 +13,25 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class ToolbarComponent {
 
+  constructor(public dialog: MatDialog){}
+
   /** pointer to issue event to explore component */
   @Output() toggleToEmit = new EventEmitter();
 
   /** emit event to explore when click in menu icon */
   toggleDrawer() {
     this.toggleToEmit.emit();
+  }
+
+  /**
+   * Open Login Dialog
+   */
+  openLogin() {
+    this.dialog.open(LoginComponent, {
+      width: '400px',
+      restoreFocus: false,
+      disableClose: true
+    });
   }
 
 }

@@ -1,20 +1,26 @@
-import { BdcLayerWFS } from './layer.interface';
+import { Grid } from './layer.interface';
 
 /**
  * return a list of grids from the BDC project
- * static WFS list
  */
-export const Grids: BdcLayerWFS[] = [
+export const Grids: Grid[] = [
   {
-    ds: 'grids',
-    title: 'aea_500k',
+    id: 'grid_ibge_states',
     enabled: false,
-    name: 'WFI'
+    name: 'STATES',
+    layer: null,
+    style: 'states'
   },
   {
-    ds: 'grids',
-    title: 'aea_250k',
+    id: 'grid_cbers4_mux',
     enabled: false,
-    name: '250k'
+    name: 'CBERS4',
+    layer: null
+  },
+  {
+    id: 'grid_landsat_tm_amsul',
+    enabled: false,
+    name: 'WRS',
+    layer: null
   }
 ];

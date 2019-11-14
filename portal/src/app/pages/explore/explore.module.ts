@@ -49,6 +49,7 @@ import { SearchComponent } from './sidenav/search/search.component';
 import { TileComponent } from './sidenav/tile/tile.component';
 import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
 import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
+import { AuthModule } from '../auth/auth.module';
 
 /**
  * Explore Module
@@ -72,6 +73,7 @@ import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.compone
     RouterModule,
     CommonModule,
     SharedModule,
+    AuthModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
@@ -99,10 +101,7 @@ import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.compone
     NgxPaginationModule,
     ChartsModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
-    StoreModule.forRoot({
-      explore: fromExplore.reducer
-    })
+    LeafletDrawModule.forRoot()
   ]
 })
 export class ExploreModule { }

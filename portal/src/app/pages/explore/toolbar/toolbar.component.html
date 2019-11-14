@@ -14,8 +14,18 @@
       <div class="tol_cont-buttons">
         <button
           mat-flat-button
-          [routerLink]="'/auth/login'">
-          LOGIN
+          style="border-radius: 5px 0 0 5px"
+          (click)="openLogin()">
+          <mat-icon style="font-size: 20px;">https</mat-icon>
+          ACESSO
+        </button>
+        <button
+          mat-flat-button
+          style="border-radius: 0 5px 5px 0"
+          color="primary"
+          (click)="openRegister()">
+          <mat-icon style="font-size: 20px;">person_add</mat-icon>
+          Register
         </button>
 
         <app-select-lang></app-select-lang>

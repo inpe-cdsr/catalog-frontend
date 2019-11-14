@@ -1,7 +1,7 @@
 // angular
 import { Component, OnInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 
 // leaflet
@@ -29,8 +29,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 // other
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
-import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
-
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
 
 /**
  * component to search data of the BDC project
@@ -39,7 +38,13 @@ import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  providers: [{
+    provide: DateAdapter, useClass: AppDateAdapter
+  },
+  {
+    provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+  }]
 })
 export class SearchComponent implements OnInit {
 

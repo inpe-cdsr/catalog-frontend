@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { latLng, MapOptions, Layer, geoJSON, Map as MapLeaflet,
+import { Component, OnInit, Input } from '@angular/core';
+import { latLng, MapOptions, Layer, Map as MapLeaflet,
   LatLngBoundsExpression, Control, Draw, rectangle } from 'leaflet';
-import { GeoJsonObject } from 'geojson';
 
 import * as L from 'leaflet';
 import 'leaflet.fullscreen/Control.FullScreen.js';
@@ -9,12 +8,12 @@ import 'src/assets/plugins/Leaflet.Coordinates/Leaflet.Coordinates-0.1.5.min.js'
 import 'esri-leaflet/dist/esri-leaflet.js';
 import * as LE from 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.js';
 
-import { BdcLayer, BdcLayerWFS } from './layers/layer.interface';
+import { BdcLayer, Grid } from './layers/layer.interface';
 import { LayerService } from './layers/layer.service';
 import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../explore.state';
 import { setLayers, setPositionMap, setBbox, removeGroupLayer } from '../explore.action';
-import { SearchService } from '../sidenav/search/search.service';
+import { Environment } from 'src/environments/environment';
 
 /**
  * Map component
@@ -50,10 +49,15 @@ export class MapComponent implements OnInit {
   /** bounding box of Map */
   private bbox = null;
 
+  /** base url of geoserver */
+  private environment: Environment;
+
   /** start Layer and Seatch Services */
   constructor(
     private ls: LayerService,
     private store: Store<ExploreState>) {
+      this.environment = new Environment();
+
       this.store.pipe(select('explore')).subscribe(res => {
         // add layers
         if (Object.values(res.layers).length > 1) {
@@ -91,15 +95,9 @@ export class MapComponent implements OnInit {
       center: latLng(-16, -52)
     };
 
-    this.layersControl = {
-      baseLayers: this.baseLayers,
-      overlays: this.overlays
-    }
-
-    this.getBaseLayers(this.ls.getBaseLayers());
     setTimeout(() => {
-      this.mountGridsLayers(this.ls.getGridsLayers());
-    }, 1000);
+      this.setControlLayers();
+    }, 100);
   }
 
   /** set the visible layers in the layer component of the map */
@@ -108,69 +106,28 @@ export class MapComponent implements OnInit {
       baseLayers: this.baseLayers,
       overlays: this.overlays
     };
-  }
-
-  /**
-   * get the layer objects from a list of BdcLayer
-   */
-  private getBaseLayers(layersList: BdcLayer[]) {
-    layersList.forEach((layer: BdcLayer) => {
-      this.baseLayers[layer.name] = layer.layer;
+    // mount base layers
+    this.ls.getBaseLayers().forEach( (l: BdcLayer) => {
+      if (l.id === 'google_hybrid') {
+        l.layer.addTo(this.map);
+      }
+      this.layersControl.baseLayers[l.name] = l.layer;
     });
-  }
+    // mount overlays
+    this.ls.getGridsLayers().forEach( (l: Grid) => {
+      const layerGrid = L.tileLayer.wms(`${this.environment.urlGeoServer}/vector_data/wms`, {
+        layers: `vector_data:${l.id}`,
+        format: 'image/png',
+        styles: l.style ? `vector_data:${l.style}` : 'vector_data:grids',
+        transparent: true,
+        alt: `grid_${l.id}`
+      } as any);
+      this.layersControl.overlays[l.name] = L.layerGroup([layerGrid]);
 
-  /**
-   * get the layer objects from a list of BdcLayerWFS
-   * mount the overlayers with GeoJson's consulted from the GeoServer
-   */
-  private async mountGridsLayers(listLayersId: BdcLayerWFS[]) {
-    try {
-      this.overlayers = [];
-
-      await listLayersId.forEach( async (layer: BdcLayerWFS) => {
-        const responseGeoJson: GeoJsonObject = await this.ls.getGeoJsonByLayer('brazil-data-cube', layer.ds, layer.title);
-
-        const layerGeoJson = geoJSON(responseGeoJson, {});
-        this.overlays[layer.name] = layerGeoJson;
-
-        const bdcLayer: BdcLayer = {
-          id: layer.title,
-          name: layer.name,
-          enabled: layer.enabled,
-          layer: layerGeoJson
-        };
-        this.overlayers.push(bdcLayer);
-      });
-
-    } catch (err) {
-      console.log('mountGridsLayers()');
-      console.log('err: ', err);
-    } finally {
-      this.setControlLayers();
-
-      setTimeout(() => {
-        this.applyLayersInMap();
-      }, 100);
-    }
-  }
-
-  /** apply the layers that are visible on the map */
-  applyLayersInMap(): void {
-    const baseLayer = this.ls.getBaseLayers().filter((l: BdcLayer) => l.id === 'google_hybrid');
-
-    if (this.overlayers[0] && this.overlayers[0].layer) {
-      const newLayers: Layer[] = this.overlayers
-            .filter((l: BdcLayer) => l.enabled)
-            .map((l: BdcLayer) => l && l.layer);
-
-      // set base layer with firsty
-      newLayers.unshift(baseLayer[0].layer);
-      this.store.dispatch(setLayers(newLayers));
-
-    } else {
-      const newLayers = [baseLayer[0].layer];
-      this.store.dispatch(setLayers(newLayers));
-    }
+      if (l.enabled) {
+        this.map.addLayer(this.layersControl.overlays[l.name]);
+      }
+    });
   }
 
   /** set position of the Map */
