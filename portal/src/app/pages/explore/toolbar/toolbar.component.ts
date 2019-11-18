@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginComponent } from '../../auth/login/login.component';
 import { MatDialog } from '@angular/material';
+import { RegisterComponent } from '../../auth/register/register.component';
 
 /**
  * Toolbar component
@@ -29,6 +30,18 @@ export class ToolbarComponent {
   openLogin() {
     this.dialog.open(LoginComponent, {
       width: '400px',
+      restoreFocus: false,
+      disableClose: true
+    });
+  }
+
+  /**
+   * Open Register Dialog
+   */
+  openRegister() {
+    this.dialog.open(RegisterComponent, {
+      width: '700px',
+      maxHeight: '85vh',
       restoreFocus: false,
       disableClose: true
     });

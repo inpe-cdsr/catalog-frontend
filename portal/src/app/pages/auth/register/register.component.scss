@@ -1,4 +1,4 @@
-.dialog-login {
+.dialog-register {
 
     .title {
         display: flex;
@@ -24,6 +24,10 @@
 
         .mat-form-field {
             margin-top: 10px !important;
+        }
+
+        .display-inline {
+            display: flex;
         }
     }
 

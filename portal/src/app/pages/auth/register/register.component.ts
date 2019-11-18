@@ -4,44 +4,52 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthState } from 'src/app/pages/auth/auth.state';
 import { Store } from '@ngrx/store';
 import { showLoading, closeLoading } from '../../explore/explore.action';
+import { ViaCEPServie } from './viacep.service';
 
 /**
  * login page component
  */
 @Component({
   selector: 'app-dialog-feature',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-export class LoginComponent {
+export class RegisterComponent {
 
-  /** username */
-  public username: string;
-  /** password */
-  public password: string;
   /** form options */
-  public formLogin: FormGroup;
+  public formRegister: FormGroup;
   /** infos of the login error, used to display in the window */
   public error: object;
+  public user = {};
 
   /** set validators of the form */
   constructor(
     private store: Store<AuthState>,
     private snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<LoginComponent>,
+    private vs: ViaCEPServie,
+    public dialogRef: MatDialogRef<RegisterComponent>,
     private fb: FormBuilder) {
 
-    this.formLogin = this.fb.group({
+    this.formRegister = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      number: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      uf: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      org_name: ['', [Validators.required]],
+      org_type: ['', [Validators.required]],
+      sector: ['', [Validators.required]],
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
 
-  /** 
-   * request login in the system (Oauth Sevrer OBT) 
-   */
-  public async login() {
-    if (this.formLogin.status !== 'VALID') {
+  public async register() {
+    if (this.formRegister.status !== 'VALID') {
       this.error = {
         type: 'error',
         message: 'Fill in all fields!'
@@ -50,10 +58,6 @@ export class LoginComponent {
       try {
         this.store.dispatch(showLoading());
 
-        const credentials = {
-          username: this.username,
-          password: this.password
-        };
         // const response = await this.as.login(credentials);
         // this.store.dispatch(Login({
         //   userId  : response.user_id,
@@ -76,6 +80,24 @@ export class LoginComponent {
 
       } finally {
         this.store.dispatch(closeLoading());
+      }
+    }
+  }
+
+  public async getAddress() {
+    const cep = this.user['cep'];
+    if (cep && (cep.length === 8 || cep.length === 9)) {
+      try {
+        const response = await this.vs.getAddress(cep.replace('-', ''));
+        if (response.logradouro) {
+          this.user['street'] = response.logradouro; 
+          this.user['city'] = response.localidade; 
+          this.user['uf'] = response.uf; 
+          this.user['country'] = 'Brazil'; 
+        }
+
+      } catch(err) {
+        return
       }
     }
   }
