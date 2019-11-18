@@ -15,8 +15,7 @@ export interface ExploreState {
   readonly layers: Layer[];
   /** bounding box of the map */
   readonly positionMap: LatLngBoundsExpression;
-  /** range (start-end) with selected dates */
-  readonly rangeTemporal: Date[];
+  readonly featuresToDownload: Feature[];
   /** selected bounding box */
   readonly bbox: LatLngBoundsExpression;
   /** status visible - loading component */

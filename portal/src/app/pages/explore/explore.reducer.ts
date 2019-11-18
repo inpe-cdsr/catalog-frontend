@@ -5,10 +5,12 @@ import {
   setLayers,
   setBbox,
   setPositionMap,
-  setRangeTemporal,
   setFeatures,
   setFeaturesSeparateByProviders,
-  removeGroupLayer
+  removeGroupLayer,
+  setFeatureToDownload,
+  removeFeatureToDownload,
+  removeAllFeaturesToDownload
 } from './explore.action';
 import { ExploreState } from './explore.state';
 
@@ -19,9 +21,9 @@ const initialState: ExploreState = {
   layerGroupToDisabled: [],
   layers: [],
   positionMap: null,
+  featuresToDownload: [],
   loading: false,
-  bbox: null,
-  rangeTemporal: []
+  bbox: null
 };
 
 /**
@@ -44,11 +46,24 @@ export const reducer = createReducer(initialState,
   on(setPositionMap, (state, payload) => {
     return { ...state, positionMap: payload };
   }),
-  on(setRangeTemporal, (state, payload) => {
-    return { ...state, rangeTemporal: payload };
-  }),
   on(setBbox, (state, payload) => {
     return { ...state, bbox: payload };
+  }),
+  on(setFeatureToDownload, (state, payload) => {
+    if (state.featuresToDownload.filter( f => f.id === payload.id ).length === 0) {
+      const features = state.featuresToDownload;
+      features.push(payload);
+      return { ...state, featuresToDownload: features };
+    } else {
+      return state;
+    }
+  }),
+  on(removeFeatureToDownload, (state, payload) => {
+    const features = state.featuresToDownload.filter( f => f.id !== payload.id );
+    return { ...state, featuresToDownload: features };
+  }),
+  on(removeAllFeaturesToDownload, (state, _) => {
+    return { ...state, featuresToDownload: [] };
   }),
   on(showLoading, (state) => {
     return { ...state, loading: true };

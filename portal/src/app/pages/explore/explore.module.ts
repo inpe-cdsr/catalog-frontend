@@ -33,12 +33,6 @@ import { ChartsModule } from 'ng2-charts';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-// store
-import { StoreModule } from '@ngrx/store';
-
-// reducer
-import * as fromExplore from './explore.reducer';
-
 // components
 import { ExploreComponent } from './explore.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -50,6 +44,7 @@ import { TileComponent } from './sidenav/tile/tile.component';
 import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
 import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
 import { AuthModule } from '../auth/auth.module';
+import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shopping-list.component';
 
 /**
  * Explore Module
@@ -61,6 +56,7 @@ import { AuthModule } from '../auth/auth.module';
     ToolbarComponent,
     MapComponent,
     ShoppingCartComponent,
+    ShoppingListComponent,
     SidenavComponent,
     SearchComponent,
     TileComponent,
@@ -102,6 +98,9 @@ import { AuthModule } from '../auth/auth.module';
     ChartsModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot()
+  ],
+  entryComponents: [
+    ShoppingListComponent
   ]
 })
 export class ExploreModule { }

@@ -4,7 +4,7 @@
         SHOPPING CART
     </header>
 
-    <div class="content">
-        <span [matBadge]="quantity" matBadgeOverlap="false">DOWNLOAD IMAGES</span>
+    <div class="content" (click)="openList()">
+        <span [matBadge]="features.length" matBadgeOverlap="false">DOWNLOAD IMAGES</span>
     </div>
 </div>

@@ -1,16 +1,14 @@
 // angular
 import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 // leaflet
-import { imageOverlay,  Layer, geoJSON } from 'leaflet';
+import { imageOverlay, geoJSON } from 'leaflet';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
-import { setLayers, setPositionMap, setFeatures, removeGroupLayer } from 'src/app/pages/explore/explore.action';
+import { setLayers, setPositionMap, setFeatures, removeGroupLayer, setFeatureToDownload } from 'src/app/pages/explore/explore.action';
 
 // interface
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
@@ -131,6 +129,15 @@ export class FeatureTablePaginationComponent implements OnInit {
     return `
       ${formatDateUSA(new Date(feature.properties.datetime))}
     `;
+  }
+
+  public addToShopping(feature) {
+    this.store.dispatch(setFeatureToDownload(feature));
+    this.snackBar.open('Added in shopping card!', '', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: 'app_snack-bar-success'
+    });
   }
 
 }

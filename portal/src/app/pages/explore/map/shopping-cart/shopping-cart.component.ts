@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { ExploreState } from '../../explore.state';
+import { Feature } from '../../sidenav/tile/tile.interface';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-map-shopping-cart',
@@ -7,10 +12,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShoppingCartComponent implements OnInit {
 
-    public quantity: number;
+    public features: Feature[];
+
+    constructor(
+        public dialog: MatDialog,
+        private store: Store<ExploreState>) {
+        this.store.pipe(select('explore')).subscribe(res => {
+            if(res.featuresToDownload) {
+                this.features = res.featuresToDownload;
+            }
+        });
+    }    
 
     ngOnInit(): void {
-        this.quantity = 0;
+        this.features = [];
+    }
+
+    public openList() {
+        this.dialog.open(ShoppingListComponent, {
+            width: '830px',
+            restoreFocus: false,
+            disableClose: false,
+            data: {
+                features: this.features
+            }
+        });
     }
   
 }

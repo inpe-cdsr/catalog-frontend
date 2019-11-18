@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule } from '@angular/material';
+import { RegisterComponent } from './register/register.component';
 
 /**
  * Auth Module
@@ -13,10 +14,12 @@ import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule } fro
  */
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   exports: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule } fro
     ReactiveFormsModule
   ],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ]
 })
 export class AuthModule { }
