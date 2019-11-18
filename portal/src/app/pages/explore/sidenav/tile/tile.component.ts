@@ -12,6 +12,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // component
 import { DialogCollectionDownloadComponent } from 'src/app/shared/components/dialog-collection-download/dialog-collection-download.component';
+import { setFeatureToDownload } from '../../explore.action';
 
 // other
 // import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
@@ -86,6 +87,12 @@ export class TileComponent{
 
   public formatProvider(provider) {
     return provider.toLowerCase().replace('_stac', '').replace(/_/g, ' ');
+  }
+
+  public addCollectionToShopping(provider, collection) {
+    this.features_separate_by_providers$[provider][collection].features.forEach(f => {
+      this.store.dispatch(setFeatureToDownload(f));
+    });
   }
 
 }

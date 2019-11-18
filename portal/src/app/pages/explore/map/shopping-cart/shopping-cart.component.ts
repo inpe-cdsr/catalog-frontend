@@ -30,7 +30,8 @@ export class ShoppingCartComponent implements OnInit {
 
     public openList() {
         this.dialog.open(ShoppingListComponent, {
-            width: '830px',
+            width: '845px',
+            maxHeight: '85vh',
             restoreFocus: false,
             disableClose: false,
             data: {
