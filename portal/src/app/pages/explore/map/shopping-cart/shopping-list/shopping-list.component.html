@@ -25,18 +25,22 @@
         <div class="instructions">
             <p>Instructions to download ...</p>
         </div>
-
-        <div class="list">
-            <div *ngFor="let feature of features" class="image-card">
-                <img [src]="feature.assets.thumbnail.href" />
-                <div class="description">
-                    <p>{{ formatID(feature.id) }}</p>
-                    <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
-                    <button 
-                        mat-flat-button 
-                        color="warn"
-                        (click)="removeFeatureOfDownload(feature)">REMOVE
-                    </button>
+        
+        <div class="box-list" *ngFor="let collection of collections">
+            <p style="font-size: 1.1em; text-transform: capitalize;"><b>{{ collection }}:</b></p>
+            
+            <div class="list">
+                <div *ngFor="let feature of filterFeatures(features, collection)" class="image-card">
+                    <img [src]="feature.assets.thumbnail.href" />
+                    <div class="description">
+                        <p>{{ formatID(feature.id) }}</p>
+                        <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
+                        <button 
+                            mat-flat-button 
+                            color="warn"
+                            (click)="removeFeatureOfDownload(feature)">REMOVE
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

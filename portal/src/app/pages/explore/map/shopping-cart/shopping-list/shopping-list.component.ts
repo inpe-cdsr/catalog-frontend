@@ -18,6 +18,7 @@ import { removeFeatureToDownload, removeAllFeaturesToDownload } from '../../../e
 export class ShoppingListComponent {
 
   public features: Feature[];
+  public collections: string[] = [];
 
   /** receive infos to display in this component */
   constructor(
@@ -25,6 +26,7 @@ export class ShoppingListComponent {
     public dialogRef: MatDialogRef<ShoppingListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.features = data.features;
+      this.getCollections();
   }
 
   removeFeatureOfDownload(feature: Feature) {
@@ -37,7 +39,19 @@ export class ShoppingListComponent {
     this.store.dispatch(removeAllFeaturesToDownload());
   }
 
-  /** format date to USA template */
+  getCollections() {
+    this.features.forEach(f => {
+      const collection = this.getCollectionFromFeature(f);
+      if (this.collections.indexOf(collection) < 0) {
+        this.collections.push(collection);
+      }
+    })
+  }
+
+  filterFeatures(features, collection) {
+    return features.filter(f => this.getCollectionFromFeature(f) === collection);
+  }
+
   getFormattedDate(date: string) {
     return formatDateUSA(new Date(date));
   }

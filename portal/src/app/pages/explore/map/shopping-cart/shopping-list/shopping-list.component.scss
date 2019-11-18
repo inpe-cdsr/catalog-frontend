@@ -21,43 +21,54 @@
         border-bottom: 2px solid #ffff66;
     }
 
-    .list {
+    .box-list {
         margin-top: 15px;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 10px;
-        border: 1px solid #CCC;
 
-        .image-card {
-            width: 250px;
+        .list {
+            margin-top: -10px;
             display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 10px;
             border: 1px solid #CCC;
-            border-radius: 5px;
-            align-items: center;
-            margin-top: 5px;
-
-            .description {
-                width: 200px;
-                padding: 10px;
+    
+            .image-card {
+                width: 250px;
                 display: flex;
-                flex-direction: column;
-                justify-content: space-around;
+                border: 1px solid #CCC;
+                border-radius: 5px;
+                align-items: center;
+                margin-top: 5px;
+    
+                .description {
+                    width: 200px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+    
+                    p {
+                        margin: 0;
+                    }
+    
+                    button {
+                        border-radius: 25px;
+                        line-height: 25px;
+                        margin-top: 10px;
+                        background: none;
+                        border: 1px solid #f44336;
+                        color: #f44336;
 
-                p {
-                    margin: 0;
+                        &:hover {
+                            background: rgba(#f44336, 0.1);
+                        }
+                    }
                 }
-
-                button {
-                    border-radius: 25px;
-                    line-height: 25px;
-                    margin-top: 10px;
+    
+                img {
+                    width: 80px;
+                    margin-left: 10px;
                 }
-            }
-
-            img {
-                width: 80px;
-                margin-left: 10px;
             }
         }
     }
