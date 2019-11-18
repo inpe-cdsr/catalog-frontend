@@ -40,8 +40,6 @@ export class MapComponent implements OnInit {
   /** visible layers on the map */
   public layers$: Layer[];
 
-  /** all overlay layers read and mounted */
-  private overlayers: BdcLayer[];
   /** all available base layers for viewing (layer object only) */
   private baseLayers = {};
   /** all overlay layers available for viewing (layer object only) */

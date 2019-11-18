@@ -20,13 +20,13 @@ export const Grids: Grid[] = [
   {
     id: 'grid_landsat_tm_amsul',
     enabled: false,
-    name: 'LandSat',
+    name: 'LandSat-8',
     layer: null
   },
   {
-    id: 'grid_landsat_tm_amsul',
+    id: 'sentinel2_tiles_world',
     enabled: false,
-    name: 'Sentinel',
+    name: 'Sentinel-2',
     layer: null
   }
 ];
