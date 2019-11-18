@@ -120,21 +120,19 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Organization Type</mat-label>
-                    <input matInput
-                        name="org_type"
-                        placeholder="Organization Type"
-                        [(ngModel)]="user.org_type"
-                        formControlName="org_type"
-                        required />
+                    <mat-select [(value)]='user.org_type' formControlName='org_type' required>
+                        <mat-option *ngFor="let type of listTypes" [value]="type">
+                        {{ type }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Activity sector</mat-label>
-                    <input matInput
-                        name="act_sector"
-                        placeholder="Activity sector"
-                        [(ngModel)]="user.sector"
-                        formControlName="sector"
-                        required />
+                    <mat-select [(value)]='user.sector' formControlName='sector' required>
+                        <mat-option *ngFor="let sector of listSectors" [value]="sector">
+                        {{ sector }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
 

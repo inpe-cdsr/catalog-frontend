@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatSelectModule } from '@angular/material';
 import { RegisterComponent } from './register/register.component';
 
 /**
@@ -29,6 +29,7 @@ import { RegisterComponent } from './register/register.component';
     MatButtonModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     MatSnackBarModule,
     ReactiveFormsModule
   ],

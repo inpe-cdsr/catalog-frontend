@@ -5,6 +5,7 @@ import { AuthState } from 'src/app/pages/auth/auth.state';
 import { Store } from '@ngrx/store';
 import { showLoading, closeLoading } from '../../explore/explore.action';
 import { ViaCEPServie } from './viacep.service';
+import { sectors, orgTypes } from 'src/app/shared/helpers/CONST';
 
 /**
  * login page component
@@ -21,6 +22,8 @@ export class RegisterComponent {
   /** infos of the login error, used to display in the window */
   public error: object;
   public user = {};
+  public listTypes = [];
+  public listSectors = [];
 
   /** set validators of the form */
   constructor(
@@ -29,6 +32,9 @@ export class RegisterComponent {
     private vs: ViaCEPServie,
     public dialogRef: MatDialogRef<RegisterComponent>,
     private fb: FormBuilder) {
+    
+    this.listTypes = orgTypes;
+    this.listSectors = sectors;
 
     this.formRegister = this.fb.group({
       name: ['', [Validators.required]],
