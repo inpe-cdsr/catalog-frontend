@@ -32,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 // components
 import { ExploreComponent } from './explore.component';
@@ -96,6 +97,7 @@ import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shoppin
     MatCheckboxModule,
     NgxPaginationModule,
     ChartsModule,
+    TranslateModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot()
   ],
