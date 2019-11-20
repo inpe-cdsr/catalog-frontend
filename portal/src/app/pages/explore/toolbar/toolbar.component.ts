@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginComponent } from '../../auth/login/login.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { RegisterComponent } from '../../auth/register/register.component';
+import { Store, select } from '@ngrx/store';
+import { AuthState } from '../../auth/auth.state';
+import { Logout } from '../../auth/auth.action';
 
 /**
  * Toolbar component
@@ -14,7 +17,17 @@ import { RegisterComponent } from '../../auth/register/register.component';
 })
 export class ToolbarComponent {
 
-  constructor(public dialog: MatDialog){}
+  /** if is logged */
+  public logged = false;
+
+  constructor(
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private store: Store<AuthState>){
+    this.store.pipe(select('auth')).subscribe(res => {
+      this.logged = res.userId && res.token && res.fullname;
+    });
+  }
 
   /** pointer to issue event to explore component */
   @Output() toggleToEmit = new EventEmitter();
@@ -44,6 +57,19 @@ export class ToolbarComponent {
       maxHeight: '85vh',
       restoreFocus: false,
       disableClose: true
+    });
+  }
+
+  /**
+   * Logout in application
+   */
+  logout() {
+    this.logged = false;
+    this.store.dispatch(Logout());
+    this.snackBar.open('Logout Successfully!', '', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: 'app_snack-bar-success'
     });
   }
 

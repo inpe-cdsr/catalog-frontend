@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthState } from 'src/app/pages/auth/auth.state';
 import { Store } from '@ngrx/store';
 import { showLoading, closeLoading } from '../../explore/explore.action';
+import { AuthService } from '../auth.service';
+import { Login } from '../auth.action';
 
 /**
  * login page component
@@ -15,8 +17,8 @@ import { showLoading, closeLoading } from '../../explore/explore.action';
 })
 export class LoginComponent {
 
-  /** username */
-  public username: string;
+  /** email */
+  public email: string;
   /** password */
   public password: string;
   /** form options */
@@ -28,11 +30,12 @@ export class LoginComponent {
   constructor(
     private store: Store<AuthState>,
     private snackBar: MatSnackBar,
+    private as: AuthService,
     public dialogRef: MatDialogRef<LoginComponent>,
     private fb: FormBuilder) {
 
     this.formLogin = this.fb.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
@@ -51,14 +54,15 @@ export class LoginComponent {
         this.store.dispatch(showLoading());
 
         const credentials = {
-          username: this.username,
+          email: this.email,
           password: this.password
         };
-        // const response = await this.as.login(credentials);
-        // this.store.dispatch(Login({
-        //   userId  : response.user_id,
-        //   token : response.access_token
-        // }));
+        const response = await this.as.login(credentials);
+        this.store.dispatch(Login({
+          userId  : response.user_id,
+          token : response.access_token,
+          fullname: response.fullname
+        }));
 
         this.snackBar.open('Login Successfully!', '', {
           duration: 2000,

@@ -14,12 +14,13 @@
             </app-alert>
 
             <mat-form-field appearance="fill">
-                <mat-label>Username</mat-label>
+                <mat-label>Email</mat-label>
                 <input matInput
-                    name="username"
-                    placeholder="Username"
-                    [(ngModel)]="username"
-                    formControlName="username"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    [(ngModel)]="email"
+                    formControlName="email"
                     required />
             </mat-form-field>
 

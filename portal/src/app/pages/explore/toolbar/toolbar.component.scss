@@ -28,5 +28,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        .logout-btn {
+            &:hover {
+                background: rgba(#000, 0.1);
+            }
+        }
     }
 }

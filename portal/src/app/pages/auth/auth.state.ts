@@ -4,4 +4,6 @@ export interface AuthState {
     readonly userId: string;
     /** access token of user */
     readonly token: string;
+    /** full name of user */
+    readonly fullname: string;
 }

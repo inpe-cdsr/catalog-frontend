@@ -13,6 +13,7 @@
 
       <div class="tol_cont-buttons">
         <button
+          *ngIf="!logged"
           mat-flat-button
           style="border-radius: 5px 0 0 5px"
           (click)="openLogin()">
@@ -20,6 +21,7 @@
           {{ 'explore.toolbar.btns.login' | translate }}
         </button>
         <button
+          *ngIf="!logged"
           mat-flat-button
           style="border-radius: 0 5px 5px 0"
           color="primary"
@@ -28,7 +30,19 @@
           Register
         </button>
 
+        <p *ngIf="logged" style="margin-right: 10px;">
+          Olá <b>{{ logged }}</b>!
+        </p>
+
         <app-select-lang></app-select-lang>
+
+        <button
+          mat-icon-button
+          *ngIf="logged"
+          (click)="logout()"
+          class="logout-btn">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
