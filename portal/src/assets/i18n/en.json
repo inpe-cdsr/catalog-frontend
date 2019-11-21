@@ -1,9 +1,11 @@
 {
-    "explore": {
-        "toolbar": {
-            "btns": {
-                "login": "ACCESS"
-            }
-        }
+  "explore": {
+    "toolbar": {
+      "title": "DGI CATALOG",
+      "button": {
+        "login": "Access",
+        "register": "Register"
+      }
     }
+  }
 }
