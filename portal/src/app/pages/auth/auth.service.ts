@@ -24,4 +24,13 @@ export class AuthService {
         const response = await this.http.post(`${this.environment.urlDGIBack}${urlSuffix}`, credentials).toPromise();
         return response;
     }
+
+    /**
+     * add user
+     */
+    public async addUser(data: object): Promise<any> {
+        const urlSuffix = `/user/`;
+        const response = await this.http.post(`${this.environment.urlDGIBack}${urlSuffix}`, data).toPromise();
+        return response;
+    }
 }

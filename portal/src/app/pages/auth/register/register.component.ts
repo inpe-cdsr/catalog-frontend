@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { showLoading, closeLoading } from '../../explore/explore.action';
 import { ViaCEPServie } from './viacep.service';
 import { sectors, orgTypes } from 'src/app/shared/helpers/CONST';
+import { Login } from '../auth.action';
+import { AuthService } from '../auth.service';
 
 /**
  * login page component
@@ -30,6 +32,7 @@ export class RegisterComponent {
     private store: Store<AuthState>,
     private snackBar: MatSnackBar,
     private vs: ViaCEPServie,
+    private as: AuthService,
     public dialogRef: MatDialogRef<RegisterComponent>,
     private fb: FormBuilder) {
     
@@ -39,6 +42,7 @@ export class RegisterComponent {
     this.formRegister = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required]],
+      ddd: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       cep: ['', [Validators.required]],
       street: ['', [Validators.required]],
@@ -46,11 +50,11 @@ export class RegisterComponent {
       city: ['', [Validators.required]],
       uf: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      org_name: ['', [Validators.required]],
-      org_type: ['', [Validators.required]],
+      company: ['', [Validators.required]],
+      companyType: ['', [Validators.required]],
       sector: ['', [Validators.required]],
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]]
     });
   }
 
@@ -64,21 +68,55 @@ export class RegisterComponent {
       try {
         this.store.dispatch(showLoading());
 
-        // const response = await this.as.login(credentials);
-        // this.store.dispatch(Login({
-        //   userId  : response.user_id,
-        //   token : response.access_token
-        // }));
+        if (this.user['password'] !== this.user['confirmPassword']) {
+          this.error = {
+            type: 'error',
+            message: ''
+          };
 
-        this.snackBar.open('Login Successfully!', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: 'app_snack-bar-success'
-        });
-        this.dialogRef.close();
+        } else {
+          const user = {
+            email: this.user['email'],
+            password: this.user['password'],
+            fullname: this.user['name'],
+            address: {
+              cep: this.user['cep'],
+              street: this.user['street'],
+              number: this.user['number'],
+              city: this.user['city'],
+              state: this.user['uf'],
+              country: this.user['country']
+            },
+            activity: this.user['sector'],
+            company: this.user['company'],
+            companyType: this.user['companyType'],
+            areaCode: this.user['ddd'],
+            phone: this.user['phone']
+          }
+          const responseUser = await this.as.addUser(user);
+
+          // LOGIN
+          const credentials = {
+            email: this.user['email'],
+            password: this.user['password']
+          };
+          const response = await this.as.login(credentials);
+          this.store.dispatch(Login({
+            userId  : response.user_id,
+            token : response.access_token,
+            fullname: response.fullname
+          }));
+
+          this.snackBar.open('Login Successfully!', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: 'app_snack-bar-success'
+          });
+          this.dialogRef.close();
+        }
 
       } catch (err) {
-        const message = err.error.message ? err.error.message : 'Authentication Error!';
+        const message = err.error.message ? err.error.message : 'Error in Register!';
         this.error = {
           type: 'error',
           message

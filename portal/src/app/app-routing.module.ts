@@ -6,7 +6,7 @@ import { ExploreComponent } from './pages/explore/explore.component';
 const routes: Routes = [
   { path: '', redirectTo: '/explore', pathMatch: 'full' },
   { path: 'explore', component: ExploreComponent },
-  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminModule'}
+  // { path: 'admin', loadChildren: './pages/admin/admin.module#AdminModule'}
 ];
 
 /**

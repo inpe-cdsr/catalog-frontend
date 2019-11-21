@@ -36,6 +36,16 @@
             </div>
 
             <div class="display-inline">
+                <mat-form-field appearance="fill" style="width: 80px;">
+                    <mat-label>DDD</mat-label>
+                    <input matInput
+                        name="ddd"
+                        placeholder="DDD"
+                        [(ngModel)]="user.ddd"
+                        formControlName="ddd"
+                        required />
+                </mat-form-field>
+
                 <mat-form-field appearance="fill">
                     <mat-label>Phone</mat-label>
                     <input matInput
@@ -45,6 +55,7 @@
                         formControlName="phone"
                         required />
                 </mat-form-field>
+
                 <mat-form-field appearance="fill">
                     <mat-label>CEP</mat-label>
                     <input matInput
@@ -112,15 +123,15 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Organization Name</mat-label>
                     <input matInput
-                        name="org_name"
+                        name="company"
                         placeholder="Organization Name"
-                        [(ngModel)]="user.org_name"
-                        formControlName="org_name"
+                        [(ngModel)]="user.company"
+                        formControlName="company"
                         required />
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Organization Type</mat-label>
-                    <mat-select [(value)]='user.org_type' formControlName='org_type' required>
+                    <mat-select [(value)]='user.companyType' formControlName='companyType' required>
                         <mat-option *ngFor="let type of listTypes" [value]="type">
                         {{ type }}
                         </mat-option>
@@ -136,17 +147,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="display-inline" style="border-top: 1px dotted #000; padding-top: 15px;">
-                <mat-form-field appearance="fill">
-                    <mat-label>Username</mat-label>
-                    <input matInput
-                        name="username"
-                        placeholder="Username"
-                        [(ngModel)]="user.username"
-                        formControlName="username"
-                        required />
-                </mat-form-field>
-    
+            <div class="display-inline" style="border-top: 1px dotted #000; padding-top: 15px;"> 
                 <mat-form-field appearance="fill">
                     <mat-label>Password</mat-label>
                     <input matInput
@@ -155,6 +156,17 @@
                         placeholder="Password"
                         [(ngModel)]="user.password"
                         formControlName="password"
+                        required />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Password Confirmation</mat-label>
+                    <input matInput
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Password Confirmation"
+                        [(ngModel)]="user.confirmPassword"
+                        formControlName="confirmPassword"
                         required />
                 </mat-form-field>
             </div>
