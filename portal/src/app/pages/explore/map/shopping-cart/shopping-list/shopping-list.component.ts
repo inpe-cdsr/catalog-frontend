@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../../../explore.state';
 import { removeFeatureToDownload, removeAllFeaturesToDownload } from '../../../explore.action';
 
@@ -19,6 +19,7 @@ export class ShoppingListComponent {
 
   public features: Feature[];
   public collections: string[] = [];
+  public logged = false;
 
   /** receive infos to display in this component */
   constructor(
@@ -27,6 +28,9 @@ export class ShoppingListComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.features = data.features;
       this.getCollections();
+      this.store.pipe(select('auth')).subscribe(res => {
+        this.logged = res.userId && res.token && res.fullname;
+      });
   }
 
   removeFeatureOfDownload(feature: Feature) {

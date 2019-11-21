@@ -9,6 +9,7 @@
                 (click)="clearList()">CLEAR
             </button>
             <button 
+                *ngIf="logged"
                 mat-raised-button 
                 color="primary">DOWNLOAD LINKS
             </button>
@@ -22,8 +23,8 @@
     </app-alert>
 
     <section *ngIf="features.length > 0">
-        <div class="instructions">
-            <p>Instructions to download ...</p>
+        <div class="instructions" *ngIf="!logged">
+            <p><b>Login to download the images!</b></p>
         </div>
         
         <div class="box-list" *ngFor="let collection of collections">
