@@ -6,6 +6,7 @@ import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../../../explore.state';
 import { removeFeatureToDownload, removeAllFeaturesToDownload } from '../../../explore.action';
+import { downloadFile } from 'src/app/shared/helpers/common';
 
 /**
  * Dialog Features
@@ -70,6 +71,25 @@ export class ShoppingListComponent {
 
   formatID(id: string) {
     return `${id.substring(0, 13)} ${id.length > 13 ? '...' : ''}`;
+  }
+
+  downloadLinks() {
+    let data = '';
+    this.features.forEach(feat => {
+      if (feat.properties['eo:bands']) {
+        feat.properties['eo:bands'].forEach(band => {
+          data += `${feat.assets[band['name']]['href']}\n`;
+        });
+      } else {
+        Object.keys(feat.assets).forEach(asset => {
+          if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
+            data += `${feat.assets[asset]['href']}\n`;
+          }
+        })
+      }
+    });
+
+    downloadFile('catalog_DGI_date.txt', data)
   }
 
 }
