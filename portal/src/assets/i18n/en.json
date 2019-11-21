@@ -1,11 +1,24 @@
 {
   "pages": {
+    "auth": {
+      "login": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Login",
+          "email": "E-mail",
+          "password": "Password",
+          "button": {
+            "login": "Login",
+            "close": "Close"
+          }
+        }
+      }
+    },
     "explore": {
-      "toolbar": {
-        "title": "CATALOG",
-        "button": {
-          "login": "Access",
-          "register": "Register"
+      "map": {
+        "shopping_cart": {
+          "title": "Shopping cart",
+          "download_images": "Download images here"
         }
       },
       "sidenav": {
@@ -32,10 +45,11 @@
           "title": "Results"
         }
       },
-      "map": {
-        "shopping_cart": {
-          "title": "Shopping cart",
-          "download_images": "Download images here"
+      "toolbar": {
+        "title": "CATALOG",
+        "button": {
+          "login": "Access",
+          "register": "Register"
         }
       }
     }
