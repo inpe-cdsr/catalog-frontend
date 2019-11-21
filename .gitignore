@@ -1,5 +1,7 @@
 deploy/dist/*
 
+add_to_the_portal/*
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
