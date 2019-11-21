@@ -12,6 +12,34 @@
             "close": "Close"
           }
         }
+      },
+      "register": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Register",
+          "full_name": "Full name",
+          "email": "E-mail",
+          "phone": "Phone",
+          "address": {
+            "cep": "CEP",
+            "street": "Street",
+            "number": "Number",
+            "city": "City",
+            "state": "State",
+            "country": "Country"
+          },
+          "organization": {
+            "name": "Organization name",
+            "type": "Organization type",
+            "sector_activity": "Sector activity"
+          },
+          "username": "Username",
+          "password": "Password",
+          "button": {
+            "register": "Register",
+            "close": "Close"
+          }
+        }
       }
     },
     "explore": {
