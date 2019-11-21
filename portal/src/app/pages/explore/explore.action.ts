@@ -30,6 +30,14 @@ export const setLayers = createAction(
 );
 
 /**
+ * remove Layers group enabled in the map
+ */
+export const removeGroupLayer = createAction(
+    '[Map Component] name group layer',
+    props<object>()
+);
+
+/**
  * set position of the map
  */
 export const setPositionMap = createAction(
@@ -46,11 +54,26 @@ export const setBbox = createAction(
 );
 
 /**
- * set Features in store application
+ * add feature to download
  */
-export const setRangeTemporal = createAction(
-    '[Map Component] Range Temporal',
-    props<Date[]>()
+export const setFeatureToDownload = createAction(
+    '[Map Component] Feature Download',
+    props<Feature>()
+);
+
+/**
+ * remove feature to download
+ */
+export const removeFeatureToDownload = createAction(
+    '[Map Component] Feature removed of Download',
+    props<Feature>()
+);
+
+/**
+ * remove all features to download
+ */
+export const removeAllFeaturesToDownload = createAction(
+    '[Map Component] Features removed of Download'
 );
 
 /** set loading as true */

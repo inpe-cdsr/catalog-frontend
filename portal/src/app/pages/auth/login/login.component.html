@@ -1,1 +1,44 @@
-<p>login works!</p>
+<section class="dialog-login">
+    <h1 class="title">
+        <mat-icon>lock</mat-icon>
+        DGI - INPE
+    </h1>
+
+    <form [formGroup]="formLogin" (ngSubmit)="login()">
+        <div class="content">
+            <p>Login</p>
+
+            <app-alert *ngIf="error"
+                [type]="error.type"
+                [message]="error.message">
+            </app-alert>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    [(ngModel)]="email"
+                    formControlName="email"
+                    required />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" style="margin-top: -15px !important;">
+                <mat-label>Password</mat-label>
+                <input matInput
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    [(ngModel)]="password"
+                    formControlName="password"
+                    required />
+            </mat-form-field>
+        </div>
+
+        <div class="actions">
+            <button mat-button type="button" class="btn-cancel" (click)="closeDialog()">Cancel</button>
+            <button mat-raised-button type="submit" color="primary">Login</button>
+        </div>
+    </form>
+</section>

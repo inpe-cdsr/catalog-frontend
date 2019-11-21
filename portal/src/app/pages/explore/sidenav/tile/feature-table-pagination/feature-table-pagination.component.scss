@@ -1,47 +1,43 @@
-/*
-  general
-*/
+.box-features {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 
-table{
-  width: 100%;
-}
+  .card {
+    width: 31%;
+    margin: 7.5px 0 0 0;
+    border: 1px solid #CCC;
 
-/*
-  ftp = feature table pagination component
-*/
+    img {
+      width: 100%;
+    }
 
-.ftp-container {
-  // height: 400px;
-  // width: 550px;
-  overflow: auto;
-}
+    .actions {
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.ftp-quicklook {
-  height: 50px;
-}
+      .mat-icon {
+        cursor: pointer;
 
-.ftp-td {
-  padding: 0px 10px;
-}
-
-.ftp-action {
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-
-  &:hover {
-    background: rgba(#000, 0.1);
+        &:hover {
+          background: rgba(#000, 0.1);
+        }
+      }
+    }
   }
 }
 
-.ftp-actions-box {
-  width: 105px;
+.box-paginator {
+  display: flex;
+  justify-content: center;
 }
 
-.ftp-feature-enabled {
-  background: rgba(0, 255, 0, 0.1);
-
-  &:hover {
-    background: rgba(0, 255, 0, 0.15);
-  }
+.tooltip-features {
+  font-size: 16px;
+  background: #333;
+  color: #FFF;
 }

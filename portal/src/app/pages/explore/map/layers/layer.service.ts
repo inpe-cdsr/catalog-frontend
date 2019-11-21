@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BdcLayerWFS, BdcLayer } from './layer.interface';
+import { BdcLayer, Grid } from './layer.interface';
 import { BaseLayers } from './base-layers.in-memory';
 import { Grids } from './grids.in-memory';
 import { Environment } from 'src/environments/environment';
@@ -31,19 +31,20 @@ export class LayerService {
    * get grids of the BDC project
    * @returns list of WFS BDC layers
    */
-  public getGridsLayers(): BdcLayerWFS[] {
+  public getGridsLayers(): Grid[] {
     return Grids;
   }
 
   /**
-   * gets GeoJson object from a layer in the BDC project GeoServer
-   * @returns layer GeoJson
-   */
-  public getGeoJsonByLayer(geoServerId: string, dataStore: string, title: string): Promise<any> {
-    const urlSuffix = `?service=WFS&version=1.0.0&request=GetFeature&typeName=${dataStore}:${title}&&outputFormat=application%2Fjson`;
+     * get info feature WMS
+     */
+    public async getInfoByWMS(layer, bbox, x, y, height, width): Promise<any> {
+      const basePath = '/vector_data/wms?REQUEST=GetFeatureInfo&SERVICE=WMS&SRS=EPSG:4326&VERSION=1.1.1';
+      let urlSuffix = `${basePath}&BBOX=${bbox}&HEIGHT=${height}&WIDTH=${width}`;
+      urlSuffix += `&LAYERS=vector_data:${layer}&QUERY_LAYERS=vector_data:${layer}&INFO_FORMAT=application/json&X=${x}&Y=${y}`;
 
-    let geoServer = this.environment.getGeoServerById(geoServerId);
-
-    return this.http.get(`${geoServer['url']}/${dataStore}/ows${urlSuffix}`).toPromise();
+      const response = await this.http.get(`${this.environment.urlGeoServer}${urlSuffix}`).toPromise();
+      return response;
   }
+
 }

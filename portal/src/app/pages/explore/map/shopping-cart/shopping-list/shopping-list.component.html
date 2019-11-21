@@ -1,0 +1,51 @@
+<div class="container_shopping-list">
+    <div class="box-title">
+        <h1 class="title">Images to Download</h1>
+        <div *ngIf="features.length > 0">
+            <button 
+                mat-flat-button 
+                style="margin-right: 10px;"
+                color="warn"
+                (click)="clearList()">CLEAR
+            </button>
+            <button 
+                *ngIf="logged"
+                mat-raised-button 
+                color="primary">DOWNLOAD LINKS
+            </button>
+        </div>
+    </div>
+
+    <app-alert
+        type="warning"
+        message="Empty cart!"
+        *ngIf="features.length === 0">
+    </app-alert>
+
+    <section *ngIf="features.length > 0">
+        <div class="instructions" *ngIf="!logged">
+            <p><b>Login to download the images!</b></p>
+        </div>
+        
+        <div class="box-list" *ngFor="let collection of collections">
+            <p style="font-size: 1.1em; text-transform: capitalize;"><b>{{ collection }}:</b></p>
+            
+            <div class="list">
+                <div *ngFor="let feature of filterFeatures(features, collection)" class="image-card">
+                    <img [src]="feature.assets.thumbnail.href" />
+                    <div class="description">
+                        <p>{{ formatID(feature.id) }}</p>
+                        <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
+                        <button 
+                            mat-flat-button 
+                            color="warn"
+                            (click)="removeFeatureOfDownload(feature)">REMOVE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>

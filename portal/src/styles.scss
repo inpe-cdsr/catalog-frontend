@@ -67,6 +67,25 @@ body {
     background-image: url("esri-leaflet-geocoder/dist/img/loading@2x.gif");
 }
 
+// LEAFLET PLUGINS
+.leaflet-bottom .leaflet-control-scale {
+    margin-left: 210px;
+    display: flex;
+    margin-bottom: -30px;
+    
+    .leaflet-control-scale-line {
+        background: rgba(#FFF, 0.9);
+        border: none;
+        font-size: 12px;
+        padding: 2.5px 5px !important;
+        line-height: none;
+        border-radius: 5px;
+
+        &:not(:first-child) {
+            margin-top: 0;
+        }
+    }
+}
 
 // FORM MATERIAL
 .mat-form-field-subscript-wrapper {
@@ -74,6 +93,7 @@ body {
 }
 .mat-form-field {
     margin-top: -15px !important;
+    font-size: 0.95em !important;
 }
 
 // SIDENAV

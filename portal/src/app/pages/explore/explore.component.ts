@@ -69,6 +69,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
    */
   toggleDrawer() {
     this.sidenav.toggle();
+    window.dispatchEvent(new Event('resize'));
   }
 
   /**

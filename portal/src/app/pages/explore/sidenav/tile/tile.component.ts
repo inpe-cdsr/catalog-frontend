@@ -12,6 +12,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // component
 import { DialogCollectionDownloadComponent } from 'src/app/shared/components/dialog-collection-download/dialog-collection-download.component';
+import { setFeatureToDownload } from '../../explore.action';
 
 // other
 // import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
@@ -26,20 +27,33 @@ export class TileComponent{
 
   public features_separate_by_providers$: Object;
   public providers: string[];
+  public providersVisible = {};
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>, public dialog: MatDialog) {
     this.store.pipe(select('explore')).subscribe(res => {
+      const lastFeatures = this.features_separate_by_providers$;
       if (res.features_separate_by_providers) {
         // original
         this.providers = Object.keys(res.features_separate_by_providers).filter( feature => feature !== 'type' );
+        
         this.features_separate_by_providers$ = res.features_separate_by_providers;
+        if (!lastFeatures ||
+            lastFeatures != this.features_separate_by_providers$) {
+          this.providers.forEach( (p, i) => {
+            this.providersVisible[p] = i === 0;
+          });
+        }
 
         // test/example (these lines can be removed) (sidenav.component must be updated as well)
         // this.providers = Object.keys(FEATURES_BY_PROVIDERS_SAMPLE).filter( feature => feature !== 'type' );
         // this.features_separate_by_providers$ = FEATURES_BY_PROVIDERS_SAMPLE;
       }
     });
+  }
+
+  public changeVisibleFeatByProvider(provider) {
+    this.providersVisible[provider] = !this.providersVisible[provider];
   }
 
   public getKeysFromObject(object: Object): Array<string> {
@@ -68,6 +82,16 @@ export class TileComponent{
         collection_name,
         features: features_to_send
       }
+    });
+  }
+
+  public formatProvider(provider) {
+    return provider.toLowerCase().replace('_stac', '').replace(/_/g, ' ');
+  }
+
+  public addCollectionToShopping(provider, collection) {
+    this.features_separate_by_providers$[provider][collection].features.forEach(f => {
+      this.store.dispatch(setFeatureToDownload(f));
     });
   }
 

@@ -9,12 +9,13 @@ export interface ExploreState {
   readonly features: Feature[];
   /** all selected features separate by providers */
   readonly features_separate_by_providers: Object;
+  /** list of group layer to remove in the map */
+  readonly layerGroupToDisabled: object;
   /** layers visible in the map */
   readonly layers: Layer[];
   /** bounding box of the map */
   readonly positionMap: LatLngBoundsExpression;
-  /** range (start-end) with selected dates */
-  readonly rangeTemporal: Date[];
+  readonly featuresToDownload: Feature[];
   /** selected bounding box */
   readonly bbox: LatLngBoundsExpression;
   /** status visible - loading component */

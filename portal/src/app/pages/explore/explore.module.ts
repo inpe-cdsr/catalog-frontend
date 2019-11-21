@@ -23,18 +23,16 @@ import {
   MatBottomSheetModule,
   MatCheckboxModule,
   MatPaginatorModule,
-  MatTableModule
+  MatTableModule,
+  MatBadgeModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ChartsModule } from 'ng2-charts';
 import { Ng5SliderModule } from 'ng5-slider';
-
-// store
-import { StoreModule } from '@ngrx/store';
-
-// reducer
-import * as fromExplore from './explore.reducer';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 // components
 import { ExploreComponent } from './explore.component';
@@ -45,6 +43,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
 import { TileComponent } from './sidenav/tile/tile.component';
 import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
+import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
+import { AuthModule } from '../auth/auth.module';
+import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shopping-list.component';
 
 /**
  * Explore Module
@@ -55,6 +56,8 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     ExploreComponent,
     ToolbarComponent,
     MapComponent,
+    ShoppingCartComponent,
+    ShoppingListComponent,
     SidenavComponent,
     SearchComponent,
     TileComponent,
@@ -67,6 +70,7 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     RouterModule,
     CommonModule,
     SharedModule,
+    AuthModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
@@ -78,6 +82,8 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     MatBottomSheetModule,
     MatInputModule,
     FormsModule,
+    MatTooltipModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -89,12 +95,14 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
     MatTableModule,
     Ng5SliderModule,
     MatCheckboxModule,
+    NgxPaginationModule,
     ChartsModule,
+    TranslateModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
-    StoreModule.forRoot({
-      explore: fromExplore.reducer
-    })
+    LeafletDrawModule.forRoot()
+  ],
+  entryComponents: [
+    ShoppingListComponent
   ]
 })
 export class ExploreModule { }

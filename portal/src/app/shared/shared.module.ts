@@ -16,9 +16,11 @@ import { SelectLangComponent } from './components/select-lang/select-lang.compon
 import { FooterComponent } from './components/footer/footer.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TranslateModule } from '@ngx-translate/core';
 import { DialogFeatureComponent } from './components/dialog-feature/dialog-feature.component';
 import { DialogCollectionDownloadComponent } from './components/dialog-collection-download/dialog-collection-download.component';
 import { FormFieldErrorComponent } from './components/form-field-input/form-field-error.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 /**
  * Shared Module
@@ -31,11 +33,13 @@ import { FormFieldErrorComponent } from './components/form-field-input/form-fiel
     LoadingComponent,
     FormFieldErrorComponent,
     DialogFeatureComponent,
+    AlertComponent,
     DialogCollectionDownloadComponent
   ],
   exports: [
     SelectLangComponent,
     FooterComponent,
+    AlertComponent,
     FormFieldErrorComponent,
     LoadingComponent
   ],
@@ -50,7 +54,8 @@ import { FormFieldErrorComponent } from './components/form-field-input/form-fiel
     MatIconModule,
     MatInputModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    TranslateModule
   ],
   entryComponents: [
     DialogFeatureComponent,
