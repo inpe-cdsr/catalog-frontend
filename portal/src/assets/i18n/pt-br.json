@@ -1,10 +1,19 @@
 {
-  "explore": {
-    "toolbar": {
-      "title": "CATÁLOGO DA DGI",
-      "button": {
-        "login": "Acesso",
-        "register": "Registro"
+  "pages": {
+    "explore": {
+      "toolbar": {
+        "title": "CATÁLOGO",
+        "button": {
+          "login": "Acesso",
+          "register": "Registro"
+        }
+      }
+    }
+  },
+  "shared": {
+    "components": {
+      "footer": {
+        "title": "Catálogo do INPE"
       }
     }
   }

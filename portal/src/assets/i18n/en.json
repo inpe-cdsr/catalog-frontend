@@ -1,10 +1,19 @@
 {
-  "explore": {
-    "toolbar": {
-      "title": "DGI CATALOG",
-      "button": {
-        "login": "Access",
-        "register": "Register"
+  "pages": {
+    "explore": {
+      "toolbar": {
+        "title": "CATALOG",
+        "button": {
+          "login": "Access",
+          "register": "Register"
+        }
+      }
+    }
+  },
+  "shared": {
+    "components": {
+      "footer": {
+        "title": "INPE Catalog"
       }
     }
   }
