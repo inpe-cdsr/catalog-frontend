@@ -12,7 +12,21 @@
         "title": "DIVISÃO DE GERAÇÃO DE IMAGENS",
         "subtitle": "OBT | INPE",
         "search": {
-          "title": "Consulta"
+          "title": "Consulta",
+          "form": {
+            "select_providers": "Selecione provedores",
+            "select_collections": "Selecione coleções",
+            "north": "Norte",
+            "east": "Leste",
+            "south": "Sul",
+            "west": "Oeste",
+            "start_date": "Data inicial",
+            "end_date": "Data final",
+            "cloud_cover": "Cobertura de nuvem (max)",
+            "button": {
+              "submit": "Filtrar"
+            }
+          }
         },
         "result": {
           "title": "Resultados"
