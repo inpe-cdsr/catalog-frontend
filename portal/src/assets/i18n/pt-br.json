@@ -7,6 +7,16 @@
           "login": "Acesso",
           "register": "Registro"
         }
+      },
+      "sidenav": {
+        "title": "DIVISÃO DE GERAÇÃO DE IMAGENS",
+        "subtitle": "OBT | INPE",
+        "search": {
+          "title": "Consulta"
+        },
+        "result": {
+          "title": "Resultados"
+        }
       }
     }
   },

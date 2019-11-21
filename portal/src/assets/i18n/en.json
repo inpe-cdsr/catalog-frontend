@@ -7,6 +7,16 @@
           "login": "Access",
           "register": "Register"
         }
+      },
+      "sidenav": {
+        "title": "IMAGE GENERATION DIVISION",
+        "subtitle": "OBT | INPE",
+        "search": {
+          "title": "Search"
+        },
+        "result": {
+          "title": "Results"
+        }
       }
     }
   },
