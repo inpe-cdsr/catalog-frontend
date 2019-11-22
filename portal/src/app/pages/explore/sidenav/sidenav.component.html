@@ -2,31 +2,35 @@
   <div class="container-sidenav">
     <header>
       <div class="sidenav_logo">
-        <p style="font-weight: 700; font-size: 24px;">DIVISÃO DE GERAÇÃO DE IMAGENS</p>
-        <p style="margin-top: 0px">OBT | INPE</p>
+        <p style="font-weight: 700; font-size: 24px;">
+          {{ 'pages.explore.sidenav.title' | translate }}
+        </p>
+        <p style="margin-top: 0px">
+          {{ 'pages.explore.sidenav.subtitle' | translate }}
+        </p>
       </div>
     </header>
 
-    <mat-tab-group 
+    <mat-tab-group
       [selectedIndex]="selected.value"
       (selectedIndexChange)="changeStep($event)">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>search</mat-icon>
-          Search
+          {{ 'pages.explore.sidenav.search.title' | translate }}
         </ng-template>
 
         <div class="sidenav_content">
           <app-search (stepToEmit)="changeStep($event)"></app-search>
         </div>
       </mat-tab>
-    
+
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>list</mat-icon>
-          Results
+          {{ 'pages.explore.sidenav.result.title' | translate }}
         </ng-template>
-        
+
         <div class="sidenav_content">
           <app-tile></app-tile>
         </div>

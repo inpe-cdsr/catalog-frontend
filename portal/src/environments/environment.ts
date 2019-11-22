@@ -1,9 +1,8 @@
-import { EnvironmentBaseClass } from 'src/environments/environments_base';
 
 /**
  * Selected Variables for development environment
  */
-export class Environment extends EnvironmentBaseClass {
+export class Environment {
   /** development environment */
   production = false;
   urlGeoServer = 'http://cbers1.dpi.inpe.br:9080/geoserver';

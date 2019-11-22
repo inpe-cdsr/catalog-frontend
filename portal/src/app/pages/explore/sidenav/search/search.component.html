@@ -3,7 +3,9 @@
   <form [formGroup]='formSearch' (ngSubmit)='search()'>
     <!-- select providers -->
     <mat-form-field appearance='outline'>
-      <mat-label>Select Providers</mat-label>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.select_providers' | translate }}
+      </mat-label>
       <mat-select [(value)]='searchObj.providers' multiple formControlName='providers' required>
         <mat-option *ngFor='let provider of providers' [value]='provider' (click)='getCollections()'>
           {{ provider }}
@@ -13,7 +15,9 @@
 
     <!-- select collections -->
     <mat-form-field appearance='outline' *ngIf='collections.length'>
-      <mat-label>Select Collections</mat-label>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.select_collections' | translate }}
+      </mat-label>
       <mat-select [(value)]='searchObj.collections' multiple formControlName='collections' required>
         <mat-option *ngFor='let collection of collections' [value]='collection'>
           {{ collection }}
@@ -27,7 +31,9 @@
         <div class='box-coordinates'>
           <mat-form-field appearance='outline'
             class='field-top-bottom'>
-            <mat-label>North</mat-label>
+            <mat-label>
+                {{ 'pages.explore.sidenav.search.form.north' | translate }}
+            </mat-label>
             <input matInput
               type='number'
               name='north'
@@ -39,7 +45,9 @@
 
           <div>
             <mat-form-field appearance='outline'>
-              <mat-label>West</mat-label>
+              <mat-label>
+                  {{ 'pages.explore.sidenav.search.form.west' | translate }}
+              </mat-label>
               <input matInput
                 type='number'
                 name='west'
@@ -49,7 +57,9 @@
                 required />
             </mat-form-field>
             <mat-form-field appearance='outline'>
-              <mat-label>East</mat-label>
+              <mat-label>
+                  {{ 'pages.explore.sidenav.search.form.east' | translate }}
+              </mat-label>
               <input matInput
                 type='number'
                 name='east'
@@ -62,7 +72,9 @@
 
           <mat-form-field appearance='outline'
             class='field-top-bottom'>
-            <mat-label>South</mat-label>
+            <mat-label>
+                {{ 'pages.explore.sidenav.search.form.south' | translate }}
+            </mat-label>
             <input matInput
               type='number'
               name='south'
@@ -90,7 +102,9 @@
     <!-- start/End Date -->
     <div>
       <mat-form-field appearance='outline' style='width: 50%'>
-        <mat-label>Start Date</mat-label>
+        <mat-label>
+          {{ 'pages.explore.sidenav.search.form.start_date' | translate }}
+        </mat-label>
         <input matInput
           [matDatepicker]='start_date'
           placeholder='Start Date'
@@ -102,7 +116,9 @@
         <mat-datepicker #start_date></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance='outline' style='width: 50%'>
-        <mat-label>Last Date</mat-label>
+        <mat-label>
+            {{ 'pages.explore.sidenav.search.form.end_date' | translate }}
+        </mat-label>
         <input matInput
           [matDatepicker]='last_date'
           placeholder='Last Date'
@@ -117,7 +133,9 @@
 
     <!-- cloud Cover -->
     <mat-form-field appearance='outline'>
-      <mat-label>Cloud Cover (max)</mat-label>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.cloud_cover' | translate }}
+      </mat-label>
       <input type='number'
           min='0'
           max='100'
@@ -130,7 +148,7 @@
 
     <!-- button -->
     <button type='submit' mat-raised-button color='primary' class='btn-filter'>
-      FILTER
+      {{ 'pages.explore.sidenav.search.form.button.submit' | translate }}
     </button>
   </form>
 </div>

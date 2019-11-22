@@ -1,9 +1,92 @@
 {
-    "explore": {
-        "toolbar": {
-            "btns": {
-                "login": "ACCESS"
-            }
+  "pages": {
+    "auth": {
+      "login": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Login",
+          "email": "E-mail",
+          "password": "Password",
+          "button": {
+            "login": "Login",
+            "close": "Close"
+          }
         }
+      },
+      "register": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Register",
+          "full_name": "Full name",
+          "email": "E-mail",
+          "phone": "Phone",
+          "address": {
+            "cep": "CEP",
+            "street": "Street",
+            "number": "Number",
+            "city": "City",
+            "state": "State",
+            "country": "Country"
+          },
+          "organization": {
+            "name": "Organization name",
+            "type": "Organization type",
+            "sector_activity": "Sector activity"
+          },
+          "password": "Password",
+          "confirm_password": "Password Confirmation",
+          "button": {
+            "register": "Register",
+            "close": "Close"
+          }
+        }
+      }
+    },
+    "explore": {
+      "map": {
+        "shopping_cart": {
+          "title": "Shopping cart",
+          "download_images": "Download images here"
+        }
+      },
+      "sidenav": {
+        "title": "IMAGE GENERATION DIVISION",
+        "subtitle": "OBT | INPE",
+        "search": {
+          "title": "Search",
+          "form": {
+            "select_providers": "Select providers",
+            "select_collections": "Select collections",
+            "north": "North",
+            "east": "East",
+            "south": "South",
+            "west": "West",
+            "start_date": "Start date",
+            "end_date": "End date",
+            "cloud_cover": "Cloud cover (max)",
+            "button": {
+              "submit": "Filter"
+            }
+          }
+        },
+        "result": {
+          "title": "Results"
+        }
+      },
+      "toolbar": {
+        "title": "CATALOG",
+        "button": {
+          "login": "Access",
+          "register": "Register"
+        }
+      }
     }
+  },
+  "shared": {
+    "components": {
+      "footer": {
+        "title": "INPE Catalog"
+      }
+    }
+  }
 }

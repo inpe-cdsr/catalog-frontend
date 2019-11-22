@@ -7,8 +7,10 @@
           (click)="toggleDrawer()">
           <mat-icon>menu</mat-icon>
         </div>
-        
-        <span>CATALOG</span>
+
+        <span>
+          {{ 'pages.explore.toolbar.title' | translate }}
+        </span>
       </div>
 
       <div class="tol_cont-buttons">
@@ -18,7 +20,7 @@
           style="border-radius: 5px 0 0 5px"
           (click)="openLogin()">
           <mat-icon style="font-size: 20px;">https</mat-icon>
-          {{ 'explore.toolbar.btns.login' | translate }}
+          {{ 'pages.explore.toolbar.button.login' | translate }}
         </button>
         <button
           *ngIf="!logged"
@@ -27,7 +29,7 @@
           color="primary"
           (click)="openRegister()">
           <mat-icon style="font-size: 20px;">person_add</mat-icon>
-          Register
+          {{ 'pages.explore.toolbar.button.register' | translate }}
         </button>
 
         <p *ngIf="logged" style="margin-right: 10px;">
