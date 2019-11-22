@@ -16,6 +16,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "baseHref": "/catalogo/",
           "options": {
             "outputPath": "../deploy/dist/portal",
             "index": "src/index.html",
@@ -33,9 +34,7 @@
               "src/assets/plugins/Leaflet.Coordinates/Leaflet.Coordinates-0.1.5.css",
               "src/assets/plugins/Leaflet.Coordinates/Leaflet.Coordinates-0.1.5.ie.css",
               "node_modules/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeicons/primeicons.css"
             ],
             "scripts": []
           },
@@ -47,6 +46,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "baseHref": "/catalogo/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

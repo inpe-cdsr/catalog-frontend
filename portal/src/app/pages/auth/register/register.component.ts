@@ -71,7 +71,7 @@ export class RegisterComponent {
         if (this.user['password'] !== this.user['confirmPassword']) {
           this.error = {
             type: 'error',
-            message: ''
+            message: 'Password and password confirmation must match'
           };
 
         } else {

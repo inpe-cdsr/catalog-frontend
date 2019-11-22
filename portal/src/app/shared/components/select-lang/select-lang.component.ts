@@ -26,10 +26,10 @@ export class SelectLangComponent implements OnInit {
    */
   ngOnInit() {
     this.languages = [
-      {id: 'pt-br', icon: '/assets/images/icons/br.svg'},
-      {id: 'en', icon: '/assets/images/icons/usa.svg'}
+      {id: 'pt-br', icon: '/catalogo/assets/images/icons/br.svg'},
+      {id: 'en', icon: '/catalogo/assets/images/icons/usa.svg'}
     ];
-    this.languageId = 'en';
+    this.languageId = 'pt-br';
   }
 
   /**

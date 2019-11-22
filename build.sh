@@ -6,12 +6,12 @@ echo
 echo "BUILD STARTED"
 echo
 
-# cd portal
-# docker build -t image-to-build-portal . --no-cache
+cd portal
+docker build -t image-to-build-portal . --no-cache
 
-# docker run --name portal-node-build -v $PWD/../deploy/dist:/deploy/dist image-to-build-portal
-# docker rm portal-node-build
-# docker rmi image-to-build-portal
+docker run --name portal-node-build -v $PWD/../deploy/dist:/deploy/dist image-to-build-portal
+docker rm portal-node-build
+docker rmi image-to-build-portal
 
 cd ../deploy
 echo
