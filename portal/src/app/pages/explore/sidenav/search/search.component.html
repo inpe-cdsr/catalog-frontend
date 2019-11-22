@@ -1,151 +1,154 @@
-<div class="container-search">
+<div class='container-search'>
 
-  <form [formGroup]="formSearch" (ngSubmit)="search()">
-    <mat-form-field appearance="fill">
-      <mat-label>Select Providers</mat-label>
-      <mat-select [(value)]="searchObj.providers" multiple formControlName="providers" required>
-        <!--
-          every time a user selects/unselects a 'provider' on the list,
-          it calls 'getCollections()' function
-        -->
-        <mat-option *ngFor="let provider of providers" [value]="provider" (click)="getCollections()">
+  <form [formGroup]='formSearch' (ngSubmit)='search()'>
+    <!-- select providers -->
+    <mat-form-field appearance='outline'>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.select_providers' | translate }}
+      </mat-label>
+      <mat-select [(value)]='searchObj.providers' multiple formControlName='providers' required>
+        <mat-option *ngFor='let provider of providers' [value]='provider' (click)='getCollections()'>
           {{ provider }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="collections.length">
-      <mat-label>Select Collections</mat-label>
-      <mat-select [(value)]="searchObj.collections" multiple formControlName="collections" required>
-        <mat-option *ngFor="let collection of collections" [value]="collection">
+    <!-- select collections -->
+    <mat-form-field appearance='outline' *ngIf='collections.length'>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.select_collections' | translate }}
+      </mat-label>
+      <mat-select [(value)]='searchObj.collections' multiple formControlName='collections' required>
+        <mat-option *ngFor='let collection of collections' [value]='collection'>
           {{ collection }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="formSearch.get('providers').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('providers').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
 
-    <hr />
-
-    <div class="search__region-box">
-      <!-- North / West / East / South -->
-      <div class="box-content">
-        <div class="box-coordinates">
-          <mat-form-field appearance="outline"
-            style="margin-bottom: -15px !important"
-            class="field-top-bottom">
-            <mat-label>North</mat-label>
+    <div class='search__region-box'>
+      <!-- north / west / east / south -->
+      <div class='box-content'>
+        <div class='box-coordinates'>
+          <mat-form-field appearance='outline'
+            class='field-top-bottom'>
+            <mat-label>
+                {{ 'pages.explore.sidenav.search.form.north' | translate }}
+            </mat-label>
             <input matInput
-              type="number"
-              name="north"
-              placeholder="N"
-              [(ngModel)]="searchObj.bbox.north"
-              formControlName="north"
+              type='number'
+              name='north'
+              placeholder='N'
+              [(ngModel)]='searchObj.bbox.north'
+              formControlName='north'
               required />
           </mat-form-field>
 
-          <div>
-            <mat-form-field appearance="outline">
-              <mat-label>West</mat-label>
+          <div style="display: flex; width: 97%;">
+            <mat-form-field appearance='outline'>
+              <mat-label>
+                  {{ 'pages.explore.sidenav.search.form.west' | translate }}
+              </mat-label>
               <input matInput
-                type="number"
-                name="west"
-                placeholder="W"
-                [(ngModel)]="searchObj.bbox.west"
-                formControlName="west"
+                type='number'
+                name='west'
+                placeholder='W'
+                [(ngModel)]='searchObj.bbox.west'
+                formControlName='west'
                 required />
             </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>East</mat-label>
+            <mat-form-field appearance='outline'>
+              <mat-label>
+                  {{ 'pages.explore.sidenav.search.form.east' | translate }}
+              </mat-label>
               <input matInput
-                type="number"
-                name="east"
-                placeholder="E"
-                [(ngModel)]="searchObj.bbox.east"
-                formControlName="east"
+                type='number'
+                name='east'
+                placeholder='E'
+                [(ngModel)]='searchObj.bbox.east'
+                formControlName='east'
                 required />
             </mat-form-field>
           </div>
 
-          <mat-form-field appearance="outline"
-            style="margin-top: -25px !important"
-            class="field-top-bottom">
-            <mat-label>South</mat-label>
+          <mat-form-field appearance='outline'
+            class='field-top-bottom'>
+            <mat-label>
+                {{ 'pages.explore.sidenav.search.form.south' | translate }}
+            </mat-label>
             <input matInput
-              type="number"
-              name="south"
-              placeholder="S"
-              [(ngModel)]="searchObj.bbox.south"
-              formControlName="south"
+              type='number'
+              name='south'
+              placeholder='S'
+              [(ngModel)]='searchObj.bbox.south'
+              formControlName='south'
               required />
           </mat-form-field>
         </div>
       </div>
 
       <!-- visibility and clear buttons -->
-      <div class="region__btn-functions">
-        <button type="button"
+      <div class='region__btn-functions'>
+        <button type='button'
           mat-stroked-button
-          class="preview_box"
-          *ngIf="bboxNotEmpty()">
-          <mat-icon (click)="previewBbox()" class="preview">visibility</mat-icon>
+          class='preview_box'
+          *ngIf='bboxNotEmpty()'>
+          <mat-icon (click)='previewBbox(searchObj.bbox)' class='preview'>visibility</mat-icon>
           |
-          <mat-icon (click)="removeLayerBbox()">clear</mat-icon>
+          <mat-icon (click)='removeLayerBbox()'>clear</mat-icon>
         </button>
       </div>
     </div>
 
-    <hr  style="margin-top: 15px" />
-
-    <div>
-      <mat-form-field appearance="fill" style="width: 50%">
-        <mat-label>Start Date</mat-label>
+    <!-- start/End Date -->
+    <div class="search_dates-box">
+      <mat-form-field appearance='outline' style='width: 50%'>
+        <mat-label>
+          {{ 'pages.explore.sidenav.search.form.start_date' | translate }}
+        </mat-label>
         <input matInput
-          [matDatepicker]="start_date"
-          placeholder="Start Date"
-          name="start_date"
-          formControlName="start_date"
+          [matDatepicker]='start_date'
+          placeholder='Start Date'
+          name='start_date'
+          formControlName='start_date'
           required
-          [(ngModel)]="searchObj.start_date">
-        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+          [(ngModel)]='searchObj.start_date'>
+        <mat-datepicker-toggle matSuffix [for]='start_date'></mat-datepicker-toggle>
         <mat-datepicker #start_date></mat-datepicker>
       </mat-form-field>
-
-      <mat-form-field appearance="fill" style="width: 50%">
-        <mat-label>Last Date</mat-label>
+      <mat-form-field appearance='outline' style='width: 50%'>
+        <mat-label>
+            {{ 'pages.explore.sidenav.search.form.end_date' | translate }}
+        </mat-label>
         <input matInput
-          [matDatepicker]="last_date"
-          placeholder="Last Date"
-          name="last_date"
-          formControlName="last_date"
+          [matDatepicker]='last_date'
+          placeholder='Last Date'
+          name='last_date'
+          formControlName='last_date'
           required
-          [(ngModel)]="searchObj.last_date">
-        <mat-datepicker-toggle matSuffix [for]="last_date"></mat-datepicker-toggle>
+          [(ngModel)]='searchObj.last_date'>
+        <mat-datepicker-toggle matSuffix [for]='last_date'></mat-datepicker-toggle>
         <mat-datepicker #last_date></mat-datepicker>
       </mat-form-field>
     </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Cloud Cover (min)</mat-label>
-      <input type="number"
-          min="0"
-          max="100"
+    <!-- cloud Cover -->
+    <mat-form-field appearance='outline'>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.cloud_cover' | translate }}
+      </mat-label>
+      <input type='number'
+          min='0'
+          max='100'
           matInput
-          name="cloud"
-          [(ngModel)]="searchObj.cloud"
-        formControlName="cloud">
+          name='cloud'
+          [(ngModel)]='searchObj.cloud'
+        formControlName='cloud'>
       <span matSuffix>%</span>
-      <mat-error *ngIf="formSearch.get('cloud').status === 'INVALID'">
-        <form-field-error [errors]="formSearch.get('cloud').errors"></form-field-error>
-      </mat-error>
     </mat-form-field>
 
-    <button type="submit" mat-raised-button color="primary" class="btn-filter">
-      FILTER
+    <!-- button -->
+    <button type='submit' mat-raised-button color='primary' class='btn-filter'>
+      {{ 'pages.explore.sidenav.search.form.button.submit' | translate }}
     </button>
   </form>
 </div>

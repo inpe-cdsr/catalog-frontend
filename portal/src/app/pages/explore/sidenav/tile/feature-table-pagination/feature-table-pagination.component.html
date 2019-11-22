@@ -1,0 +1,38 @@
+<div class="box-features">
+
+  <div *ngFor="let feature of features | paginate: { id: collection, itemsPerPage: page[collection].perPage, currentPage: page[collection].page }" class="card">
+    <a 
+      [matTooltip]="getInfosFeature(feature)"
+      matTooltipClass="tooltip-features"
+      matTooltipPosition="above"
+      (click)="viewFeatureDetails(feature)">
+      <img [src]='feature.assets.thumbnail.href'/>
+    </a>
+
+    <div class="actions">
+      <mat-slide-toggle 
+        [(ngModel)]='feature.enabled'
+        (change)='onChangeLayer($event, feature)'>
+      </mat-slide-toggle>
+
+      <mat-icon (click)='setZoomByFeature(feature)'>
+          fullscreen
+      </mat-icon>
+
+      <mat-icon (click)='addToShopping(feature)'>
+        add_shopping_cart
+      </mat-icon>
+    </div>
+  </div>
+
+</div>
+
+<div class="box-paginator">
+  <pagination-controls
+    [id]="collection"
+    (pageChange)="page[collection].page = $event"
+    responsive="true"
+    previousLabel=""
+    nextLabel="">
+  </pagination-controls>
+</div>

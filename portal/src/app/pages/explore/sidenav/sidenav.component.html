@@ -2,34 +2,40 @@
   <div class="container-sidenav">
     <header>
       <div class="sidenav_logo">
-        LOGO
+        <p style="font-weight: 700; font-size: 24px;">
+          {{ 'pages.explore.sidenav.title' | translate }}
+        </p>
+        <p style="margin-top: 0px">
+          {{ 'pages.explore.sidenav.subtitle' | translate }}
+        </p>
       </div>
     </header>
 
-    <mat-accordion>
-      <!-- SEARCH BOX -->
-      <mat-expansion-panel [expanded]="step == 0" (click)="changeStep(0)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>search</mat-icon> Search
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+    <mat-tab-group
+      [selectedIndex]="selected.value"
+      (selectedIndexChange)="changeStep($event)">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>search</mat-icon>
+          {{ 'pages.explore.sidenav.search.title' | translate }}
+        </ng-template>
 
-        <app-search (stepToEmit)="changeStep($event)"></app-search>
-      </mat-expansion-panel>
+        <div class="sidenav_content">
+          <app-search (stepToEmit)="changeStep($event)"></app-search>
+        </div>
+      </mat-tab>
 
-      <!-- COLLECTION BOX -->
-      <mat-expansion-panel *ngIf="features$.length" [expanded]="step == 1" (click)="changeStep(1)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>list</mat-icon> Tiles
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>list</mat-icon>
+          {{ 'pages.explore.sidenav.result.title' | translate }}
+        </ng-template>
 
-        <app-collection></app-collection>
-      </mat-expansion-panel>
-
-    </mat-accordion>
+        <div class="sidenav_content">
+          <app-tile></app-tile>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
 
   </div>
 </aside>

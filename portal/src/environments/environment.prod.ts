@@ -1,9 +1,12 @@
+
 /**
- * Variables selected for the production environment
+ * Selected variables for production environment
  */
-export const environment = {
-  /** environment */
-  production: true,
-  urlGeoserver: '',
-  urlStacCompose: ''
-};
+export class Environment {
+  /** production environment */
+  production = true;
+  urlGeoServer = '';
+  urlViaCEP = '';
+  urlStacCompose = '';
+  urlDGIBack = '';
+}

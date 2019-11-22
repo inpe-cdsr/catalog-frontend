@@ -1,0 +1,43 @@
+.box-features {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .card {
+    width: 31%;
+    margin: 7.5px 0 0 0;
+    border: 1px solid #CCC;
+
+    img {
+      width: 100%;
+    }
+
+    .actions {
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .mat-icon {
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(#000, 0.1);
+        }
+      }
+    }
+  }
+}
+
+.box-paginator {
+  display: flex;
+  justify-content: center;
+}
+
+.tooltip-features {
+  font-size: 16px;
+  background: #333;
+  color: #FFF;
+}

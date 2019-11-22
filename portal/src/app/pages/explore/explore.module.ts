@@ -1,5 +1,6 @@
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -18,23 +19,33 @@ import {
   MatSlideToggleModule,
   MatSliderModule,
   MatSnackBarModule,
+  MatTabsModule,
   MatBottomSheetModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatBadgeModule,
+  MatTooltipModule
 } from '@angular/material';
-import { ChartsModule } from 'ng2-charts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ChartsModule } from 'ng2-charts';
+import { Ng5SliderModule } from 'ng5-slider';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
+
+// components
 import { ExploreComponent } from './explore.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MapComponent } from './map/map.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CollectionComponent } from './sidenav/collection/collection.component';
-import { StoreModule } from '@ngrx/store';
-import { Ng5SliderModule } from 'ng5-slider';
-import * as fromExplore from './explore.reducer';
-
+import { TileComponent } from './sidenav/tile/tile.component';
+import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
+import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
+import { AuthModule } from '../auth/auth.module';
+import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shopping-list.component';
 
 /**
  * Explore Module
@@ -45,9 +56,12 @@ import * as fromExplore from './explore.reducer';
     ExploreComponent,
     ToolbarComponent,
     MapComponent,
+    ShoppingCartComponent,
+    ShoppingListComponent,
     SidenavComponent,
     SearchComponent,
-    CollectionComponent
+    TileComponent,
+    FeatureTablePaginationComponent
   ],
   exports: [
     RouterModule
@@ -56,6 +70,7 @@ import * as fromExplore from './explore.reducer';
     RouterModule,
     CommonModule,
     SharedModule,
+    AuthModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
@@ -67,20 +82,27 @@ import * as fromExplore from './explore.reducer';
     MatBottomSheetModule,
     MatInputModule,
     FormsModule,
+    MatTooltipModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSlideToggleModule,
+    MatTabsModule,
     MatSliderModule,
     MatSnackBarModule,
+    MatPaginatorModule,
+    MatTableModule,
     Ng5SliderModule,
     MatCheckboxModule,
+    NgxPaginationModule,
     ChartsModule,
+    TranslateModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
-    StoreModule.forRoot({
-      explore: fromExplore.reducer
-    })
+    LeafletDrawModule.forRoot()
+  ],
+  entryComponents: [
+    ShoppingListComponent
   ]
 })
 export class ExploreModule { }

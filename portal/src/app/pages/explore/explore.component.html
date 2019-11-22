@@ -1,12 +1,12 @@
-<section class="explore">
+<section class='explore'>
   <mat-drawer-container autosize>
 
     <!-- left sidebar -->
     <mat-drawer
       #sidenav
-      class="sidenav"
-      mode="side"
-      [opened]="true"
+      class='sidenav'
+      mode='side'
+      [opened]='true'
     >
       <app-sidenav></app-sidenav>
     </mat-drawer>
@@ -15,11 +15,11 @@
     <section>
       <!-- nav bar -->
       <div #toolbar>
-        <app-toolbar (toggleToEmit)="toggleDrawer()"></app-toolbar>
+        <app-toolbar (toggleToEmit)='toggleDrawer()'></app-toolbar>
       </div>
 
       <!-- map -->
-      <app-base-map [height]="innerHeight"></app-base-map>
+      <app-base-map [height]='innerHeight'></app-base-map>
 
       <!-- footer -->
       <div #footer>
@@ -30,4 +30,5 @@
   </mat-drawer-container>
 </section>
 
+<!-- loading component -->
 <app-loading></app-loading>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BdcLayerWFS, BdcLayer } from './layer.interface';
+import { BdcLayer, Grid } from './layer.interface';
 import { BaseLayers } from './base-layers.in-memory';
 import { Grids } from './grids.in-memory';
-import { environment } from 'src/environments/environment';
+import { Environment } from 'src/environments/environment';
 
 /**
  * Layer Service
@@ -12,33 +12,39 @@ import { environment } from 'src/environments/environment';
  */
 @Injectable({ providedIn: 'root' })
 export class LayerService {
+  private environment: Environment;
 
-    /** start http service client */
-    constructor(private http: HttpClient) { }
+  /** start http service client */
+  constructor(private http: HttpClient) {
+    this.environment = new Environment();
+  }
 
-    /**
-     * get base layers of the map
-     * @returns list of BDC layer
+  /**
+   * get base layers of the map
+   * @returns list of BDC layer
+   */
+  public getBaseLayers(): BdcLayer[] {
+    return BaseLayers;
+  }
+
+  /**
+   * get grids of the BDC project
+   * @returns list of WFS BDC layers
+   */
+  public getGridsLayers(): Grid[] {
+    return Grids;
+  }
+
+  /**
+     * get info feature WMS
      */
-    public getBaseLayers(): BdcLayer[] {
-        return BaseLayers;
-    }
+    public async getInfoByWMS(layer, bbox, x, y, height, width): Promise<any> {
+      const basePath = '/vector_data/wms?REQUEST=GetFeatureInfo&SERVICE=WMS&SRS=EPSG:4326&VERSION=1.1.1';
+      let urlSuffix = `${basePath}&BBOX=${bbox}&HEIGHT=${height}&WIDTH=${width}`;
+      urlSuffix += `&LAYERS=vector_data:${layer}&QUERY_LAYERS=vector_data:${layer}&INFO_FORMAT=application/json&X=${x}&Y=${y}`;
 
-    /**
-     * get grids of the BDC project
-     * @returns list of WFS BDC layers
-     */
-    public getGridsLayers(): BdcLayerWFS[] {
-        return Grids;
-    }
-
-    /**
-     * gets GeoJson object from a layer in the Geoserver of the BDC project
-     * @returns layer GeoJson
-     */
-    public getGeoJsonByLayer(ds: string, title: string): Promise<any> {
-        const urlSuffix = `?service=WFS&version=1.0.0&request=GetFeature&typeName=${ds}:${title}&&outputFormat=application%2Fjson`;
-        return this.http.get(`${environment.urlGeoserver}/${ds}/ows${urlSuffix}`).toPromise();
-    }
+      const response = await this.http.get(`${this.environment.urlGeoServer}${urlSuffix}`).toPromise();
+      return response;
+  }
 
 }

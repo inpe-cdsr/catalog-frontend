@@ -1,7 +1,18 @@
+// angular
 import { Component } from '@angular/core';
-import { Feature } from './collection/collection.interface';
 import { Store, select } from '@ngrx/store';
-import { ExploreState } from '../explore.state';
+
+// state management
+import { ExploreState } from 'src/app/pages/explore/explore.state';
+
+// interface
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+
+// other
+// import { FEATURES } from 'src/app/shared/example/feature';
+import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
+import { FormControl } from '@angular/forms';
+
 
 /**
  * Sidenav component
@@ -15,22 +26,26 @@ import { ExploreState } from '../explore.state';
 export class SidenavComponent {
 
   /** step opened menu of the sidenav */
-  public step = 0;
-  /** features selected by search in this period */
+  public selected = new FormControl(0);
+  /** features selected by search */
   public features$: Feature[] = [];
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        this.features$ = Object.values(res.features).slice(0, (Object.values(res.features).length - 1)) as Feature[];
+        // original
+        this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
+
+        // test/example (this line can be removed) (tile.component must be updated as well)
+        // this.features$ = FEATURES as Feature[];
       }
     });
   }
 
   /** change opened menu */
   changeStep(value: number) {
-    this.step = value;
+    this.selected.setValue(value);
   }
 
 }

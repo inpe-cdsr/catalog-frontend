@@ -1,11 +1,11 @@
 @import '~@angular/material/theming';
 
 :root {
-  --mainColor: #336699;
-  --mainGrey: #A0A1A1;
-  --mainBgPrimary: #00A3D3;
-  --mainBgDark: #2F3543;
-  --mainBgLight: #C9D6E0;
+  --mainColor: #006666;
+  --mainGrey: #CCCCCC;
+  --mainBgPrimary: #006666;
+  --mainBgGray: #DBDFE3;
+  --mainBgLight: #EEE;
 }
 
 $theme-primary: mat-palette($mat-blue);

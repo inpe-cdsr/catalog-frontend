@@ -1,0 +1,92 @@
+{
+  "pages": {
+    "auth": {
+      "login": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Entrar",
+          "email": "E-mail",
+          "password": "Senha",
+          "button": {
+            "login": "Entrar",
+            "close": "Fechar"
+          }
+        }
+      },
+      "register": {
+        "title": "DGI - INPE",
+        "form": {
+          "title": "Registrar",
+          "full_name": "Nome completo",
+          "email": "E-mail",
+          "phone": "Telefone",
+          "address": {
+            "cep": "CEP",
+            "street": "Rua",
+            "number": "Número",
+            "city": "Cidade",
+            "state": "Estado",
+            "country": "País"
+          },
+          "organization": {
+            "name": "Nome da organização",
+            "type": "Tipo da organização",
+            "sector_activity": "Atividade do setor"
+          },
+          "password": "Senha",
+          "confirm_password": "Confirmação de Senha",
+          "button": {
+            "register": "Registrar",
+            "close": "Fechar"
+          }
+        }
+      }
+    },
+    "explore": {
+      "map": {
+        "shopping_cart": {
+          "title": "Carrinho de compras",
+          "download_images": "Baixe as imagens aqui"
+        }
+      },
+      "sidenav": {
+        "title": "DIVISÃO DE GERAÇÃO DE IMAGENS",
+        "subtitle": "OBT | INPE",
+        "search": {
+          "title": "Consulta",
+          "form": {
+            "select_providers": "Selecione provedores",
+            "select_collections": "Selecione coleções",
+            "north": "Norte",
+            "east": "Leste",
+            "south": "Sul",
+            "west": "Oeste",
+            "start_date": "Data inicial",
+            "end_date": "Data final",
+            "cloud_cover": "Cobertura de nuvem (max)",
+            "button": {
+              "submit": "Filtrar"
+            }
+          }
+        },
+        "result": {
+          "title": "Resultados"
+        }
+      },
+      "toolbar": {
+        "title": "CATÁLOGO",
+        "button": {
+          "login": "Acesso",
+          "register": "Registro"
+        }
+      }
+    }
+  },
+  "shared": {
+    "components": {
+      "footer": {
+        "title": "Catálogo do INPE"
+      }
+    }
+  }
+}

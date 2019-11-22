@@ -1,10 +1,12 @@
+
 /**
- * Variables selected for the production environment
+ * Selected Variables for development environment
  */
-export const environment = {
-  /** environment */
-  production: false,
-  urlGeoserver: 'http://brazildatacube.dpi.inpe.br/geoserver',
-  // urlStacCompose: 'http://localhost:5000/stac_compose'
-  urlStacCompose: 'http://datacube-001.dpi.inpe.br:5026/stac_compose'
-};
+export class Environment {
+  /** development environment */
+  production = false;
+  urlGeoServer = 'http://localhost:8089/geoserver';
+  urlViaCEP = 'http://viacep.com.br/ws';
+  urlStacCompose = 'http://localhost:8089/stac-compose';
+  urlDGIBack = 'http://localhost:8089/api';
+}

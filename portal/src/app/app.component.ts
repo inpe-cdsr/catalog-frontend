@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * First application component
@@ -8,4 +9,11 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent { }
+export class AppComponent {
+  constructor(
+    public translate: TranslateService) {
+
+    translate.setDefaultLang('pt-br');
+  }
+
+}

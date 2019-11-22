@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Language } from './language.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Select Language
@@ -18,15 +19,24 @@ export class SelectLangComponent implements OnInit {
   /** Language selected */
   public languageId: string;
 
+  constructor(public translate: TranslateService) { }
+
   /**
    * Define language possibilities in this component
    */
   ngOnInit() {
     this.languages = [
-      {id: 'pt', title: 'PT-BR', icon: '/assets/images/icons/brazil.jpg'},
-      {id: 'en', title: 'EN', icon: '/assets/images/icons/usa.png'}
+      {id: 'pt-br', icon: '/catalogo/assets/images/icons/br.svg'},
+      {id: 'en', icon: '/catalogo/assets/images/icons/usa.svg'}
     ];
-    this.languageId = 'en';
+    this.languageId = 'pt-br';
+  }
+
+  /**
+   * change language
+   */
+  changeLanguage(lang: Language) {
+    this.translate.use(lang.id);
   }
 
 }
