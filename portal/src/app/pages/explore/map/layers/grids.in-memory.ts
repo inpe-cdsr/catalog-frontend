@@ -24,7 +24,7 @@ export const Grids: Grid[] = [
     layer: null
   },
   {
-    id: 'sentinel2_tiles_world',
+    id: 'grid_sentinel_mgrs',
     enabled: false,
     name: 'Sentinel-2',
     layer: null
