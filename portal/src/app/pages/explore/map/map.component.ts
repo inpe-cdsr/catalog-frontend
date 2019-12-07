@@ -13,7 +13,6 @@ import { LayerService } from './layers/layer.service';
 import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../explore.state';
 import { setLayers, setPositionMap, setBbox, removeGroupLayer } from '../explore.action';
-import { Environment } from 'src/environments/environment';
 
 /**
  * Map component
@@ -48,13 +47,12 @@ export class MapComponent implements OnInit {
   private bbox = null;
 
   /** base url of geoserver */
-  private environment: Environment;
+  private urlGeoServer = window['__env'].urlGeoServer;
 
   /** start Layer and Seatch Services */
   constructor(
     private ls: LayerService,
     private store: Store<ExploreState>) {
-      this.environment = new Environment();
 
       this.store.pipe(select('explore')).subscribe(res => {
         // add layers
@@ -113,7 +111,7 @@ export class MapComponent implements OnInit {
     });
     // mount overlays
     this.ls.getGridsLayers().forEach( (l: Grid) => {
-      const layerGrid = L.tileLayer.wms(`${this.environment.urlGeoServer}/vector_data/wms`, {
+      const layerGrid = L.tileLayer.wms(`${this.urlGeoServer}/vector_data/wms`, {
         layers: `vector_data:${l.id}`,
         format: 'image/png',
         styles: l.style ? `vector_data:${l.style}` : 'vector_data:grids',

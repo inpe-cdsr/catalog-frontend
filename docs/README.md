@@ -1,10 +1,6 @@
 # Catalog - Documentation
 Based on master-details model, this application has the following architecture.
 
-## Architecture
-
-![Basic architecture](./BDC%20Arquitecture%20-%20Master_Details.jpg)
-
 ## Generate Docs
 the documentation of the application is made with the "[`compodoc`](https://compodoc.app/)" plugin and can be generated as follows
 

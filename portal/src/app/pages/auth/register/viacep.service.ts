@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Environment } from 'src/environments/environment';
 
 /**
  * Service to connect with Via CEP
@@ -8,11 +7,10 @@ import { Environment } from 'src/environments/environment';
 @Injectable({ providedIn: 'root' })
 export class ViaCEPServie {
 
-    private environment: Environment;
+    private urlViaCEP = window['__env'].urlViaCEP;
 
     /** start http service client */
     constructor(private http: HttpClient) {
-        this.environment = new Environment();
     }
 
     /**
@@ -20,7 +18,7 @@ export class ViaCEPServie {
      */
     public async getAddress(cep: object): Promise<any> {
         const urlSuffix = `/${cep}/json/`;
-        const response = await this.http.get(`${this.environment.urlViaCEP}${urlSuffix}`).toPromise();
+        const response = await this.http.get(`${this.urlViaCEP}${urlSuffix}`).toPromise();
         return response;
     }
 }

@@ -14,8 +14,6 @@ cd ../portal && npm install
 
 ## Running
 
-* firstly, configure the files in the `src/environments` folder.
-
 ```
 cd ../portal && npm run build
 cd ../deploy

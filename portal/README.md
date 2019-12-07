@@ -1,7 +1,5 @@
 # Portal - WEB APPLICATION
 
-
-- [`Basic architecture`](./../docs/BDC%20Arquitecture%20-%20Master_Details.jpg)
 - [`Documentation`](./../docs)
 
 ## Installation
@@ -17,8 +15,6 @@ npm install
 ```
 
 ## Running
-
-* firstly, configure the files in the `src/environments` folder.
 
 ### Development server
 

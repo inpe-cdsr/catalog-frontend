@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { BdcLayer, Grid } from './layer.interface';
 import { BaseLayers } from './base-layers.in-memory';
 import { Grids } from './grids.in-memory';
-import { Environment } from 'src/environments/environment';
 
 /**
  * Layer Service
@@ -12,11 +11,10 @@ import { Environment } from 'src/environments/environment';
  */
 @Injectable({ providedIn: 'root' })
 export class LayerService {
-  private environment: Environment;
+  private urlGeoServer = window['__env'].urlGeoServer;
 
   /** start http service client */
   constructor(private http: HttpClient) {
-    this.environment = new Environment();
   }
 
   /**
@@ -43,7 +41,7 @@ export class LayerService {
       let urlSuffix = `${basePath}&BBOX=${bbox}&HEIGHT=${height}&WIDTH=${width}`;
       urlSuffix += `&LAYERS=vector_data:${layer}&QUERY_LAYERS=vector_data:${layer}&INFO_FORMAT=application/json&X=${x}&Y=${y}`;
 
-      const response = await this.http.get(`${this.environment.urlGeoServer}${urlSuffix}`).toPromise();
+      const response = await this.http.get(`${this.urlGeoServer}${urlSuffix}`).toPromise();
       return response;
   }
 

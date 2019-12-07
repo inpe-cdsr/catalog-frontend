@@ -89,7 +89,7 @@ export class ShoppingListComponent {
       }
     });
 
-    downloadFile('catalog_DGI_date.txt', data)
+    downloadFile('catalog_DGI_data.txt', data)
   }
 
 }

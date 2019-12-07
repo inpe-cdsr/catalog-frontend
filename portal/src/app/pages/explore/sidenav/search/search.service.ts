@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Environment } from 'src/environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
-  private environment: Environment;
+
+  private urlStacCompose = window['__env'].urlStacCompose;
 
   /** start http service client */
   constructor(private http: HttpClient) {
-    this.environment = new Environment();
   }
 
   /**
@@ -17,7 +16,7 @@ export class SearchService {
    */
   public async getProviders(): Promise<any> {
     const urlSuffix = '/providers';
-    const response = await this.http.get(`${this.environment.urlStacCompose}${urlSuffix}`).toPromise();
+    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
     return response;
   }
 
@@ -26,7 +25,7 @@ export class SearchService {
    */
   public async getCollections(providers: string[]): Promise<any> {
     const urlSuffix = `/collections?providers=${providers.join(',')}`;
-    const response = await this.http.get(`${this.environment.urlStacCompose}${urlSuffix}`).toPromise();
+    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
     return response;
   }
 
@@ -35,7 +34,7 @@ export class SearchService {
    */
   public async searchSTAC(query: string): Promise<any> {
     const urlSuffix = `/collections/items?${query}`;
-    const response = await this.http.get(`${this.environment.urlStacCompose}${urlSuffix}`).toPromise();
+    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
     return response;
   }
 }
