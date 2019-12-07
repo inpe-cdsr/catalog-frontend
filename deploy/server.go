@@ -46,5 +46,5 @@ func main() {
 	http.HandleFunc("/", rootHandler)
 
 	log.Println("Aplicação iniciada com sucesso")
-	http.ListenAndServe(":8080", Log(http.DefaultServeMux))
+	http.ListenAndServe(":8000", Log(http.DefaultServeMux))
 }

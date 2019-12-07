@@ -6,7 +6,7 @@ COPY dist /usr/src/app/dist
 COPY server.go /usr/src/app/
 
 WORKDIR /usr/src/app
-EXPOSE 8080
+EXPOSE 8000
 
 RUN go build -o main .
 CMD ["./main"]
