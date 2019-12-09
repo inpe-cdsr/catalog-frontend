@@ -2,6 +2,7 @@
 
 - [`Documentation`](./../docs)
 
+
 ## Installation
 ### Requirements
 
@@ -14,6 +15,7 @@ Make sure you have the following libraries installed:
 npm install
 ```
 
+
 ## Running
 
 ### Development server
@@ -25,15 +27,21 @@ cd portal/
 npm start
 ```
 
+
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-or with Docker -> [`deploy`](./../deploy)
-
+Run the following script to build a new Docker image with the portal:
 
 ```
-cd portal/
-ng build
-node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build
+sh build.sh
+```
+
+The script will ask you to input a new tag related to the generated image, hence choose one.
+
+When the script stops executing, it will push the new image to the registry.
+
+On the server, restart the docker-compose by building the portal image again:
+
+```
+docker-compose up -d --build
 ```

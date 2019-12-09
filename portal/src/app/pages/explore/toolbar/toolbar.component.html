@@ -33,7 +33,7 @@
         </button>
 
         <p *ngIf="logged" style="margin-right: 10px;">
-          Hello, <b>{{ logged }}</b>!
+          {{ 'pages.explore.toolbar.welcome' | translate }}, <b>{{ logged }}</b>!
         </p>
 
         <app-select-lang></app-select-lang>

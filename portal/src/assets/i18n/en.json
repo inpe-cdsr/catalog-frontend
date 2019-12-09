@@ -46,7 +46,24 @@
       "map": {
         "shopping_cart": {
           "title": "Shopping cart",
-          "download_images": "Download images here"
+          "download_images": "Download images here",
+          "shopping_cart_list": {
+            "title": "Images to download",
+            "button": {
+              "clear": "Clear",
+              "download": "Download links"
+            },
+            "collection": {
+              "button": {
+                "remove": "Remove"
+              }
+            },
+            "message": {
+              "error": {
+                "not_logged": "Log in the system to download the images!"
+              }
+            }
+          }
         }
       },
       "sidenav": {
@@ -75,6 +92,7 @@
       },
       "toolbar": {
         "title": "CATALOG",
+        "welcome": "Hello",
         "button": {
           "login": "Access",
           "register": "Register"

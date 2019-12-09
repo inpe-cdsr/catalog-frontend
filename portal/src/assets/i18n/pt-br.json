@@ -46,7 +46,24 @@
       "map": {
         "shopping_cart": {
           "title": "Carrinho de compras",
-          "download_images": "Baixe as imagens aqui"
+          "download_images": "Baixe as imagens aqui",
+          "shopping_cart_list": {
+            "title": "Imagens para baixar",
+            "button": {
+              "clear": "Limpar",
+              "download": "Baixar links"
+            },
+            "collection": {
+              "button": {
+                "remove": "Remover"
+              }
+            },
+            "message": {
+              "error": {
+                "not_logged": "Entre no sistema para baixar as imagens"
+              }
+            }
+          }
         }
       },
       "sidenav": {
@@ -75,6 +92,7 @@
       },
       "toolbar": {
         "title": "CATÁLOGO",
+        "welcome": "Olá",
         "button": {
           "login": "Acesso",
           "register": "Registro"
