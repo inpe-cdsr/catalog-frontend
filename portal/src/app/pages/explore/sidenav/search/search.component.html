@@ -2,7 +2,7 @@
 
   <form [formGroup]='formSearch' (ngSubmit)='search()'>
     <!-- select providers -->
-    <mat-form-field appearance='outline'>
+    <mat-form-field appearance='outline' *ngIf='providers && providers.length > 1'>
       <mat-label>
         {{ 'pages.explore.sidenav.search.form.select_providers' | translate }}
       </mat-label>

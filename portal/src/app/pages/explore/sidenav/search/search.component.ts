@@ -116,8 +116,14 @@ export class SearchComponent implements OnInit {
 
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
+      if (this.providers.length == 1) {
+        this.searchObj['providers'] = this.providers;
+        this.getCollections();
+      }
+
     } catch(err) {
       console.log('getProviders() error: ', err);
+
     } finally {
       this.store.dispatch(closeLoading());
     }
