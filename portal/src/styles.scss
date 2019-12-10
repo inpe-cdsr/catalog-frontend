@@ -22,6 +22,10 @@ body {
     padding: 0 5px;
 }
 
+.ngx-pagination {
+    margin-left: -15px !important;
+}
+
 .mat-radio-button.mat-accent.mat-radio-checked {
     color: var(--mainBgPrimary) !important;
 

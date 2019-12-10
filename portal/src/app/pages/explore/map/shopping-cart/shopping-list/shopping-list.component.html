@@ -48,13 +48,25 @@
           <div class="description">
             <p>{{ formatID(feature.id) }}</p>
             <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
-            <button
-              mat-flat-button
-              color="warn"
-              (click)="removeFeatureOfDownload(feature)"
-            >
-              {{ 'pages.explore.map.shopping_cart.shopping_cart_list.collection.button.remove' | translate }}
-            </button>
+            <div class="box-btns">
+              <button
+                mat-flat-button
+                class="remove"
+                color="warn"
+                (click)="removeFeatureOfDownload(feature)"
+              >
+                {{ 'pages.explore.map.shopping_cart.shopping_cart_list.collection.button.remove' | translate }}
+              </button>
+              <button
+                mat-button
+                *ngIf="logged"
+                color="primary"
+                class="download"
+                (click)="downloadFeature(feature)"
+              >
+                <mat-icon>cloud_download</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
 
