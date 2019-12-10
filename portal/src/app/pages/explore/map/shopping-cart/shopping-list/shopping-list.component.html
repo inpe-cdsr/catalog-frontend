@@ -42,8 +42,9 @@
       <p style="font-size: 1.1em; text-transform: capitalize;"><b>{{ collection }}:</b></p>
 
       <div class="list">
-        <div *ngFor="let feature of filterFeatures(features, collection)" class="image-card">
-          <img [src]="feature.assets.thumbnail.href" />
+        <div *ngFor="let feature of filterFeatures(features, collection) | paginate: { id: collection, itemsPerPage: page[collection].perPage, currentPage: page[collection].page }"
+          class="image-card">
+          <img [src]="feature.assets.thumbnail.href" onerror="this.src='/catalogo/assets/images/notfound.png'" />
           <div class="description">
             <p>{{ formatID(feature.id) }}</p>
             <p>{{ getFormattedDate(feature.properties.datetime) }}</p>
@@ -56,6 +57,15 @@
             </button>
           </div>
         </div>
+
+        <pagination-controls
+          [id]="collection"
+          (pageChange)="page[collection].page = $event"
+          responsive="true"
+          previousLabel=""
+          style="width: 100%; display: flex; justify-content: center"
+          nextLabel="">
+        </pagination-controls>
       </div>
     </div>
   </section>

@@ -21,6 +21,7 @@ export class ShoppingListComponent {
   public features: Feature[];
   public collections: string[] = [];
   public logged = false;
+  public page = {};
 
   /** receive infos to display in this component */
   constructor(
@@ -49,6 +50,10 @@ export class ShoppingListComponent {
       const collection = this.getCollectionFromFeature(f);
       if (this.collections.indexOf(collection) < 0) {
         this.collections.push(collection);
+        this.page[collection] = {
+          page: 1,
+          perPage: 18
+        }
       }
     })
   }
