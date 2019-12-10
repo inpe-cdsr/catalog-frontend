@@ -6,8 +6,8 @@
 
     window.__env.urlViaCEP = 'http://viacep.com.br/ws';
 
-    window.__env.urlStacCompose = 'http://localhost:5001/stac-compose';
+    window.__env.urlStacCompose = 'http://localhost:8089/stac-compose';
 
-    window.__env.urlDGIBack = 'http://localhost:5022/api';
+    window.__env.urlDGIBack = 'http://localhost:8089/api';
 
 }(this));

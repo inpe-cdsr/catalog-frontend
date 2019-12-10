@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --base-href /catalogo/",
+    "start": "ng serve --base-href /catalogo/ --host \"0.0.0.0\" --disableHostCheck true",
     "build": "ng build",
     "lint": "ng lint",
     "doc": "npx compodoc -p tsconfig.app.json"

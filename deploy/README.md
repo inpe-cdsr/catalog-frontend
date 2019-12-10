@@ -1,6 +1,7 @@
 # Web Portal - Deploy
 
 ## Installation
+
 ### Requirements
 
 Make sure you have the following libraries installed:
@@ -12,10 +13,20 @@ Make sure you have the following libraries installed:
 cd ../portal && npm install
 ```
 
-## Running
+
+## Build a new Docker image
+
+Development:
+
+```
+cd ../portal
+docker build -t dgi-catalog-frontend:0.0.8 -f dev.Dockerfile . --no-cache
+```
+
+Production:
 
 ```
 cd ../portal && npm run build
 cd ../deploy
-docker build -t portal:0.0.1
+docker build -t registry.dpi.inpe.br/dgi/dgi-catalog-frontend:0.0.8 .
 ```
