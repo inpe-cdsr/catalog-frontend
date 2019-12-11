@@ -9,4 +9,5 @@ WORKDIR /usr/src/app
 EXPOSE 8000
 
 RUN go build -o main .
+
 CMD ["./main"]
