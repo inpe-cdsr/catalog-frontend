@@ -148,7 +148,7 @@ export class SearchComponent implements OnInit {
         this.collections = [
           ...this.collections,
           ...this.providers_with_its_collections[provider].map(
-            collection => `${provider.toLocaleLowerCase()}: ${collection}`
+            collection => `${provider}: ${collection}`
           )
         ]
       })
@@ -166,7 +166,7 @@ export class SearchComponent implements OnInit {
 
     features.forEach( feature => {
       // get the collection related to the feature
-      let collection = (feature['properties']['collection'] || feature['collection']).toLocaleLowerCase();
+      let collection = (feature['properties']['collection'] || feature['collection']);
 
       // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
       let providers_by_collection = this.collections.filter(
@@ -174,7 +174,7 @@ export class SearchComponent implements OnInit {
         pc => {
           // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
           // then return the 'pc' variable inside a new list
-          return pc.toLocaleLowerCase().split(':')[1].trim() === collection
+          return pc.split(':')[1].trim() === collection
         }
       );
       // get the only 'provider:collection' in the array and get just the provider

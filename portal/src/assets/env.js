@@ -6,7 +6,7 @@
 
     window.__env.urlViaCEP = 'http://viacep.com.br/ws';
 
-    window.__env.urlStacCompose = 'http://cbers1.dpi.inpe.br:8089/stac-compose';
+    window.__env.urlStacCompose = 'http://localhost:8089/stac-compose';
 
     window.__env.urlDGIBack = 'http://localhost:8089/api';
 
