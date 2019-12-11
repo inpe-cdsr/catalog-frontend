@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { BdcLayer, Grid } from './layer.interface';
 import { BaseLayers } from './base-layers.in-memory';
-import { Grids } from './grids.in-memory';
 
 /**
  * Layer Service
@@ -12,6 +11,7 @@ import { Grids } from './grids.in-memory';
 @Injectable({ providedIn: 'root' })
 export class LayerService {
   private urlGeoServer = window['__env'].urlGeoServer;
+  private grids = window['__env'].grids;
 
   /** start http service client */
   constructor(private http: HttpClient) {
@@ -26,11 +26,21 @@ export class LayerService {
   }
 
   /**
-   * get grids of the BDC project
-   * @returns list of WFS BDC layers
+   * get grids
    */
   public getGridsLayers(): Grid[] {
-    return Grids;
+    let gridsList: Grid[] = [];
+    this.grids.split(';').forEach(grid => {
+      const elements = grid.split(':')
+      gridsList.push({
+        id: elements[1].trim(),
+        enabled: false,
+        name: elements[0].trim(),
+        layer: null,
+        style: elements[2].trim()
+      });
+    })
+    return gridsList;
   }
 
   /**

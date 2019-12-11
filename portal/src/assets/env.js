@@ -12,4 +12,6 @@
 
     window.__env.providersToken = 'inpe_stac';
 
+    window.__env.grids = 'States:grid_ibge_states:states; CBERS4:grid_cbers4_mux:grids; LandSat-8:grid_landsat_tm_amsul:grids; Sentinel-2:grid_sentinel_mgrs:grids';
+
 }(this));
