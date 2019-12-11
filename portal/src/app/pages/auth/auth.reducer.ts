@@ -8,7 +8,9 @@ import { AuthState } from './auth.state';
 const initialState: AuthState = {
   userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['userId'] : '',
   token: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['token'] : '',
-  fullname: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['fullname'] : ''
+  fullname: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['fullname'] : '',
+  email: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['email'] : '',
+  password: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['password'] : ''
 };
 
 /**
@@ -22,7 +24,9 @@ export const reducer = createReducer(initialState,
       ...state, 
       userId: payload['userId'].toString(), 
       token: payload['token'].toString(),
-      fullname: payload['fullname'].toString()
+      fullname: payload['fullname'].toString(),
+      email: payload['email'].toString(),
+      password: payload['password'].toString()
     };
   }),
   on(Logout, (state) => {

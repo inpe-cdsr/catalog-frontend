@@ -26,8 +26,8 @@ export class ShoppingListComponent {
   private providersToken = window['__env'].providersToken;
 
   private credentials = {
-    username: 'a',
-    password: 'b'
+    username: '',
+    password: ''
   }
 
   /** receive infos to display in this component */
@@ -38,7 +38,9 @@ export class ShoppingListComponent {
       this.features = data.features;
       this.getCollections();
       this.store.pipe(select('auth')).subscribe(res => {
-        this.logged = res.userId && res.token && res.fullname;
+        this.logged = res.userId && res.token && res.fullname && res.email && res.password;
+        this.credentials.username = res.email;
+        this.credentials.password = res.password;
       });
 
       this.store.pipe(select('explore')).subscribe(res => {
@@ -123,7 +125,7 @@ export class ShoppingListComponent {
     downloadFile('catalog_DGI_data.txt', data)
   }
 
-  downloadFeature(feat) {
+  async downloadFeature(feat) {
     if ('eo:bands' in feat.properties) {
       feat.properties['eo:bands'].forEach(band => {
         const url = feat.assets[band['name']]['href'];
