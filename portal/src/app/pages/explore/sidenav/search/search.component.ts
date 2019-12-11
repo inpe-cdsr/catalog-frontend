@@ -5,7 +5,7 @@ import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 
 // leaflet
-import { rectangle, LatLngBoundsExpression, Layer } from 'leaflet';
+import { rectangle, LatLngBoundsExpression } from 'leaflet';
 
 // service
 import { SearchService } from './search.service';
@@ -116,8 +116,14 @@ export class SearchComponent implements OnInit {
 
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
+      if (this.providers.length == 1) {
+        this.searchObj['providers'] = this.providers;
+        this.getCollections();
+      }
+
     } catch(err) {
       console.log('getProviders() error: ', err);
+
     } finally {
       this.store.dispatch(closeLoading());
     }
@@ -211,7 +217,7 @@ export class SearchComponent implements OnInit {
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
-      if (response.meta.found > 0) {
+      if (response.meta.found > 0 && !response.features[0].features) {
         // separate features by providers and collections
         let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
@@ -224,7 +230,7 @@ export class SearchComponent implements OnInit {
       } else {
         // chance the tab on sidebar in order to show the 'search' tab
         this.changeStepNav(0);
-        this.snackBar.open('RESULTS NOT FOUND!', '', {
+        this.snackBar.open('IMAGES NOT FOUND!', '', {
           duration: 5000,
           verticalPosition: 'top',
           panelClass: 'app_snack-bar-error'
@@ -232,7 +238,7 @@ export class SearchComponent implements OnInit {
       }
 
     } catch (err) {
-      this.changeStepNav(0);
+      this.changeStepNav(0);  
       this.snackBar.open('INCORRECT SEARCH!', '', {
         duration: 5000,
         verticalPosition: 'top',
@@ -254,11 +260,6 @@ export class SearchComponent implements OnInit {
       providers: '',
       collections: '',
       bbox: {
-        // test values
-        // north: 14.349547837185362,
-        // south: 57.61230468750001,
-        // west: 54.88769531250001,
-        // east: 15.919073517982413
         north: null,
         south: null,
         west: null,
