@@ -104,7 +104,9 @@ export class RegisterComponent {
           this.store.dispatch(Login({
             userId  : response.user_id,
             token : response.access_token,
-            fullname: response.fullname
+            fullname : response.fullname,
+            email : response.email,
+            password : response.password
           }));
 
           this.snackBar.open('Login Successfully!', '', {

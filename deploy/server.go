@@ -38,6 +38,8 @@ func main() {
 	new_content = strings.ReplaceAll(new_content, "URL_STAC_COMPOSE", "'"+os.Getenv("URL_STAC_COMPOSE")+"'")
 	new_content = strings.ReplaceAll(new_content, "URL_VIA_CEP", "'"+os.Getenv("URL_VIA_CEP")+"'")
 	new_content = strings.ReplaceAll(new_content, "URL_API", "'"+os.Getenv("URL_API")+"'")
+	new_content = strings.ReplaceAll(new_content, "PROVIDERS_TOKEN", "'"+os.Getenv("PROVIDERS_TOKEN")+"'")
+	new_content = strings.ReplaceAll(new_content, "GRIDS", "'"+os.Getenv("GRIDS")+"'")
 	err = ioutil.WriteFile(file_url+"assets/env.js", []byte(new_content), 0644)
 	if err != nil {
 		log.Fatalln(err)

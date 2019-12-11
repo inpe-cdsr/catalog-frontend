@@ -24,7 +24,7 @@ export class SearchService {
    * get STAC Collections by provider
    */
   public async getCollections(providers: string[]): Promise<any> {
-    const urlSuffix = `/collections?providers=${providers.join(',')}`;
+    const urlSuffix = `/collections?providers=${providers.length > 1 ? providers.join(',') : providers[0]}`;
     const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
     return response;
   }

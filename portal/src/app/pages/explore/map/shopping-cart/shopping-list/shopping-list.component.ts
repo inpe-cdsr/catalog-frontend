@@ -21,6 +21,14 @@ export class ShoppingListComponent {
   public features: Feature[];
   public collections: string[] = [];
   public logged = false;
+  public page = {};
+  private features_by_providers = [];
+  private providersToken = window['__env'].providersToken;
+
+  private credentials = {
+    username: '',
+    password: ''
+  }
 
   /** receive infos to display in this component */
   constructor(
@@ -30,7 +38,26 @@ export class ShoppingListComponent {
       this.features = data.features;
       this.getCollections();
       this.store.pipe(select('auth')).subscribe(res => {
-        this.logged = res.userId && res.token && res.fullname;
+        this.logged = res.userId && res.token && res.fullname && res.email && res.password;
+        this.credentials.username = res.email;
+        this.credentials.password = res.password;
+      });
+
+      this.store.pipe(select('explore')).subscribe(res => {
+        if (res.features_separate_by_providers) {
+          const f_by_p = res.features_separate_by_providers
+          this.features_by_providers = [];
+          Object.keys(res.features_separate_by_providers).forEach(p => {
+            this.providersToken.split(',').forEach(provider => {
+              if (p.toLowerCase() === provider.toLowerCase()) {
+                Object.keys(f_by_p[p]).forEach(c => {
+                  const features = f_by_p[p][c]['features'];
+                  this.features_by_providers = this.features_by_providers.concat(features);
+                });
+              }
+            });
+          });
+        }
       });
   }
 
@@ -49,6 +76,10 @@ export class ShoppingListComponent {
       const collection = this.getCollectionFromFeature(f);
       if (this.collections.indexOf(collection) < 0) {
         this.collections.push(collection);
+        this.page[collection] = {
+          page: 1,
+          perPage: 18
+        }
       }
     })
   }
@@ -78,18 +109,49 @@ export class ShoppingListComponent {
     this.features.forEach(feat => {
       if (feat.properties['eo:bands']) {
         feat.properties['eo:bands'].forEach(band => {
-          data += `${feat.assets[band['name']]['href']}\n`;
+          const url = this.generateURL(feat['id'], feat.assets[band['name']]['href']);
+          data += `${url} \n`;
         });
       } else {
         Object.keys(feat.assets).forEach(asset => {
           if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
-            data += `${feat.assets[asset]['href']}\n`;
+            const url = this.generateURL(feat['id'], feat.assets[asset]['href']);
+            data += `${url} \n`;
           }
         })
       }
     });
 
     downloadFile('catalog_DGI_data.txt', data)
+  }
+
+  async downloadFeature(feat) {
+    if ('eo:bands' in feat.properties) {
+      feat.properties['eo:bands'].forEach(band => {
+        const url = feat.assets[band['name']]['href'];
+        this.dispatchDownload(this.generateURL(feat['id'], url));
+      });
+    } else {
+      Object.keys(feat.assets).forEach(asset => {
+        if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
+          const url = feat.assets[asset]['href'];
+          this.dispatchDownload(this.generateURL(feat['id'], url));
+        }
+      });
+    }
+  }
+
+  private dispatchDownload(url) {
+    const element = document.createElement("a");
+    element.href = url;
+    element.target = "_blank";
+    element.setAttribute("download", url);
+    element.click();
+  }
+
+  private generateURL(sceneId, url): string {
+    const feats = this.features_by_providers.filter(f => f['id'] === sceneId); 
+    return feats.length > 0 ? `http://${this.credentials.username}:${this.credentials.password}@${url.replace('http://', '')}` : url;
   }
 
 }
