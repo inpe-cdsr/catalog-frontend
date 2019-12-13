@@ -260,10 +260,10 @@ export class SearchComponent implements OnInit {
       providers: '',
       collections: '',
       bbox: {
-        north: null,
-        south: null,
-        west: null,
-        east: null
+        north: 0.3515602,
+        south: -25.0059726,
+        west: -68.0273437,
+        east: -34.9365234
       },
       cloud: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
