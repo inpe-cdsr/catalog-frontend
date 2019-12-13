@@ -72,11 +72,6 @@ export class FeatureTablePaginationComponent implements OnInit {
 
 
       this.store.dispatch(setLayers([newlayer]));
-      this.snackBar.open('LAYERS ENABLED!', '', {
-        duration: 2000,
-        verticalPosition: 'top',
-        panelClass: 'app_snack-bar-success'
-      });
 
     } else {
       this.features = this.features.map( f => {
@@ -90,11 +85,6 @@ export class FeatureTablePaginationComponent implements OnInit {
         key: 'alt',
         prefix: `qls_${feature.id}`
       }));
-      this.snackBar.open('LAYERS DISABLED!', '', {
-        duration: 2000,
-        verticalPosition: 'top',
-        panelClass: 'app_snack-bar-success'
-      });
     }
   }
 
@@ -133,11 +123,6 @@ export class FeatureTablePaginationComponent implements OnInit {
 
   public addToShopping(feature) {
     this.store.dispatch(setFeatureToDownload(feature));
-    this.snackBar.open('Added in shopping card!', '', {
-      duration: 2000,
-      verticalPosition: 'top',
-      panelClass: 'app_snack-bar-success'
-    });
   }
 
 }
