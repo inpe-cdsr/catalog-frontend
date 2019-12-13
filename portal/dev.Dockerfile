@@ -10,11 +10,11 @@ RUN apt-get update && apt-get install -yq google-chrome-stable
 WORKDIR /app
 
 # add app
-COPY . /app
+COPY package.json /app
 
 # install and cache app dependencies
-RUN npm install
+# RUN npm install
 RUN npm install -g @angular/cli@8.3.3
 
 # add app
-CMD [ "npm", "run", "build", "--", "--base-href", "/catalogo/" ]
+CMD [ "npm", "start" ]

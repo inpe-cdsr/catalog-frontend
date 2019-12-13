@@ -8,7 +8,7 @@
 
     window.__env.urlStacCompose = 'http://localhost:8089/stac-compose';
 
-    window.__env.urlDGIBack = 'http://localhost:8089/api';
+    window.__env.urlDGIBack = 'http://cbers1.dpi.inpe.br:8089/api';
 
     window.__env.providersToken = 'inpe_stac';
 
