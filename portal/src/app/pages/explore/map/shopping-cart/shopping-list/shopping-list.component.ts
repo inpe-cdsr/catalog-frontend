@@ -151,7 +151,7 @@ export class ShoppingListComponent {
 
   private generateURL(sceneId, url): string {
     const feats = this.features_by_providers.filter(f => f['id'] === sceneId); 
-    return feats.length > 0 ? `http://${this.credentials.username}:${this.credentials.password}@${url.replace('http://', '')}` : url;
+    return feats.length > 0 ? `http://${url}?key=${this.credentials.username}:${this.credentials.password}` : url;
   }
 
 }
