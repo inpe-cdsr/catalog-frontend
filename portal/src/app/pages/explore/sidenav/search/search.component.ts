@@ -204,7 +204,7 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
-      let query = `collections=${this.searchObj['collections'].join(',').replace(/ /g, '')}`;
+      let query = `collections=${this.searchObj['collections'].join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${endDate}T23:59:00`;

@@ -41,7 +41,7 @@ export class TileComponent{
         if (!lastFeatures ||
             lastFeatures != this.features_separate_by_providers$) {
           this.providers.forEach( (p, i) => {
-            this.providersVisible[p] = i === 0;
+            this.providersVisible[p] = true;
           });
         }
 
