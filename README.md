@@ -52,7 +52,7 @@ Build the development Docker image:
 
 ```
 cd portal/
-docker build -t dgi-catalog-frontend:0.0.9 -f dev.Dockerfile . --no-cache
+docker build -t dgi-catalog-frontend -f dev.Dockerfile . --no-cache
 ```
 
 #### Production
