@@ -148,7 +148,7 @@ export class SearchComponent implements OnInit {
         this.collections = [
           ...this.collections,
           ...this.providers_with_its_collections[provider].map(
-            collection => `${provider.toLocaleLowerCase()}: ${collection}`
+            collection => `${provider}: ${collection}`
           )
         ]
       })
@@ -166,7 +166,7 @@ export class SearchComponent implements OnInit {
 
     features.forEach( feature => {
       // get the collection related to the feature
-      let collection = (feature['properties']['collection'] || feature['collection']).toLocaleLowerCase();
+      let collection = (feature['properties']['collection'] || feature['collection']);
 
       // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
       let providers_by_collection = this.collections.filter(
@@ -174,7 +174,7 @@ export class SearchComponent implements OnInit {
         pc => {
           // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
           // then return the 'pc' variable inside a new list
-          return pc.toLocaleLowerCase().split(':')[1].trim() === collection
+          return pc.split(':')[1].trim() === collection
         }
       );
       // get the only 'provider:collection' in the array and get just the provider
@@ -204,7 +204,7 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
-      let query = `collections=${this.searchObj['collections'].join(',').replace(/ /g, '')}`;
+      let query = `collections=${this.searchObj['collections'].join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${endDate}T23:59:00`;
@@ -260,10 +260,10 @@ export class SearchComponent implements OnInit {
       providers: '',
       collections: '',
       bbox: {
-        north: null,
-        south: null,
-        west: null,
-        east: null
+        north: 0.3515602,
+        south: -25.0059726,
+        west: -68.0273437,
+        east: -34.9365234
       },
       cloud: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
