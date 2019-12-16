@@ -90,10 +90,6 @@ export class TileComponent{
     });
   }
 
-  public formatProvider(provider) {
-    return provider.toLowerCase().replace('_stac', '').replace(/_/g, ' ');
-  }
-
   public addCollectionToShopping(provider, collection) {
     this.features_separate_by_providers$[provider][collection].features.forEach(f => {
       this.store.dispatch(setFeatureToDownload(f));
