@@ -148,10 +148,13 @@ export class ShoppingListComponent {
   }
 
   private dispatchDownload(url) {
+    const urlParts = url.split('/')
+    let fileName = urlParts[urlParts.length-1];
+
     const element = document.createElement("a");
     element.href = url;
     element.target = "_blank";
-    element.setAttribute("download", url);
+    element.setAttribute("download", fileName.split('?')[0]);
     element.click();
   }
 
