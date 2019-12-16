@@ -1,48 +1,3 @@
-/*
-import {NestedTreeControl} from '@angular/cdk/tree';
-import {Component} from '@angular/core';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Provider 1',
-    children: [
-      {name: 'Collection 1'},
-      {name: 'Collection 2'},
-    ]
-  },
-  {
-    name: 'Provider A',
-    children: [
-      {name: 'Collection A'},
-      {name: 'Collection B'},
-    ]
-  }
-];
-
-@Component({
-  selector: 'app-dataset',
-  templateUrl: './dataset.component.html',
-  styleUrls: ['./dataset.component.scss']
-})
-export class DatasetComponent {
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
-
-  constructor() {
-    this.dataSource.data = TREE_DATA;
-  }
-
-  hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
-}
-*/
-
-
 import {SelectionModel} from '@angular/cdk/collections';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {Component, Injectable} from '@angular/core';
@@ -50,14 +5,14 @@ import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
 
 /**
- * Node for to-do item
+ * Node for item
  */
 export class ItemNode {
   children: ItemNode[];
   item: string;
 }
 
-/** Flat to-do item node with expandable and level information */
+/** Flat item node with expandable and level information */
 export class ItemFlatNode {
   item: string;
   level: number;
@@ -65,7 +20,7 @@ export class ItemFlatNode {
 }
 
 /**
- * The Json object for to-do list data.
+ * The Json object for list data.
  */
 const TREE_DATA = {
   'INPE-CDSR': [
@@ -86,22 +41,21 @@ const TREE_DATA = {
 
 /**
  * Checklist database, it can build a tree structured Json object.
- * Each node in Json object represents a to-do item or a category.
+ * Each node in Json object represents a item or a category.
  * If a node is a category, it has children items and new items can be added under the category.
  */
 @Injectable()
 export class ChecklistDatabase {
   dataChange = new BehaviorSubject<ItemNode[]>([]);
 
-  get data(): ItemNode[] { return this.dataChange.value; }
-
-  constructor() {
-    this.initialize();
+  get data(): ItemNode[] {
+    return this.dataChange.value;
   }
 
-  initialize() {
-    // Build the tree nodes from Json object. The result is a list of `ItemNode` with nested
-    //     file node as children.
+  constructor() {
+    // Build the tree nodes from Json object.
+    // The result is a list of `ItemNode` with nested
+    // file node as children.
     const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
@@ -128,19 +82,6 @@ export class ChecklistDatabase {
 
       return accumulator.concat(node);
     }, []);
-  }
-
-  /** Add an item to to-do list */
-  insertItem(parent: ItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({item: name} as ItemNode);
-      this.dataChange.next(this.data);
-    }
-  }
-
-  updateItem(node: ItemNode, name: string) {
-    node.item = name;
-    this.dataChange.next(this.data);
   }
 }
 
@@ -197,7 +138,8 @@ export class DatasetComponent {
   hasNoContent = (_: number, _nodeData: ItemFlatNode) => _nodeData.item === '';
 
   /**
-   * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
+   * Transformer to convert nested node to flat node.
+   * Record the nodes in maps for later use.
    */
   transformer = (node: ItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
@@ -228,7 +170,7 @@ export class DatasetComponent {
     return result && !this.descendantsAllSelected(node);
   }
 
-  /** Toggle the to-do item selection. Select/deselect all the descendants node */
+  /** Toggle the item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
@@ -243,13 +185,13 @@ export class DatasetComponent {
     this.checkAllParentsSelection(node);
   }
 
-  /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
+  /** Toggle a leaf item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
   }
 
-  /* Checks all the parents when a leaf node is selected/unselected */
+  /** Checks all the parents when a leaf node is selected/unselected */
   checkAllParentsSelection(node: ItemFlatNode): void {
     let parent: ItemFlatNode | null = this.getParentNode(node);
     while (parent) {
@@ -272,7 +214,7 @@ export class DatasetComponent {
     }
   }
 
-  /* Get the parent node of a node */
+  /** Get the parent node of a node */
   getParentNode(node: ItemFlatNode): ItemFlatNode | null {
     const currentLevel = this.getLevel(node);
 
@@ -291,17 +233,4 @@ export class DatasetComponent {
     }
     return null;
   }
-
-  /** Select the category so we can insert the new item. */
-  // addNewItem(node: ItemFlatNode) {
-  //   const parentNode = this.flatNodeMap.get(node);
-  //   this._database.insertItem(parentNode!, '');
-  //   this.treeControl.expand(node);
-  // }
-
-  /** Save the node to database */
-  // saveNode(node: ItemFlatNode, itemValue: string) {
-  //   const nestedNode = this.flatNodeMap.get(node);
-  //   this._database.updateItem(nestedNode!, itemValue);
-  // }
 }
