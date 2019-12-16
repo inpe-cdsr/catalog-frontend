@@ -3,6 +3,17 @@ import {FlatTreeControl} from '@angular/cdk/tree';
 import {Component, Injectable} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
+import {Store} from '@ngrx/store';
+
+// service
+import { SearchService } from '../search/search.service';
+
+// state management
+import { ExploreState } from '../../explore.state';
+import {
+  showLoading,
+  closeLoading
+} from '../../explore.action';
 
 /**
  * Node for item
@@ -48,18 +59,86 @@ const TREE_DATA = {
 export class ChecklistDatabase {
   dataChange = new BehaviorSubject<ItemNode[]>([]);
 
+  /** available providers */
+  public providers: string[];
+
+  /** available collections */
+  public collections: string[];
+
+  /** providers with its collections */
+  public providers_with_its_collections: object;
+
   get data(): ItemNode[] {
     return this.dataChange.value;
   }
 
-  constructor() {
+  constructor(
+    private ss: SearchService,
+    private store: Store<ExploreState>
+  ) {
+    this.initialize();
+  }
+
+  /** getting available provider */
+  private async initialize() {
+    // get providers and collections from the server
+    await this.getProviders();
+    await this.getCollections(this.providers);
+
+    // console.log('this.providers: ', this.providers);
+    // console.log('this.collections: ', this.collections);
+    // console.log('this.providers_with_its_collections: ', this.providers_with_its_collections);
+
     // Build the tree nodes from Json object.
     // The result is a list of `ItemNode` with nested
     // file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
+    const data = this.buildFileTree(this.providers_with_its_collections, 0);
 
     // Notify the change.
     this.dataChange.next(data);
+  }
+
+  /** getting available provider */
+  private async getProviders() {
+    try {
+      this.store.dispatch(showLoading());
+
+      const response = await this.ss.getProviders();
+      this.providers = Object.keys(response.providers);
+
+    } catch(err) {
+      console.log('getProviders() error: ', err);
+    } finally {
+      this.store.dispatch(closeLoading());
+    }
+  }
+
+  /** getting available collections */
+  private async getCollections(providers: string[]) {
+    // when there is not one provider, it is not necessary to request collections to the server
+    if (providers.length === 0) {
+      return;
+    }
+
+    try {
+      this.store.dispatch(showLoading());
+
+      this.providers_with_its_collections = await this.ss.getCollections(providers);
+      this.collections = [];
+
+      Object.keys(this.providers_with_its_collections).forEach( provider => {
+        this.collections = [
+          ...this.collections,
+          ...this.providers_with_its_collections[provider].map(
+            collection => `${provider}:${collection}`
+          )
+        ]
+      })
+    } catch(err) {
+      console.log('getCollections() error: ', err);
+    } finally {
+      this.store.dispatch(closeLoading());
+    }
   }
 
   /**
