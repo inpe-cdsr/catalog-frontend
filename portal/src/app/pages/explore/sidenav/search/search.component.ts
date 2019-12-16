@@ -148,7 +148,7 @@ export class SearchComponent implements OnInit {
         this.collections = [
           ...this.collections,
           ...this.providers_with_its_collections[provider].map(
-            collection => `${provider}: ${collection}`
+            collection => `${provider}:${collection}`
           )
         ]
       })
