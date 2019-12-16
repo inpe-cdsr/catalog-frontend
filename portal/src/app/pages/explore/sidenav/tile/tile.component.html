@@ -12,7 +12,7 @@
       <h2 
         class="providers_header"
         (click)="changeVisibleFeatByProvider(provider)"> 
-        {{ formatProvider(provider) }}
+        {{ provider }}
       </h2>
 
       <!-- get collection -->
@@ -27,6 +27,7 @@
             </h1>
 
             <mat-icon 
+              *ngIf="providersInfos[provider]['downloadable']"
               (click)='addCollectionToShopping(provider, collection)'
               class='tile-download-button'>
               add_shopping_cart
@@ -36,6 +37,7 @@
           <!-- get features and pass to the child component create the table with pagination -->
           <app-feature-table-pagination
             [collection]="collection"
+            [providerInfos]="providersInfos[provider]"
             [features]="features_separate_by_providers$[provider][collection]['features']"
             ></app-feature-table-pagination>
         </div>

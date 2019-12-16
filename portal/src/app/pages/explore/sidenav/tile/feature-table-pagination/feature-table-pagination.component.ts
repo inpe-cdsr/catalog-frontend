@@ -1,6 +1,6 @@
 // angular
-import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import {  MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 
 // leaflet
@@ -31,11 +31,11 @@ export class FeatureTablePaginationComponent implements OnInit {
   // I receive this attribute by binding, because of that, I use '@Input()' decorator
   @Input() features: Array<Feature> = [];
   @Input() collection: string;
+  @Input() providerInfos: object = {};
 
   // get infos by store application
   constructor(
     public dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private store: Store<ExploreState>) {
   }
 
