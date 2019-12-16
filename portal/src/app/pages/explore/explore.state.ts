@@ -20,4 +20,5 @@ export interface ExploreState {
   readonly bbox: LatLngBoundsExpression;
   /** status visible - loading component */
   readonly loading: boolean;
+  readonly providersInfos: object;
 }

@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material';
 export class ShoppingCartComponent implements OnInit {
 
     public features: Feature[];
+    public providers: object;
 
     constructor(
         public dialog: MatDialog,
@@ -20,6 +21,9 @@ export class ShoppingCartComponent implements OnInit {
         this.store.pipe(select('explore')).subscribe(res => {
             if(res.featuresToDownload) {
                 this.features = res.featuresToDownload;
+            }
+            if(res.providersInfos) {
+                this.providers = res.providersInfos;
             }
         });
     }    
@@ -35,7 +39,8 @@ export class ShoppingCartComponent implements OnInit {
             restoreFocus: false,
             disableClose: false,
             data: {
-                features: this.features
+                features: this.features,
+                providers: this.providers
             }
         });
     }

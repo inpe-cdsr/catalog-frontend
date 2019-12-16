@@ -85,3 +85,9 @@ export const showLoading = createAction(
 export const closeLoading = createAction(
     '[Loading Component] closeLoading'
 );
+
+/** set providers info */
+export const setProvidersInfos = createAction(
+    '[Provider Component] providersInfos',
+    props<object>()
+);

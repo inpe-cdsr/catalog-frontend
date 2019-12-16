@@ -20,7 +20,8 @@ import {
   setFeatures,
   setFeaturesSeparateByProviders,
   setBbox,
-  removeGroupLayer
+  removeGroupLayer,
+  setProvidersInfos
 } from '../../explore.action';
 
 // interface
@@ -115,6 +116,8 @@ export class SearchComponent implements OnInit {
       this.store.dispatch(showLoading());
 
       const response = await this.ss.getProviders();
+      this.store.dispatch(setProvidersInfos(response.providers));
+
       this.providers = Object.keys(response.providers);
       if (this.providers.length == 1) {
         this.searchObj['providers'] = this.providers;

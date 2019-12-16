@@ -19,7 +19,9 @@
         fullscreen
       </mat-icon>
 
-      <mat-icon (click)='addToShopping(feature)'>
+      <mat-icon 
+        *ngIf="providerInfos['downloadable']"
+        (click)='addToShopping(feature)'>
         add_shopping_cart
       </mat-icon>
     </div>

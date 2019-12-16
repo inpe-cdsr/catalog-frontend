@@ -10,7 +10,8 @@ import {
   removeGroupLayer,
   setFeatureToDownload,
   removeFeatureToDownload,
-  removeAllFeaturesToDownload
+  removeAllFeaturesToDownload,
+  setProvidersInfos
 } from './explore.action';
 import { ExploreState } from './explore.state';
 
@@ -23,7 +24,8 @@ const initialState: ExploreState = {
   positionMap: null,
   featuresToDownload: [],
   loading: false,
-  bbox: null
+  bbox: null,
+  providersInfos: {}
 };
 
 /**
@@ -71,4 +73,7 @@ export const reducer = createReducer(initialState,
   on(closeLoading, (state) => {
     return { ...state, loading: false };
   }),
+  on(setProvidersInfos, (state, payload) => {
+    return { ...state, providersInfos: payload };
+  })
 );
