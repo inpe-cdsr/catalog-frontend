@@ -14,6 +14,20 @@
     <mat-tab-group
       [selectedIndex]="selected.value"
       (selectedIndexChange)="changeStep($event)">
+
+      <!-- dataset -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>list</mat-icon>
+          {{ 'pages.explore.sidenav.dataset.title' | translate }}
+        </ng-template>
+
+        <div class="sidenav_content">
+          <app-dataset></app-dataset>
+        </div>
+      </mat-tab>
+
+      <!-- search -->
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>search</mat-icon>
@@ -25,6 +39,7 @@
         </div>
       </mat-tab>
 
+      <!-- result -->
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>list</mat-icon>

@@ -29,6 +29,8 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import {MatTreeModule} from '@angular/material/tree';
+
 import { ChartsModule } from 'ng2-charts';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -46,6 +48,7 @@ import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pa
 import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
 import { AuthModule } from '../auth/auth.module';
 import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shopping-list.component';
+import { DatasetComponent } from './sidenav/dataset/dataset.component';
 
 /**
  * Explore Module
@@ -61,7 +64,8 @@ import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shoppin
     SidenavComponent,
     SearchComponent,
     TileComponent,
-    FeatureTablePaginationComponent
+    FeatureTablePaginationComponent,
+    DatasetComponent
   ],
   exports: [
     RouterModule
@@ -93,6 +97,7 @@ import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shoppin
     MatSnackBarModule,
     MatPaginatorModule,
     MatTableModule,
+    MatTreeModule,
     Ng5SliderModule,
     MatCheckboxModule,
     NgxPaginationModule,
