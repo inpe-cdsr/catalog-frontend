@@ -222,12 +222,13 @@ export class SearchComponent implements OnInit {
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
-      if (response.meta.found > 0 && !response.features[0].features) {
+      const feats = response.features.filter(f => f['type'].toLowerCase() === 'feature')
+      if (response.meta.found > 0 && feats.length > 0) {
         // separate features by providers and collections
         let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
         // save 'features' and 'features_separate_by_providers' in the memory
-        this.store.dispatch(setFeatures(response.features.filter(f => f['type'].toLowerCase() === 'feature')));
+        this.store.dispatch(setFeatures(feats));
         this.store.dispatch(setFeaturesSeparateByProviders(f_by_p));
 
         // chance the tab on sidebar in order to show the 'tiles' tab
