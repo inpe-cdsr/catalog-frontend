@@ -28,26 +28,27 @@ export class ItemFlatNode {
   item: string;
   level: number;
   expandable: boolean;
+  parent: ItemFlatNode;
 }
 
 /**
  * The Json object for list data.
  */
-const TREE_DATA = {
-  'INPE-CDSR': [
-    'CB4_AWFI_L4_DN',
-    'CB4_AWFI_L4_SR'
-  ],
-  'LANDAST8-SENTINEL2-AWS': [
-    'landsat-8-l1',
-    'sentinel-2'
-  ],
-  'CBERS4-AWS': [
-    'CBERS4MUX',
-    'CBERS4AWFI',
-    'CBERS4PAN10M'
-  ]
-};
+// const TREE_DATA = {
+//   'INPE-CDSR': [
+//     'CB4_AWFI_L4_DN',
+//     'CB4_AWFI_L4_SR'
+//   ],
+//   'LANDAST8-SENTINEL2-AWS': [
+//     'landsat-8-l1',
+//     'sentinel-2'
+//   ],
+//   'CBERS4-AWS': [
+//     'CBERS4MUX',
+//     'CBERS4AWFI',
+//     'CBERS4PAN10M'
+//   ]
+// };
 
 
 /**
@@ -66,10 +67,18 @@ export class ChecklistDatabase {
   public collections: string[];
 
   /** providers with its collections */
-  public providers_with_its_collections: object;
+  private _providersWithItsCollections: object;
 
   get data(): ItemNode[] {
     return this.dataChange.value;
+  }
+
+  get providersWithItsCollections(): object {
+    return this._providersWithItsCollections;
+  }
+
+  set providersWithItsCollections(newValue: object) {
+      this._providersWithItsCollections = newValue;
   }
 
   constructor(
@@ -87,12 +96,12 @@ export class ChecklistDatabase {
 
     // console.log('this.providers: ', this.providers);
     // console.log('this.collections: ', this.collections);
-    // console.log('this.providers_with_its_collections: ', this.providers_with_its_collections);
+    // console.log('this.providersWithItsCollections: ', this.providersWithItsCollections);
 
     // Build the tree nodes from Json object.
     // The result is a list of `ItemNode` with nested
     // file node as children.
-    const data = this.buildFileTree(this.providers_with_its_collections, 0);
+    const data = this.buildFileTree(this.providersWithItsCollections, 0);
 
     // Notify the change.
     this.dataChange.next(data);
@@ -123,13 +132,13 @@ export class ChecklistDatabase {
     try {
       this.store.dispatch(showLoading());
 
-      this.providers_with_its_collections = await this.ss.getCollections(providers);
+      this.providersWithItsCollections = await this.ss.getCollections(providers);
       this.collections = [];
 
-      Object.keys(this.providers_with_its_collections).forEach( provider => {
+      Object.keys(this.providersWithItsCollections).forEach( provider => {
         this.collections = [
           ...this.collections,
-          ...this.providers_with_its_collections[provider].map(
+          ...this.providersWithItsCollections[provider].map(
             collection => `${provider}:${collection}`
           )
         ]
@@ -189,6 +198,9 @@ export class DatasetComponent {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
 
+  /** which collections were selected after post processing */
+  selectedCollections: object;
+
   constructor(private _database: ChecklistDatabase) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
@@ -230,43 +242,67 @@ export class DatasetComponent {
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: ItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
+
+    const descAllSelected = descendants.every(child => {
+      return this.checklistSelection.isSelected(child);
+    });
+
     return descAllSelected;
   }
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: ItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const result = descendants.some(child => this.checklistSelection.isSelected(child));
+
+    const result = descendants.some(child => {
+      return this.checklistSelection.isSelected(child);
+    });
+
     return result && !this.descendantsAllSelected(node);
   }
 
   /** Toggle the item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: ItemFlatNode): void {
+    // set parent reference
+    node.parent = this.getParentNode(node);
+
+    // add or remove node from 'checklistSelection'
     this.checklistSelection.toggle(node);
-    const descendants = this.treeControl.getDescendants(node);
+
+    let descendants: ItemFlatNode[] = this.treeControl.getDescendants(node);
+
+    // set parent reference (i.e. selected node) to all my descendants
+    descendants.forEach((descendant: ItemFlatNode) => {
+      descendant.parent = node;
+    });
+
     this.checklistSelection.isSelected(node)
       ? this.checklistSelection.select(...descendants)
       : this.checklistSelection.deselect(...descendants);
 
     // Force update for the parent
-    descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
+    descendants.every(child => {
+      return this.checklistSelection.isSelected(child);
+    });
+
     this.checkAllParentsSelection(node);
   }
 
   /** Toggle a leaf item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: ItemFlatNode): void {
+    // set parent reference
+    node.parent = this.getParentNode(node);
+
+    // add or remove node from 'checklistSelection'
     this.checklistSelection.toggle(node);
+
     this.checkAllParentsSelection(node);
   }
 
   /** Checks all the parents when a leaf node is selected/unselected */
   checkAllParentsSelection(node: ItemFlatNode): void {
     let parent: ItemFlatNode | null = this.getParentNode(node);
+
     while (parent) {
       this.checkRootNodeSelection(parent);
       parent = this.getParentNode(parent);
@@ -275,11 +311,20 @@ export class DatasetComponent {
 
   /** Check root node checked state and change it accordingly */
   checkRootNodeSelection(node: ItemFlatNode): void {
+    // set parent reference
+    node.parent = this.getParentNode(node);
+
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
+
+    // set parent reference (i.e. selected node) to all my descendants
+    descendants.forEach((descendant: ItemFlatNode) => {
+      descendant.parent = node;
+    });
+
+    const descAllSelected = descendants.every(child => {
+      return this.checklistSelection.isSelected(child);
+    });
     if (nodeSelected && !descAllSelected) {
       this.checklistSelection.deselect(node);
     } else if (!nodeSelected && descAllSelected) {
@@ -308,6 +353,34 @@ export class DatasetComponent {
   }
 
   selectCollections(){
-    console.log('\n -- this.checklistSelection: ', this.checklistSelection.selected);
+    console.log('\n providersWithItsCollections: ', this._database.providersWithItsCollections);
+
+    console.log('\n selectCollections() - this.checklistSelection: ', this.checklistSelection.selected);
+
+    this.selectedCollections = {};
+    const providersWithItsCollections = this._database.providersWithItsCollections;
+
+    this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
+      // if 'node.level == 1', then this node is a collection
+      if (node.level == 1) {
+        // if I'm a collection, then my parent is a provider
+        let provider = node.parent.item;
+
+        // initialize 'selectedCollections' with 'provider' for the first time
+        // (1) check if the provider was not initialized before; and
+        // (2) check if the provider is inside the 'selectedCollections'
+        // object
+        // then create a new list of collections by using the provider as a key
+        if (!(provider in this.selectedCollections) &&
+             (provider in providersWithItsCollections)) {
+          this.selectedCollections[provider] = [];
+        }
+        // if my parent (i.e. a provider) is already inside the 'selectedCollections'
+        // object, then add the node (i.e. a collection) inside the list of collections
+        this.selectedCollections[provider].push(node.item);
+      }
+    });
+
+    console.log('\n this.selectedCollections: ', this.selectedCollections);
   }
 }
