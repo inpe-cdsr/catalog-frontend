@@ -214,6 +214,8 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
+      console.log('\n\n query: ', query);
+
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
@@ -238,7 +240,7 @@ export class SearchComponent implements OnInit {
       }
 
     } catch (err) {
-      this.changeStepNav(0);  
+      this.changeStepNav(0);
       this.snackBar.open('INCORRECT SEARCH!', '', {
         duration: 5000,
         verticalPosition: 'top',

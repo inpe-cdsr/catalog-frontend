@@ -180,12 +180,6 @@ export class DatasetComponent {
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
   nestedNodeMap = new Map<ItemNode, ItemFlatNode>();
 
-  /** A selected parent node to be inserted */
-  selectedParent: ItemFlatNode | null = null;
-
-  /** The new item's name */
-  newItemName = '';
-
   treeControl: FlatTreeControl<ItemFlatNode>;
 
   treeFlattener: MatTreeFlattener<ItemNode, ItemFlatNode>;
@@ -311,5 +305,9 @@ export class DatasetComponent {
       }
     }
     return null;
+  }
+
+  selectCollections(){
+    console.log('\n -- this.checklistSelection: ', this.checklistSelection.selected);
   }
 }

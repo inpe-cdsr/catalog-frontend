@@ -70,7 +70,12 @@
         "title": "DIVISÃO DE GERAÇÃO DE IMAGENS",
         "subtitle": "OBT | INPE",
         "dataset": {
-          "title": "Conjunto de Dados"
+          "title": "Conjunto de Dados",
+          "form": {
+            "button": {
+              "submit": "Selecionar coleções"
+            }
+          }
         },
         "search": {
           "title": "Consulta",
