@@ -54,6 +54,14 @@ export const setBbox = createAction(
 );
 
 /**
+ * set selected collections from Dataset Component
+ */
+export const setDatasetSelectedCollections = createAction(
+  '[Dataset Component] Selected Collections',
+  props<LatLngBounds>()
+);
+
+/**
  * add feature to download
  */
 export const setFeatureToDownload = createAction(

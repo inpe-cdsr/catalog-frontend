@@ -4,6 +4,7 @@ import {
   closeLoading,
   setLayers,
   setBbox,
+  setDatasetSelectedCollections,
   setPositionMap,
   setFeatures,
   setFeaturesSeparateByProviders,
@@ -48,6 +49,9 @@ export const reducer = createReducer(initialState,
   }),
   on(setBbox, (state, payload) => {
     return { ...state, bbox: payload };
+  }),
+  on(setDatasetSelectedCollections, (state, payload) => {
+    return { ...state, datasetSelectedCollections: payload };
   }),
   on(setFeatureToDownload, (state, payload) => {
     if (state.featuresToDownload.filter( f => f.id === payload.id ).length === 0) {

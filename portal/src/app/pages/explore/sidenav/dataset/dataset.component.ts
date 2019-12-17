@@ -352,7 +352,7 @@ export class DatasetComponent {
     return null;
   }
 
-  selectCollections(){
+  selectCollections(): void {
     console.log('\n providersWithItsCollections: ', this._database.providersWithItsCollections);
 
     console.log('\n selectCollections() - this.checklistSelection: ', this.checklistSelection.selected);
