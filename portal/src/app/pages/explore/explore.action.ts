@@ -58,7 +58,7 @@ export const setBbox = createAction(
  */
 export const setDatasetSelectedCollections = createAction(
   '[Dataset Component] Selected Collections',
-  props<LatLngBounds>()
+  props<object>()
 );
 
 /**

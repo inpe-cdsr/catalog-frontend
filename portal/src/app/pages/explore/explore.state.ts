@@ -18,6 +18,8 @@ export interface ExploreState {
   readonly featuresToDownload: Feature[];
   /** selected bounding box */
   readonly bbox: LatLngBoundsExpression;
+  /** selected collections */
+  readonly datasetSelectedCollections: object;
   /** status visible - loading component */
   readonly loading: boolean;
 }

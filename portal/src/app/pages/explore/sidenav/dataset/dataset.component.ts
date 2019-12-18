@@ -11,6 +11,7 @@ import { SearchService } from '../search/search.service';
 // state management
 import { ExploreState } from '../../explore.state';
 import {
+  setDatasetSelectedCollections,
   showLoading,
   closeLoading
 } from '../../explore.action';
@@ -201,7 +202,10 @@ export class DatasetComponent {
   /** which collections were selected after post processing */
   selectedCollections: object;
 
-  constructor(private _database: ChecklistDatabase) {
+  constructor(
+    private _database: ChecklistDatabase,
+    private store: Store<ExploreState>,
+  ) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
@@ -380,6 +384,11 @@ export class DatasetComponent {
         this.selectedCollections[provider].push(node.item);
       }
     });
+
+    // add the 'selectedCollections' to the store
+    this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
+
+    // TODO: change to the next tab
 
     console.log('\n this.selectedCollections: ', this.selectedCollections);
   }

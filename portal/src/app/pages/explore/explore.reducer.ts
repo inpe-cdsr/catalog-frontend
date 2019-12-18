@@ -24,7 +24,8 @@ const initialState: ExploreState = {
   positionMap: null,
   featuresToDownload: [],
   loading: false,
-  bbox: null
+  bbox: null,
+  datasetSelectedCollections: {}
 };
 
 /**
