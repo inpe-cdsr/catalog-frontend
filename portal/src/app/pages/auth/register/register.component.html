@@ -15,6 +15,7 @@
             [message]="error.message">
           </app-alert>
 
+          <!-- full_name / email -->
           <div class="display-inline">
             <mat-form-field appearance="fill">
               <mat-label>
@@ -41,39 +42,39 @@
             </mat-form-field>
           </div>
 
-            <div class="display-inline">
-                <mat-form-field appearance="fill" style="width: 80px;">
-                    <mat-label>DDD</mat-label>
-                    <input matInput
-                        name="ddd"
-                        placeholder="DDD"
-                        [(ngModel)]="user.ddd"
-                        formControlName="ddd"
-                        required />
-                </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.phone' | translate }}</mat-label>
-                    <input matInput
-                        name="phone"
-                        placeholder="Phone"
-                        [(ngModel)]="user.phone"
-                        formControlName="phone"
-                        required />
-                </mat-form-field>
+          <!-- ddd / phone / cep -->
+          <div class="display-inline">
+              <mat-form-field appearance="fill" style="width: 80px;">
+                  <mat-label>DDD</mat-label>
+                  <input matInput
+                      name="ddd"
+                      placeholder="DDD"
+                      [(ngModel)]="user.ddd"
+                      formControlName="ddd"/>
+              </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.address.cep' | translate }}</mat-label>
-                    <input matInput
-                        name="cep"
-                        placeholder="CEP"
-                        [(ngModel)]="user.cep"
-                        formControlName="cep"
-                        (blur)="getAddress()" 
-                        required />
-                </mat-form-field>
-            </div>
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.phone' | translate }}</mat-label>
+                  <input matInput
+                      name="phone"
+                      placeholder="Phone"
+                      [(ngModel)]="user.phone"
+                      formControlName="phone"/>
+              </mat-form-field>
 
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.address.cep' | translate }}</mat-label>
+                  <input matInput
+                      name="cep"
+                      placeholder="CEP"
+                      [(ngModel)]="user.cep"
+                      formControlName="cep"
+                      (blur)="getAddress()"/>
+              </mat-form-field>
+          </div>
+
+          <!-- street / number / city -->
           <div class="display-inline">
             <mat-form-field appearance="fill">
               <mat-label>
@@ -83,8 +84,7 @@
                 name="street"
                 placeholder="Street"
                 [(ngModel)]="user.street"
-                formControlName="street"
-                required />
+                formControlName="street"/>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>
@@ -94,8 +94,7 @@
                 name="number"
                 placeholder="Number"
                 [(ngModel)]="user.number"
-                formControlName="number"
-                required />
+                formControlName="number"/>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>
@@ -105,11 +104,11 @@
                 name="city"
                 placeholder="City"
                 [(ngModel)]="user.city"
-                formControlName="city"
-                required />
+                formControlName="city"/>
             </mat-form-field>
           </div>
 
+          <!-- state / country -->
           <div class="display-inline">
             <mat-form-field appearance="fill">
               <mat-label>
@@ -119,8 +118,7 @@
                 name="uf"
                 placeholder="State"
                 [(ngModel)]="user.uf"
-                formControlName="uf"
-                required />
+                formControlName="uf"/>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>
@@ -130,59 +128,60 @@
                 name="country"
                 placeholder="Country"
                 [(ngModel)]="user.country"
-                formControlName="country"
-                required />
+                formControlName="country"/>
             </mat-form-field>
           </div>
 
-            <div class="display-inline">
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.organization.name' | translate }}</mat-label>
-                    <input matInput
-                        name="company"
-                        [(ngModel)]="user.company"
-                        formControlName="company"
-                        required />
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.organization.type' | translate }}</mat-label>
-                    <mat-select [(value)]='user.companyType' formControlName='companyType' required>
-                        <mat-option *ngFor="let type of listTypes" [value]="type">
-                        {{ type }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.organization.sector_activity' | translate }}</mat-label>
-                    <mat-select [(value)]='user.sector' formControlName='sector' required>
-                        <mat-option *ngFor="let sector of listSectors" [value]="sector">
-                        {{ sector }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+          <!-- organization.name / type / sector_activity -->
+          <div class="display-inline">
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.organization.name' | translate }}</mat-label>
+                  <input matInput
+                      name="company"
+                      [(ngModel)]="user.company"
+                      formControlName="company"
+                      required />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.organization.type' | translate }}</mat-label>
+                  <mat-select [(value)]='user.companyType' formControlName='companyType' required>
+                      <mat-option *ngFor="let type of listTypes" [value]="type">
+                      {{ type }}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.organization.sector_activity' | translate }}</mat-label>
+                  <mat-select [(value)]='user.sector' formControlName='sector' required>
+                      <mat-option *ngFor="let sector of listSectors" [value]="sector">
+                      {{ sector }}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
 
-            <div class="display-inline" style="border-top: 1px dotted #000; padding-top: 15px;"> 
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.password' | translate }}</mat-label>
-                    <input matInput
-                        type="password"
-                        name="password"
-                        [(ngModel)]="user.password"
-                        formControlName="password"
-                        required />
-                </mat-form-field>
+          <!-- password / confirm_password -->
+          <div class="display-inline" style="border-top: 1px dotted #000; padding-top: 15px;">
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.password' | translate }}</mat-label>
+                  <input matInput
+                      type="password"
+                      name="password"
+                      [(ngModel)]="user.password"
+                      formControlName="password"
+                      required />
+              </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>{{ 'pages.auth.register.form.confirm_password' | translate }}</mat-label>
-                    <input matInput
-                        type="password"
-                        name="confirmPassword"
-                        [(ngModel)]="user.confirmPassword"
-                        formControlName="confirmPassword"
-                        required />
-                </mat-form-field>
-            </div>
+              <mat-form-field appearance="fill">
+                  <mat-label>{{ 'pages.auth.register.form.confirm_password' | translate }}</mat-label>
+                  <input matInput
+                      type="password"
+                      name="confirmPassword"
+                      [(ngModel)]="user.confirmPassword"
+                      formControlName="confirmPassword"
+                      required />
+              </mat-form-field>
+          </div>
         </div>
 
       <div class="actions">

@@ -35,21 +35,21 @@ export class RegisterComponent {
     private as: AuthService,
     public dialogRef: MatDialogRef<RegisterComponent>,
     private fb: FormBuilder) {
-    
+
     this.listTypes = orgTypes;
     this.listSectors = sectors;
 
     this.formRegister = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      ddd: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      cep: ['', [Validators.required]],
-      street: ['', [Validators.required]],
-      number: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      uf: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      ddd: [''],
+      phone: [''],
+      cep: [''],
+      street: [''],
+      number: [''],
+      city: [''],
+      uf: [''],
+      country: [''],
       company: ['', [Validators.required]],
       companyType: ['', [Validators.required]],
       sector: ['', [Validators.required]],
@@ -136,10 +136,10 @@ export class RegisterComponent {
       try {
         const response = await this.vs.getAddress(cep.replace('-', ''));
         if (response.logradouro) {
-          this.user['street'] = response.logradouro; 
-          this.user['city'] = response.localidade; 
-          this.user['uf'] = response.uf; 
-          this.user['country'] = 'Brazil'; 
+          this.user['street'] = response.logradouro;
+          this.user['city'] = response.localidade;
+          this.user['uf'] = response.uf;
+          this.user['country'] = 'Brazil';
         }
 
       } catch(err) {
