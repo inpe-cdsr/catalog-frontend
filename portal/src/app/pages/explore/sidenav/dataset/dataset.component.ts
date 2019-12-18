@@ -1,6 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, Output, EventEmitter} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
 import {Store} from '@ngrx/store';
@@ -184,6 +184,9 @@ export class ChecklistDatabase {
   providers: [ChecklistDatabase]
 })
 export class DatasetComponent {
+  /** emit event to sidenav */
+  @Output() stepToEmit = new EventEmitter();
+
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
 
@@ -384,6 +387,12 @@ export class DatasetComponent {
     // add the 'selectedCollections' to the store
     this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
 
-    // TODO: change to the next tab
+    // change to the 'search' tab
+    this.changeStepNav(1);
+  }
+
+  /** changing displayed menu */
+  private changeStepNav(step: number) {
+    this.stepToEmit.emit(step);
   }
 }

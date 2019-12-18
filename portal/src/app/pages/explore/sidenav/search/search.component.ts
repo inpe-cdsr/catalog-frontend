@@ -201,6 +201,8 @@ export class SearchComponent implements OnInit {
         // get the collection related to the feature
         let collection = (feature['properties']['collection'] || feature['collection']);
 
+        // console.log('\n\n this.collections: ', this.collections);
+
         // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
         let providers_by_collection = this.collections.filter(
           // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
@@ -210,6 +212,9 @@ export class SearchComponent implements OnInit {
             return pc.split(':')[1].trim() === collection
           }
         );
+
+        // console.log('\n\n providers_by_collection: ', providers_by_collection);
+
         // get the only 'provider:collection' in the array and get just the provider
         let provider = providers_by_collection[0].split(':')[0];
 
@@ -238,10 +243,10 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
-      // const collections = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
+      const collections = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
 
-      let query = `collections=${this.searchObj['collections'].join(',')}`;
-      // let query = `collections=${collections.join(',')}`;
+      // let query = `collections=${this.searchObj['collections'].join(',')}`;
+      let query = `collections=${collections.join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${endDate}T23:59:00`;
@@ -266,10 +271,10 @@ export class SearchComponent implements OnInit {
         this.store.dispatch(setFeaturesSeparateByProviders(f_by_p));
 
         // chance the tab on sidebar in order to show the 'tiles' tab
-        this.changeStepNav(1);
+        this.changeStepNav(2);
       } else {
         // chance the tab on sidebar in order to show the 'search' tab
-        this.changeStepNav(0);
+        this.changeStepNav(1);
         this.snackBar.open('IMAGES NOT FOUND!', '', {
           duration: 5000,
           verticalPosition: 'top',
@@ -278,7 +283,7 @@ export class SearchComponent implements OnInit {
       }
 
     } catch (err) {
-      this.changeStepNav(0);
+      this.changeStepNav(1);
       this.snackBar.open('INCORRECT SEARCH!', '', {
         duration: 5000,
         verticalPosition: 'top',

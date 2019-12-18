@@ -23,7 +23,7 @@
         </ng-template>
 
         <div class="sidenav_content">
-          <app-dataset></app-dataset>
+          <app-dataset (stepToEmit)="changeStep($event)"></app-dataset>
         </div>
       </mat-tab>
 
