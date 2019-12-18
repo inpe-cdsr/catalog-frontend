@@ -12,6 +12,7 @@ import { SearchService } from '../search/search.service';
 import { ExploreState } from '../../explore.state';
 import {
   setDatasetSelectedCollections,
+  setProvidersInfos,
   showLoading,
   closeLoading
 } from '../../explore.action';
@@ -112,6 +113,7 @@ export class ChecklistDatabase {
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
 
+      this.store.dispatch(setProvidersInfos(response.providers));
     } catch(err) {
       console.log('getProviders() error: ', err);
     } finally {
@@ -379,10 +381,6 @@ export class DatasetComponent {
         this.selectedCollections[provider].push(node.item);
       }
     });
-
-    console.log('\n providersWithItsCollections: ', this._database.providersWithItsCollections);
-
-    console.log('\n this.selectedCollections: ', this.selectedCollections);
 
     // add the 'selectedCollections' to the store
     this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));

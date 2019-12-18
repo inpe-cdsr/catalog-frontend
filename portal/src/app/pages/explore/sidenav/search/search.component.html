@@ -1,29 +1,6 @@
 <div class='container-search'>
 
   <form [formGroup]='formSearch' (ngSubmit)='search()'>
-    <!-- select providers -->
-    <mat-form-field appearance='outline' *ngIf='providers && providers.length > 1'>
-      <mat-label>
-        {{ 'pages.explore.sidenav.search.form.select_providers' | translate }}
-      </mat-label>
-      <mat-select [(value)]='searchObj.providers' multiple formControlName='providers' required>
-        <mat-option *ngFor='let provider of providers' [value]='provider' (click)='getCollections()'>
-          {{ provider }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- select collections -->
-    <mat-form-field appearance='outline' *ngIf='collections.length'>
-      <mat-label>
-        {{ 'pages.explore.sidenav.search.form.select_collections' | translate }}
-      </mat-label>
-      <mat-select [(value)]='searchObj.collections' multiple formControlName='collections' required>
-        <mat-option *ngFor='let collection of collections' [value]='collection'>
-          {{ collection }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
     <div class='search__region-box'>
       <!-- north / west / east / south -->

@@ -80,8 +80,6 @@
         "search": {
           "title": "Search",
           "form": {
-            "select_providers": "Select providers",
-            "select_collections": "Select collections",
             "north": "North",
             "east": "East",
             "south": "South",

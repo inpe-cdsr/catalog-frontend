@@ -80,8 +80,6 @@
         "search": {
           "title": "Consulta",
           "form": {
-            "select_providers": "Selecione provedores",
-            "select_collections": "Selecione coleções",
             "north": "Norte",
             "east": "Leste",
             "south": "Sul",

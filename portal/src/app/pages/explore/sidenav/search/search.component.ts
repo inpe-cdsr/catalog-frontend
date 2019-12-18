@@ -20,8 +20,7 @@ import {
   setFeatures,
   setFeaturesSeparateByProviders,
   setBbox,
-  removeGroupLayer,
-  setProvidersInfos
+  removeGroupLayer
 } from '../../explore.action';
 
 // interface
@@ -78,16 +77,10 @@ export class SearchComponent implements OnInit {
   /** emit event to sidenav */
   @Output() stepToEmit = new EventEmitter();
 
-  /** available cubes */
-  public collections: string[];
   /** cubes type */
   public typesCollection: string[];
   /** infos with parameters to search Cube */
   public searchObj: object;
-  /** available providers */
-  public providers: string[];
-
-  public providers_with_its_collections: object;
 
   public formSearch: FormGroup;
 
@@ -119,8 +112,6 @@ export class SearchComponent implements OnInit {
     });
 
     this.formSearch = this.fb.group({
-      providers: ['', [Validators.required]],
-      collections: ['', [Validators.required]],
       north: ['', [Validators.required]],
       west: ['', [Validators.required]],
       east: ['', [Validators.required]],
@@ -133,62 +124,7 @@ export class SearchComponent implements OnInit {
 
   /** set basic values used to mount component */
   ngOnInit() {
-    this.collections = [];
-    this.providers_with_its_collections = {};
-    this.getProviders();
     this.resetSearch();
-  }
-
-  /** getting available provider */
-  private async getProviders() {
-    try {
-      this.store.dispatch(showLoading());
-
-      const response = await this.ss.getProviders();
-      this.store.dispatch(setProvidersInfos(response.providers));
-
-      this.providers = Object.keys(response.providers);
-      if (this.providers.length == 1) {
-        this.searchObj['providers'] = this.providers;
-        this.getCollections();
-      }
-
-    } catch(err) {
-      console.log('getProviders() error: ', err);
-
-    } finally {
-      this.store.dispatch(closeLoading());
-    }
-  }
-
-  /** getting available collections */
-  public async getCollections() {
-    let providers = this.searchObj['providers'];
-
-    // when there is not one provider, it is not necessary to request collections to the server
-    if (providers.length === 0) {
-      return;
-    }
-
-    try {
-      this.store.dispatch(showLoading());
-
-      this.providers_with_its_collections = await this.ss.getCollections(providers);
-      this.collections = [];
-
-      Object.keys(this.providers_with_its_collections).forEach( provider => {
-        this.collections = [
-          ...this.collections,
-          ...this.providers_with_its_collections[provider].map(
-            collection => `${provider}:${collection}`
-          )
-        ]
-      })
-    } catch(err) {
-      console.log('getCollections() error: ', err);
-    } finally {
-      this.store.dispatch(closeLoading());
-    }
   }
 
   /** separating features by providers and collections */
@@ -293,8 +229,6 @@ export class SearchComponent implements OnInit {
   /** cleaning fields on the search form */
   private resetSearch() {
     this.searchObj = {
-      providers: '',
-      collections: '',
       bbox: {
         north: 0.3515602,
         south: -25.0059726,
