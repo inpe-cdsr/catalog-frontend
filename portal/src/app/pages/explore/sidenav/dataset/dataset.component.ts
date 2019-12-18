@@ -95,10 +95,6 @@ export class ChecklistDatabase {
     await this.getProviders();
     await this.getCollections(this.providers);
 
-    // console.log('this.providers: ', this.providers);
-    // console.log('this.collections: ', this.collections);
-    // console.log('this.providersWithItsCollections: ', this.providersWithItsCollections);
-
     // Build the tree nodes from Json object.
     // The result is a list of `ItemNode` with nested
     // file node as children.
@@ -383,6 +379,10 @@ export class DatasetComponent {
         this.selectedCollections[provider].push(node.item);
       }
     });
+
+    console.log('\n providersWithItsCollections: ', this._database.providersWithItsCollections);
+
+    console.log('\n this.selectedCollections: ', this.selectedCollections);
 
     // add the 'selectedCollections' to the store
     this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));

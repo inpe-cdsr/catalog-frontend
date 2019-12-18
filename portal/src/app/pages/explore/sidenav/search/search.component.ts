@@ -192,7 +192,7 @@ export class SearchComponent implements OnInit {
   }
 
   /** separating features by providers and collections */
-  private getFeaturesSeparateByProvidersAndCollections (features: Feature[]) {
+  private getFeaturesSeparateByProvidersAndCollections (features: Feature[], collectionsFollowingSTACComposeStandard: string[]) {
     // separate features by providers and collections
     let features_separate_by_providers = {};
 
@@ -201,10 +201,8 @@ export class SearchComponent implements OnInit {
         // get the collection related to the feature
         let collection = (feature['properties']['collection'] || feature['collection']);
 
-        // console.log('\n\n this.collections: ', this.collections);
-
         // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
-        let providers_by_collection = this.collections.filter(
+        let providers_by_collection = collectionsFollowingSTACComposeStandard.filter(
           // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
           pc => {
             // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
@@ -212,8 +210,6 @@ export class SearchComponent implements OnInit {
             return pc.split(':')[1].trim() === collection
           }
         );
-
-        // console.log('\n\n providers_by_collection: ', providers_by_collection);
 
         // get the only 'provider:collection' in the array and get just the provider
         let provider = providers_by_collection[0].split(':')[0];
@@ -243,10 +239,9 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
-      const collections = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
+      const collectionsFollowingSTACComposeStandard = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
 
-      // let query = `collections=${this.searchObj['collections'].join(',')}`;
-      let query = `collections=${collections.join(',')}`;
+      let query = `collections=${collectionsFollowingSTACComposeStandard.join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${endDate}T23:59:00`;
@@ -256,15 +251,13 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
-      // console.log('\n query: ', query);
-
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
       const feats = response.features.filter(f => f['type'].toLowerCase() === 'feature')
       if (response.meta.found > 0 && feats.length > 0) {
         // separate features by providers and collections
-        let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
+        let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features, collectionsFollowingSTACComposeStandard);
 
         // save 'features' and 'features_separate_by_providers' in the memory
         this.store.dispatch(setFeatures(feats));
@@ -281,7 +274,6 @@ export class SearchComponent implements OnInit {
           panelClass: 'app_snack-bar-error'
         });
       }
-
     } catch (err) {
       this.changeStepNav(1);
       this.snackBar.open('INCORRECT SEARCH!', '', {
@@ -289,7 +281,6 @@ export class SearchComponent implements OnInit {
         verticalPosition: 'top',
         panelClass: 'app_snack-bar-error'
       });
-
     } finally {
       this.store.dispatch(removeGroupLayer({
         key: 'alt',
