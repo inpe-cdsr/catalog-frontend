@@ -357,10 +357,6 @@ export class DatasetComponent {
   }
 
   selectCollections(): void {
-    console.log('\n providersWithItsCollections: ', this._database.providersWithItsCollections);
-
-    console.log('\n selectCollections() - this.checklistSelection: ', this.checklistSelection.selected);
-
     this.selectedCollections = {};
     const providersWithItsCollections = this._database.providersWithItsCollections;
 
@@ -389,7 +385,5 @@ export class DatasetComponent {
     this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
 
     // TODO: change to the next tab
-
-    console.log('\n this.selectedCollections: ', this.selectedCollections);
   }
 }

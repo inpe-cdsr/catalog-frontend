@@ -31,6 +31,13 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
 
+function isObjectEmpty(obj){
+  // Source: https://stackoverflow.com/a/32108184
+  // because Object.entries(new Date()).length === 0;
+  // we have to do some additional check
+  return Object.entries(obj).length === 0 && obj.constructor === Object
+}
+
 /**
  * component to search data of the BDC project
  * search => STAC and WMS
@@ -85,6 +92,9 @@ export class SearchComponent implements OnInit {
         // update the component template (HTML) manually, because for some reason,
         // the template is not updated automatically when I add the coordinates to the form
         this.ref.detectChanges();
+      }
+      if (!isObjectEmpty(res.datasetSelectedCollections)) {
+        this.searchObj['selectedCollections'] = res.datasetSelectedCollections;
       }
     });
 
@@ -214,7 +224,9 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
-      console.log('\n\n query: ', query);
+      // console.log('\n\n selectedCollections: ', this.searchObj['selectedCollections']);
+      // TODO: switch 'this.searchObj['collections'].join(',')' by 'this.searchObj['selectedCollections']'
+      // console.log('\n\n query: ', query);
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
@@ -267,6 +279,7 @@ export class SearchComponent implements OnInit {
         west: -68.0273437,
         east: -34.9365234
       },
+      selectedCollection: {},
       cloud: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
       last_date: new Date(),
