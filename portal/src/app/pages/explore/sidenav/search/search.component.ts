@@ -20,7 +20,8 @@ import {
   setFeatures,
   setFeaturesSeparateByProviders,
   setBbox,
-  removeGroupLayer
+  removeGroupLayer,
+  setProvidersInfos
 } from '../../explore.action';
 
 // interface
@@ -144,6 +145,8 @@ export class SearchComponent implements OnInit {
       this.store.dispatch(showLoading());
 
       const response = await this.ss.getProviders();
+      this.store.dispatch(setProvidersInfos(response.providers));
+
       this.providers = Object.keys(response.providers);
       if (this.providers.length == 1) {
         this.searchObj['providers'] = this.providers;
@@ -194,30 +197,32 @@ export class SearchComponent implements OnInit {
     let features_separate_by_providers = {};
 
     features.forEach( feature => {
-      // get the collection related to the feature
-      let collection = (feature['properties']['collection'] || feature['collection']);
+      if (feature['type'].toLowerCase() === 'feature') {
+        // get the collection related to the feature
+        let collection = (feature['properties']['collection'] || feature['collection']);
 
-      // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
-      let providers_by_collection = this.collections.filter(
-        // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
-        pc => {
-          // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
-          // then return the 'pc' variable inside a new list
-          return pc.split(':')[1].trim() === collection
-        }
-      );
-      // get the only 'provider:collection' in the array and get just the provider
-      let provider = providers_by_collection[0].split(':')[0];
+        // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
+        let providers_by_collection = this.collections.filter(
+          // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
+          pc => {
+            // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
+            // then return the 'pc' variable inside a new list
+            return pc.split(':')[1].trim() === collection
+          }
+        );
+        // get the only 'provider:collection' in the array and get just the provider
+        let provider = providers_by_collection[0].split(':')[0];
 
-      // if a 'provider' already exists, then return the existing content, else create an empty provider object
-      features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
-      // if a 'collection' already exists, then return the existing content, else create an empty collection object
-      features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || {};
-      // if 'features' already exists, then return the existing content, else create an empty 'features' list
-      features_separate_by_providers[provider][collection]['features'] = features_separate_by_providers[provider][collection]['features'] || [];
-      // add the 'feature' to the array of 'features'
-      features_separate_by_providers[provider][collection]['features'].push(feature);
-    })
+        // if a 'provider' already exists, then return the existing content, else create an empty provider object
+        features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
+        // if a 'collection' already exists, then return the existing content, else create an empty collection object
+        features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || {};
+        // if 'features' already exists, then return the existing content, else create an empty 'features' list
+        features_separate_by_providers[provider][collection]['features'] = features_separate_by_providers[provider][collection]['features'] || [];
+        // add the 'feature' to the array of 'features'
+        features_separate_by_providers[provider][collection]['features'].push(feature);
+      }
+    });
 
     return features_separate_by_providers;
   }
@@ -251,12 +256,13 @@ export class SearchComponent implements OnInit {
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
-      if (response.meta.found > 0 && !response.features[0].features) {
+      const feats = response.features.filter(f => f['type'].toLowerCase() === 'feature')
+      if (response.meta.found > 0 && feats.length > 0) {
         // separate features by providers and collections
         let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features);
 
         // save 'features' and 'features_separate_by_providers' in the memory
-        this.store.dispatch(setFeatures(response.features));
+        this.store.dispatch(setFeatures(feats));
         this.store.dispatch(setFeaturesSeparateByProviders(f_by_p));
 
         // chance the tab on sidebar in order to show the 'tiles' tab

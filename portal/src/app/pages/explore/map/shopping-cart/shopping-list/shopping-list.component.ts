@@ -23,7 +23,7 @@ export class ShoppingListComponent {
   public logged = false;
   public page = {};
   private features_by_providers = [];
-  private providersToken = window['__env'].providersToken;
+  private providersToken = [];
 
   private credentials = {
     username: '',
@@ -35,6 +35,12 @@ export class ShoppingListComponent {
     private store: Store<ExploreState>,
     public dialogRef: MatDialogRef<ShoppingListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      Object.keys(data.providers).forEach(p => {
+        if (data.providers[p]['require_credentials'] === 1) {
+          this.providersToken.push(p);
+        }
+      })
+
       this.features = data.features;
       this.getCollections();
       this.store.pipe(select('auth')).subscribe(res => {
@@ -48,7 +54,7 @@ export class ShoppingListComponent {
           const f_by_p = res.features_separate_by_providers
           this.features_by_providers = [];
           Object.keys(res.features_separate_by_providers).forEach(p => {
-            this.providersToken.split(',').forEach(provider => {
+            this.providersToken.forEach(provider => {
               if (p.toLowerCase() === provider.toLowerCase()) {
                 Object.keys(f_by_p[p]).forEach(c => {
                   const features = f_by_p[p][c]['features'];
@@ -142,16 +148,19 @@ export class ShoppingListComponent {
   }
 
   private dispatchDownload(url) {
+    const urlParts = url.split('/')
+    let fileName = urlParts[urlParts.length-1];
+
     const element = document.createElement("a");
     element.href = url;
     element.target = "_blank";
-    element.setAttribute("download", url);
+    element.setAttribute("download", fileName.split('?')[0]);
     element.click();
   }
 
   private generateURL(sceneId, url): string {
     const feats = this.features_by_providers.filter(f => f['id'] === sceneId); 
-    return feats.length > 0 ? `http://${url}?key=${this.credentials.username}:${this.credentials.password}` : url;
+    return feats.length > 0 ? `${url}?key=${this.credentials.username}:${this.credentials.password}` : url;
   }
 
 }

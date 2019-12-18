@@ -11,7 +11,8 @@ import {
   removeGroupLayer,
   setFeatureToDownload,
   removeFeatureToDownload,
-  removeAllFeaturesToDownload
+  removeAllFeaturesToDownload,
+  setProvidersInfos
 } from './explore.action';
 import { ExploreState } from './explore.state';
 
@@ -25,7 +26,8 @@ const initialState: ExploreState = {
   featuresToDownload: [],
   loading: false,
   bbox: null,
-  datasetSelectedCollections: {}
+  datasetSelectedCollections: {},
+  providersInfos: {}
 };
 
 /**
@@ -76,4 +78,7 @@ export const reducer = createReducer(initialState,
   on(closeLoading, (state) => {
     return { ...state, loading: false };
   }),
+  on(setProvidersInfos, (state, payload) => {
+    return { ...state, providersInfos: payload };
+  })
 );

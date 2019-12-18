@@ -28,6 +28,7 @@ export class TileComponent{
   public features_separate_by_providers$: Object;
   public providers: string[];
   public providersVisible = {};
+  public providersInfos = {};
 
   /** get infos by store application */
   constructor(private store: Store<ExploreState>, public dialog: MatDialog) {
@@ -43,6 +44,10 @@ export class TileComponent{
           this.providers.forEach( (p, i) => {
             this.providersVisible[p] = true;
           });
+        }
+
+        if(res.providersInfos) {
+          this.providersInfos = res.providersInfos;
         }
 
         // test/example (these lines can be removed) (sidenav.component must be updated as well)
@@ -83,10 +88,6 @@ export class TileComponent{
         features: features_to_send
       }
     });
-  }
-
-  public formatProvider(provider) {
-    return provider.toLowerCase().replace('_stac', '').replace(/_/g, ' ');
   }
 
   public addCollectionToShopping(provider, collection) {

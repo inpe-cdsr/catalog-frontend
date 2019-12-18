@@ -39,7 +39,7 @@
     </div>
 
     <div class="box-list" *ngFor="let collection of collections">
-      <p style="font-size: 1.1em; text-transform: capitalize;"><b>{{ collection }}:</b></p>
+      <p style="font-size: 1.1em;"><b>{{ collection }}:</b></p>
 
       <div class="list">
         <div *ngFor="let feature of filterFeatures(features, collection) | paginate: { id: collection, itemsPerPage: page[collection].perPage, currentPage: page[collection].page }"

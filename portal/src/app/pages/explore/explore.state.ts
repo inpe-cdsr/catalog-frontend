@@ -22,4 +22,5 @@ export interface ExploreState {
   readonly datasetSelectedCollections: object;
   /** status visible - loading component */
   readonly loading: boolean;
+  readonly providersInfos: object;
 }
