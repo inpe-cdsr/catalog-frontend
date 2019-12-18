@@ -31,11 +31,30 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
 
-function isObjectEmpty(obj){
+function isObjectEmpty(obj: object): boolean{
   // Source: https://stackoverflow.com/a/32108184
   // because Object.entries(new Date()).length === 0;
   // we have to do some additional check
   return Object.entries(obj).length === 0 && obj.constructor === Object
+}
+
+function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
+  let collectionsFollowingSTACComposeStandard: string[] = [];
+
+  for (let provider in providers_with_collections) {
+    // 'type' is not a provider, then ignore it
+    if (provider === 'type') {
+      continue;
+    }
+
+    let collections: string[] = providers_with_collections[provider];
+
+    for (let collection of collections) {
+      collectionsFollowingSTACComposeStandard.push(provider + ':' + collection);
+    }
+  }
+
+  return collectionsFollowingSTACComposeStandard;
 }
 
 /**
@@ -214,7 +233,10 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
+      // const collections = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
+
       let query = `collections=${this.searchObj['collections'].join(',')}`;
+      // let query = `collections=${collections.join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
       query += `&time=${startDate}T00:00:00`;
       query += `/${endDate}T23:59:00`;
@@ -224,9 +246,7 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
-      // console.log('\n\n selectedCollections: ', this.searchObj['selectedCollections']);
-      // TODO: switch 'this.searchObj['collections'].join(',')' by 'this.searchObj['selectedCollections']'
-      // console.log('\n\n query: ', query);
+      // console.log('\n query: ', query);
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
