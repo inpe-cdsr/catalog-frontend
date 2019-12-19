@@ -2,10 +2,10 @@
   <div class="container-sidenav">
     <header>
       <div class="sidenav_logo">
-        <p style="font-weight: 700; font-size: 24px;">
+        <p class="title">
           {{ 'pages.explore.sidenav.title' | translate }}
         </p>
-        <p style="margin-top: 0px">
+        <p class="subtitle">
           {{ 'pages.explore.sidenav.subtitle' | translate }}
         </p>
       </div>
@@ -19,7 +19,9 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>list</mat-icon>
-          {{ 'pages.explore.sidenav.dataset.title' | translate }}
+          <div class="sidenav-tab-title">
+            {{ 'pages.explore.sidenav.dataset.title' | translate }}
+          </div>
         </ng-template>
 
         <div class="sidenav_content">
@@ -31,7 +33,9 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>search</mat-icon>
-          {{ 'pages.explore.sidenav.search.title' | translate }}
+          <div class="sidenav-tab-title">
+            {{ 'pages.explore.sidenav.search.title' | translate }}
+          </div>
         </ng-template>
 
         <div class="sidenav_content">
@@ -43,7 +47,9 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>list</mat-icon>
-          {{ 'pages.explore.sidenav.result.title' | translate }}
+          <div class="sidenav-tab-title">
+            {{ 'pages.explore.sidenav.result.title' | translate }}
+          </div>
         </ng-template>
 
         <div class="sidenav_content">
