@@ -103,6 +103,11 @@ export class SearchComponent implements OnInit {
         this.ref.detectChanges();
       }
       if (!isObjectEmpty(res.datasetSelectedCollections)) {
+        // remove unnecessary key
+        if ('type' in res.datasetSelectedCollections) {
+          delete res.datasetSelectedCollections['type'];
+        }
+
         this.searchObj['selectedCollections'] = res.datasetSelectedCollections;
       }
     });

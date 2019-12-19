@@ -389,13 +389,13 @@ export class DatasetComponent {
         }
       });
 
+      // add the 'selectedCollections' to the store
+      this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
+
       // if the object is empty, then raise an exception
       if (isObjectEmpty(this.selectedCollections)) {
         throw new Error("You must choose at least one collection!");
       }
-
-      // add the 'selectedCollections' to the store
-      this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
 
       // change to the 'search' tab
       this.changeStepNav(1);
