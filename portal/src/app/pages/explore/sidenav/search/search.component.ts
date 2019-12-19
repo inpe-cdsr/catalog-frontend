@@ -30,13 +30,8 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
+import { isObjectEmpty } from 'src/app/shared/helpers/common';
 
-function isObjectEmpty(obj: object): boolean{
-  // Source: https://stackoverflow.com/a/32108184
-  // because Object.entries(new Date()).length === 0;
-  // we have to do some additional check
-  return Object.entries(obj).length === 0 && obj.constructor === Object
-}
 
 function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
   let collectionsFollowingSTACComposeStandard: string[] = [];
@@ -56,6 +51,7 @@ function getCollectionsFollowingSTACComposeStandard(providers_with_collections: 
 
   return collectionsFollowingSTACComposeStandard;
 }
+
 
 /**
  * component to search data of the BDC project
@@ -167,6 +163,11 @@ export class SearchComponent implements OnInit {
   /** searching feature/items on STAC-COMPOSE */
   public async search() {
     try {
+      // if the object is empty, then raise an exception
+      if (isObjectEmpty(this.searchObj['selectedCollections'])) {
+        throw new Error("You must choose at least one collection in the previous tab!");
+      }
+
       this.store.dispatch(setFeatures([]));
       this.store.dispatch(showLoading());
 
@@ -212,7 +213,7 @@ export class SearchComponent implements OnInit {
       }
     } catch (err) {
       this.changeStepNav(1);
-      this.snackBar.open('INCORRECT SEARCH!', '', {
+      this.snackBar.open(err.message.toUpperCase(), '', {
         duration: 5000,
         verticalPosition: 'top',
         panelClass: 'app_snack-bar-error'
@@ -235,7 +236,7 @@ export class SearchComponent implements OnInit {
         west: -68.0273437,
         east: -34.9365234
       },
-      selectedCollection: {},
+      selectedCollections: {},
       cloud: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
       last_date: new Date(),

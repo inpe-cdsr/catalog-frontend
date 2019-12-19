@@ -2,6 +2,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {Component, Injectable, Output, EventEmitter} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import {MatSnackBar} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {Store} from '@ngrx/store';
 
@@ -16,6 +17,10 @@ import {
   showLoading,
   closeLoading
 } from '../../explore.action';
+
+// other
+import { isObjectEmpty } from 'src/app/shared/helpers/common';
+
 
 /**
  * Node for item
@@ -206,6 +211,7 @@ export class DatasetComponent {
   constructor(
     private _database: ChecklistDatabase,
     private store: Store<ExploreState>,
+    private snackBar: MatSnackBar,
   ) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
@@ -358,35 +364,49 @@ export class DatasetComponent {
   }
 
   selectCollections(): void {
-    this.selectedCollections = {};
-    const providersWithItsCollections = this._database.providersWithItsCollections;
+    try {
+      this.selectedCollections = {};
+      const providersWithItsCollections = this._database.providersWithItsCollections;
 
-    this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
-      // if 'node.level == 1', then this node is a collection
-      if (node.level == 1) {
-        // if I'm a collection, then my parent is a provider
-        let provider = node.parent.item;
+      this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
+        // if 'node.level == 1', then this node is a collection
+        if (node.level == 1) {
+          // if I'm a collection, then my parent is a provider
+          let provider = node.parent.item;
 
-        // initialize 'selectedCollections' with 'provider' for the first time
-        // (1) check if the provider was not initialized before; and
-        // (2) check if the provider is inside the 'selectedCollections'
-        // object
-        // then create a new list of collections by using the provider as a key
-        if (!(provider in this.selectedCollections) &&
-             (provider in providersWithItsCollections)) {
-          this.selectedCollections[provider] = [];
+          // initialize 'selectedCollections' with 'provider' for the first time
+          // (1) check if the provider was not initialized before; and
+          // (2) check if the provider is inside the 'selectedCollections'
+          // object
+          // then create a new list of collections by using the provider as a key
+          if (!(provider in this.selectedCollections) &&
+              (provider in providersWithItsCollections)) {
+            this.selectedCollections[provider] = [];
+          }
+          // if my parent (i.e. a provider) is already inside the 'selectedCollections'
+          // object, then add the node (i.e. a collection) inside the list of collections
+          this.selectedCollections[provider].push(node.item);
         }
-        // if my parent (i.e. a provider) is already inside the 'selectedCollections'
-        // object, then add the node (i.e. a collection) inside the list of collections
-        this.selectedCollections[provider].push(node.item);
+      });
+
+      // if the object is empty, then raise an exception
+      if (isObjectEmpty(this.selectedCollections)) {
+        throw new Error("You must choose at least one collection!");
       }
-    });
 
-    // add the 'selectedCollections' to the store
-    this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
+      // add the 'selectedCollections' to the store
+      this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
 
-    // change to the 'search' tab
-    this.changeStepNav(1);
+      // change to the 'search' tab
+      this.changeStepNav(1);
+
+    } catch (err) {
+      this.snackBar.open(err.message.toUpperCase(), '', {
+        duration: 5000,
+        verticalPosition: 'top',
+        panelClass: 'app_snack-bar-error'
+      });
+    }
   }
 
   /** changing displayed menu */

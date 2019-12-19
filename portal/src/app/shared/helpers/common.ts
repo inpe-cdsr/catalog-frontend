@@ -37,3 +37,10 @@ export function downloadFile(filename: string, data: string, type = 'text/plain;
     document.body.removeChild(element);
   }
 }
+
+export function isObjectEmpty(obj: object): boolean{
+  // Source: https://stackoverflow.com/a/32108184
+  // because Object.entries(new Date()).length === 0;
+  // we have to do some additional check
+  return Object.entries(obj).length === 0 && obj.constructor === Object
+}
