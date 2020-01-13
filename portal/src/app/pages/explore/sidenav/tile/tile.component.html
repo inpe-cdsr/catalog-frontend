@@ -21,6 +21,11 @@
           *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])" 
           class="box-collection">
           <header>
+            <mat-slide-toggle
+              [(ngModel)]='features_separate_by_providers$[provider][collection].enabled'
+              (change)='onChangeLayersByCollection($event, provider, collection)'>
+            </mat-slide-toggle>
+
             <h1>
               {{ collection }} 
               <span style="color: #000;">({{ features_separate_by_providers$[provider][collection]["features"].length }})</span>

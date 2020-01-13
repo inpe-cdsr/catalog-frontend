@@ -12,7 +12,9 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // component
 import { DialogCollectionDownloadComponent } from 'src/app/shared/components/dialog-collection-download/dialog-collection-download.component';
-import { setFeatureToDownload } from '../../explore.action';
+import { setFeatureToDownload, removeGroupLayer, setLayers, setFeaturesSeparateByProviders } from '../../explore.action';
+import { formatDateUSA } from 'src/app/shared/helpers/date';
+import { imageOverlay, geoJSON } from 'leaflet';
 
 // other
 // import { FEATURES_BY_PROVIDERS_SAMPLE } from 'src/app/shared/example/feature';
@@ -94,6 +96,43 @@ export class TileComponent{
     this.features_separate_by_providers$[provider][collection].features.forEach(f => {
       this.store.dispatch(setFeatureToDownload(f));
     });
+  }
+
+  public onChangeLayersByCollection(event, provider, collection) {
+    if (event.checked) {
+      let newLayers = [];
+      this.features_separate_by_providers$[provider][collection]['enabled'] = true;
+      this.features_separate_by_providers$[provider][collection].features.forEach(f => {
+        f['enabled'] = true
+        
+        const featureGeoJson = geoJSON(f);
+        const bounds = featureGeoJson.getBounds();
+        const newlayer = imageOverlay(f.assets.thumbnail.href, bounds, {
+          'alt': `qls_${f.id}`,
+          interactive: true
+        }).setZIndex(999).bindPopup( _ => {
+          return `
+            <p><b>ID</b>: ${ f.id }</p>
+            <p><b>Date</b>: ${ formatDateUSA(new Date(f.properties.datetime)) }</p>
+            <p><b>Collection</b>: ${ 'collection' in f ? f['collection'] : f['properties']['collection'] }</p>
+            <p><b>Cloud Cover</b>: ${ f.properties['eo:cloud_cover'] || '-' }</p>
+          `;
+        });
+        newLayers.push(newlayer);
+      });
+      this.store.dispatch(setLayers(newLayers));
+
+    } else {
+      this.features_separate_by_providers$[provider][collection]['enabled'] = false;
+      const featsByProviders = this.features_separate_by_providers$[provider][collection].features.map(f => {
+        return {...f, enabled: false}
+      });
+      this.features_separate_by_providers$[provider][collection].features = featsByProviders;
+      this.store.dispatch(removeGroupLayer({
+        key: 'alt',
+        prefix: `qls_`
+      }));
+    }
   }
 
 }
