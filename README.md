@@ -61,9 +61,18 @@ You can build a new production Docker image to run the application inside the `d
 
 Build the web portal. The built code below will be added inside the final image afterwards.
 
+Development:
+
 ```
 cd portal/
 npm run build -- --base-href /catalogo/
+```
+
+Production:
+
+```
+cd portal/
+npm run build -- --base-href /catalogo/ --prod
 ```
 
 Build the production Docker image:
