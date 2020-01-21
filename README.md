@@ -20,7 +20,7 @@ Folders:
 
 Make sure you have the following libraries installed:
 
-- [`Node.js >= 10.x`](https://nodejs.org/en/)
+- [`Node.js >= v12.14.1`](https://nodejs.org/en/)
 - [`Angular CLI >= 8.3.3`](https://angular.io/)
 
 Install the dependencies:
@@ -52,23 +52,23 @@ Build the development Docker image:
 
 ```
 cd portal/
-docker build -t dgi-catalog-frontend -f dev.Dockerfile . --no-cache
+docker build -t inpe-cdsr-catalog-frontend -f dev.Dockerfile . --no-cache
 ```
 
 #### Production
 
 You can build a new production Docker image to run the application inside the `docker-compose.prod.yml` on [docker-compose](https://github.com/dgi-catalog/docker-compose) repository with all other DGI Catalog services.
 
-Build the web portal. The built code below will be added inside the final image afterwards.
+Building the web portal. The built code below will be added inside the final image afterwards.
 
-Development:
+- Building in development mode:
 
 ```
 cd portal/
 npm run build -- --base-href /catalogo/
 ```
 
-Production:
+- Building in production mode:
 
 ```
 cd portal/
