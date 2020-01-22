@@ -87,6 +87,7 @@
             "start_date": "Start date",
             "end_date": "End date",
             "cloud_cover": "Cloud cover (max)",
+            "limit": "Limit",
             "button": {
               "submit": "Filter"
             }

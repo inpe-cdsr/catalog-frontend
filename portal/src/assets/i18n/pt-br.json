@@ -87,6 +87,7 @@
             "start_date": "Data inicial",
             "end_date": "Data final",
             "cloud_cover": "Cobertura de nuvem (max)",
+            "limit": "Limite",
             "button": {
               "submit": "Filtrar"
             }

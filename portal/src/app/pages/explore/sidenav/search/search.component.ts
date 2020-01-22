@@ -1,6 +1,6 @@
 // angular
 import { Component, OnInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 
@@ -50,6 +50,37 @@ function getCollectionsFollowingSTACComposeStandard(providers_with_collections: 
   }
 
   return collectionsFollowingSTACComposeStandard;
+}
+
+
+function validateForm(form) {
+  // Source: https://stackoverflow.com/a/44280487/8447990
+
+  let errorMessage: string[] = [];
+
+  if (form.status !== 'VALID'){
+
+    Object.keys(form.controls).forEach(field => {
+      const controlErrors: ValidationErrors = form.get(field).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(fieldError => {
+          if (fieldError === 'required') {
+            errorMessage.push('\'' + field + '\' field is required');
+          }
+
+          if (fieldError === 'max') {
+            errorMessage.push('maximum value to \'' + field + '\' field is ' + controlErrors[fieldError][fieldError]);
+          }
+
+          if (fieldError === 'min') {
+            errorMessage.push('minimum value to \'' + field + '\' field is ' + controlErrors[fieldError][fieldError]);
+          }
+        });
+      }
+    });
+
+    throw new Error("There are problems with required fields! Error: " + errorMessage.join(';'));
+  }
 }
 
 
@@ -119,7 +150,8 @@ export class SearchComponent implements OnInit {
       south: ['', [Validators.required]],
       start_date: ['', [Validators.required]],
       last_date: ['', [Validators.required]],
-      cloud: ['']
+      cloud: [''],
+      limit: ['', [Validators.required, Validators.min(0),  Validators.max(1000)]]
     })
   }
 
@@ -168,6 +200,8 @@ export class SearchComponent implements OnInit {
   /** searching feature/items on STAC-COMPOSE */
   public async search() {
     try {
+      validateForm(this.formSearch);
+
       // if the object is empty, then raise an exception
       if (isObjectEmpty(this.searchObj['selectedCollections'])) {
         throw new Error("You must choose at least one collection in the previous tab!");
@@ -185,13 +219,14 @@ export class SearchComponent implements OnInit {
 
       let query = `collections=${collectionsFollowingSTACComposeStandard.join(',')}`;
       query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
-      query += `&time=${startDate}T00:00:00`;
-      query += `/${endDate}T23:59:00`;
+      query += `&time=${startDate}T00:00:00/${endDate}T23:59:00`;
       query += `&limit=${this.searchObj['limit']}`;
 
       if (parseInt(this.searchObj['cloud']) > 0) {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
+
+      // console.log('\n\n query: ', query);
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
@@ -211,7 +246,7 @@ export class SearchComponent implements OnInit {
         // chance the tab on sidebar in order to show the 'search' tab
         this.changeStepNav(1);
         this.snackBar.open('IMAGES NOT FOUND!', '', {
-          duration: 5000,
+          duration: 10000,
           verticalPosition: 'top',
           panelClass: 'app_snack-bar-error'
         });
@@ -219,7 +254,7 @@ export class SearchComponent implements OnInit {
     } catch (err) {
       this.changeStepNav(1);
       this.snackBar.open(err.message.toUpperCase(), '', {
-        duration: 5000,
+        duration: 10000,
         verticalPosition: 'top',
         panelClass: 'app_snack-bar-error'
       });
@@ -245,7 +280,7 @@ export class SearchComponent implements OnInit {
       cloud: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
       last_date: new Date(),
-      limit: 10000
+      limit: 10
     };
   }
 

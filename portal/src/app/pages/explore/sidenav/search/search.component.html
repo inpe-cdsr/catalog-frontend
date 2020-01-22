@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <!-- start/End Date -->
+    <!-- start/end Date -->
     <div class="search_dates-box">
       <mat-form-field appearance='outline' style='width: 50%'>
         <mat-label>
@@ -108,7 +108,7 @@
       </mat-form-field>
     </div>
 
-    <!-- cloud Cover -->
+    <!-- cloud cover -->
     <mat-form-field appearance='outline'>
       <mat-label>
         {{ 'pages.explore.sidenav.search.form.cloud_cover' | translate }}
@@ -120,6 +120,21 @@
           name='cloud'
           [(ngModel)]='searchObj.cloud'
         formControlName='cloud'>
+      <span matSuffix>%</span>
+    </mat-form-field>
+
+    <!-- limit -->
+    <mat-form-field appearance='outline'>
+      <mat-label>
+        {{ 'pages.explore.sidenav.search.form.limit' | translate }}
+      </mat-label>
+      <input type='number'
+          min='0'
+          max='1000'
+          matInput
+          name='limit'
+          [(ngModel)]='searchObj.limit'
+        formControlName='limit'>
       <span matSuffix>%</span>
     </mat-form-field>
 
