@@ -125,13 +125,13 @@ export class TileComponent{
     } else {
       this.features_separate_by_providers$[provider][collection]['enabled'] = false;
       const featsByProviders = this.features_separate_by_providers$[provider][collection].features.map(f => {
+        this.store.dispatch(removeGroupLayer({
+          key: 'alt',
+          prefix: `qls_${f.id}`
+        }));
         return {...f, enabled: false}
       });
       this.features_separate_by_providers$[provider][collection].features = featsByProviders;
-      this.store.dispatch(removeGroupLayer({
-        key: 'alt',
-        prefix: `qls_`
-      }));
     }
   }
 
