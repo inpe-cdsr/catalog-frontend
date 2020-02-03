@@ -1,20 +1,43 @@
-<section class='dialog-feature'>
-    <a [href]='feature.assets.thumbnail.href' target='_blank'>
-      <img [src]='feature.assets.thumbnail.href' onerror="this.src='/catalogo/assets/images/notfound.png'"/>
-    </a>
+<h1 mat-dialog-title>
+  {{ feature.id }}
+</h1>
 
-  <div class="content">
-    <p>
-      <mat-icon>arrow_right</mat-icon><b>ID</b>: {{ feature.id }}
-    </p>
-    <p>
-      <mat-icon>collections</mat-icon> <b>Collection</b>: {{ getCollectionFromFeature(feature) }}
-    </p>
-    <p>
-      <mat-icon>date_range</mat-icon> <b>Date</b>: {{ getFormattedDate(feature.properties.datetime) }}
-    </p>
-    <p>
-      <mat-icon>cloud_queue</mat-icon> <b>Cloud Cover</b>: {{ getCloudCover(feature) }}
-    </p>
+<div mat-dialog-content class='dialog-feature'>
+  <div class='content'>
+
+    <div class='column img-column'>
+      <div class='row'>
+        <a [href]='feature.assets.thumbnail.href' target='_blank'>
+          <img [src]='feature.assets.thumbnail.href' onerror="this.src='/catalogo/assets/images/notfound.png'"/>
+        </a>
+      </div>
+    </div>
+
+    <div class='column'>
+      <div class='row'>
+        <p>
+          <mat-icon>arrow_right</mat-icon><b>ID</b>: {{ feature.id }}
+        </p>
+        <p>
+          <mat-icon>collections</mat-icon> <b>Collection</b>: {{ getCollectionFromFeature(feature) }}
+        </p>
+        <p>
+          <mat-icon>date_range</mat-icon> <b>Date</b>: {{ getFormattedDate(feature.properties.datetime) }}
+        </p>
+        <p>
+          <b>Properties</b>:
+        </p>
+        <p *ngFor="let property of feature['properties'] | keyvalue">
+          <b>- {{ property.key | titlecase }}</b>: {{ property.value }}
+        </p>
+      </div>
+    </div>
+
   </div>
-</section>
+</div>
+
+<!-- buttons -->
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div> -->

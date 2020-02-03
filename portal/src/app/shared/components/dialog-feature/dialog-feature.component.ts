@@ -33,9 +33,4 @@ export class DialogFeatureComponent {
   getCollectionFromFeature(feature: Feature): string {
     return 'collection' in feature ? feature['collection'] : feature['properties']['collection'];
   }
-
-  getCloudCover(feature: Feature) {
-    return 'eo:cloud_cover' in feature['properties'] ? feature['properties']['eo:cloud_cover'] : feature['properties']['cloud_cover'];
-  }
-
 }
