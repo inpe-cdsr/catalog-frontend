@@ -28,7 +28,7 @@
           <b>Properties</b>:
         </p>
         <p *ngFor="let property of feature['properties'] | keyvalue">
-          <b>- {{ property.key | titlecase }}</b>: {{ property.value }}
+          <b>- {{ property.key }}</b>: {{ property.value }}
         </p>
       </div>
     </div>

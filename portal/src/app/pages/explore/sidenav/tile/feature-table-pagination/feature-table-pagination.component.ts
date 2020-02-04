@@ -56,23 +56,28 @@ export class FeatureTablePaginationComponent implements OnInit {
         return f;
       });
 
+      let popupMessage = `
+        <p><b>ID</b>: ${ feature.id }</p>
+        <p><b>Date</b>: ${ formatDateUSA(new Date(feature.properties.datetime)) }</p>
+        <p><b>Collection</b>: ${ 'collection' in feature ? feature['collection'] : feature['properties']['collection'] }</p>
+        <p><b>Properties</b>:</p>
+      `;
+
+      // add the properties to the popup message
+      for (let property in feature.properties) {
+        popupMessage += `<p><b>- ${ property }</b>: ${ feature.properties[property] }</p>`
+      }
+
       const featureGeoJson = geoJSON(feature);
       const bounds = featureGeoJson.getBounds();
       const newlayer = imageOverlay(feature.assets.thumbnail.href, bounds, {
         'alt': `qls_${feature.id}`,
         interactive: true
       }).setZIndex(999).bindPopup( _ => {
-        return `
-          <p><b>ID</b>: ${ feature.id }</p>
-          <p><b>Date</b>: ${ formatDateUSA(new Date(feature.properties.datetime)) }</p>
-          <p><b>Collection</b>: ${ 'collection' in feature ? feature['collection'] : feature['properties']['collection'] }</p>
-          <p><b>Cloud Cover</b>: ${ feature.properties['eo:cloud_cover'] || '-' }</p>
-        `;
+        return popupMessage;
       });
 
-
       this.store.dispatch(setLayers([newlayer]));
-
     } else {
       this.features = this.features.map( f => {
         if (f.id == feature.id) {
