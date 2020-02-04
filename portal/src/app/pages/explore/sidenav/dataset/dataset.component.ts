@@ -38,25 +38,6 @@ export class ItemFlatNode {
   parent: ItemFlatNode;
 }
 
-/**
- * The Json object for list data.
- */
-// const TREE_DATA = {
-//   'INPE-CDSR': [
-//     'CB4_AWFI_L4_DN',
-//     'CB4_AWFI_L4_SR'
-//   ],
-//   'LANDAST8-SENTINEL2-AWS': [
-//     'landsat-8-l1',
-//     'sentinel-2'
-//   ],
-//   'CBERS4-AWS': [
-//     'CBERS4MUX',
-//     'CBERS4AWFI',
-//     'CBERS4PAN10M'
-//   ]
-// };
-
 
 /**
  * Checklist database, it can build a tree structured Json object.
@@ -366,7 +347,7 @@ export class DatasetComponent {
   selectCollections(): void {
     try {
       this.selectedCollections = {};
-      const providersWithItsCollections = this._database.providersWithItsCollections;
+      const providersWithTheirCollections = this._database.providersWithItsCollections;
 
       this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
         // if 'node.level == 1', then this node is a collection
@@ -380,7 +361,7 @@ export class DatasetComponent {
           // object
           // then create a new list of collections by using the provider as a key
           if (!(provider in this.selectedCollections) &&
-              (provider in providersWithItsCollections)) {
+              (provider in providersWithTheirCollections)) {
             this.selectedCollections[provider] = [];
           }
           // if my parent (i.e. a provider) is already inside the 'selectedCollections'
