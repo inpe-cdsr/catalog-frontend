@@ -39,10 +39,9 @@ export class TileComponent{
       if (res.features_separate_by_providers) {
         // original
         this.providers = Object.keys(res.features_separate_by_providers).filter( feature => feature !== 'type' );
-        
+
         this.features_separate_by_providers$ = res.features_separate_by_providers;
-        if (!lastFeatures ||
-            lastFeatures != this.features_separate_by_providers$) {
+        if (!lastFeatures || lastFeatures != this.features_separate_by_providers$) {
           this.providers.forEach( (p, i) => {
             this.providersVisible[p] = true;
           });
@@ -104,7 +103,7 @@ export class TileComponent{
       this.features_separate_by_providers$[provider][collection]['enabled'] = true;
       this.features_separate_by_providers$[provider][collection].features.forEach(f => {
         f['enabled'] = true
-        
+
         const featureGeoJson = geoJSON(f);
         const bounds = featureGeoJson.getBounds();
         const newlayer = imageOverlay(f.assets.thumbnail.href, bounds, {
@@ -133,6 +132,16 @@ export class TileComponent{
       });
       this.features_separate_by_providers$[provider][collection].features = featsByProviders;
     }
+  }
+
+  public getContextFromCollection(provider, collection){
+    let selected_collection = this.features_separate_by_providers$[provider][collection];
+
+    console.log('\n\n this.features_separate_by_providers$: ', this.features_separate_by_providers$);
+    console.log('provider: ', this.features_separate_by_providers$[provider]);
+    console.log('selected_collection: ', selected_collection);
+
+    return selected_collection;
   }
 
 }

@@ -99,6 +99,8 @@ export class ChecklistDatabase {
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
 
+      // console.log('\n this.providers: ', this.providers)
+
       this.store.dispatch(setProvidersInfos(response.providers));
     } catch(err) {
       console.log('getProviders() error: ', err);
@@ -128,6 +130,10 @@ export class ChecklistDatabase {
           )
         ]
       })
+
+      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections)
+      // console.log('\n this.collections: ', this.collections)
+
     } catch(err) {
       console.log('getCollections() error: ', err);
     } finally {
@@ -356,16 +362,14 @@ export class DatasetComponent {
           let provider = node.parent.item;
 
           // initialize 'selectedCollections' with 'provider' for the first time
-          // (1) check if the provider was not initialized before; and
-          // (2) check if the provider is inside the 'selectedCollections'
-          // object
+          // (1) check if the provider is not inside the 'selectedCollections' object; and
+          // (2) check if the provider was initialized before;
           // then create a new list of collections by using the provider as a key
-          if (!(provider in this.selectedCollections) &&
-              (provider in providersWithTheirCollections)) {
+          if (!(provider in this.selectedCollections) && (provider in providersWithTheirCollections)) {
             this.selectedCollections[provider] = [];
           }
-          // if my parent (i.e. a provider) is already inside the 'selectedCollections'
-          // object, then add the node (i.e. a collection) inside the list of collections
+
+          // add the node (i.e. a collection) inside the list of collections using provider as a key
           this.selectedCollections[provider].push(node.item);
         }
       });

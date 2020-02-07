@@ -1,5 +1,4 @@
 <div class="results">
-
   <app-alert
     type="warning"
     message="No results Found!"
@@ -9,16 +8,17 @@
   <!-- get provider -->
   <div *ngIf="providers.length">
     <div *ngFor="let provider of providers" class="box-providers">
-      <h2 
+      <!-- show provider name -->
+      <h2
         class="providers_header"
-        (click)="changeVisibleFeatByProvider(provider)"> 
+        (click)="changeVisibleFeatByProvider(provider)">
         {{ provider }}
       </h2>
 
       <!-- get collection -->
       <div *ngIf="providersVisible[provider]">
-        <div 
-          *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])" 
+        <div
+          *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])"
           class="box-collection">
           <header>
             <mat-slide-toggle
@@ -26,12 +26,17 @@
               (change)='onChangeLayersByCollection($event, provider, collection)'>
             </mat-slide-toggle>
 
+            <!-- show collection name -->
             <h1>
-              {{ collection }} 
-              <span style="color: #000;">({{ features_separate_by_providers$[provider][collection]["features"].length }})</span>
+              {{ collection }}
+              <span style="color: #000;">
+                ({{ getContextFromCollection(provider, collection)['features'].length }} returned
+                of
+                {{ getContextFromCollection(provider, collection)['features'].length }} matched)
+              </span>
             </h1>
 
-            <mat-icon 
+            <mat-icon
               *ngIf="providersInfos[provider]['downloadable']"
               (click)='addCollectionToShopping(provider, collection)'
               class='tile-download-button'>

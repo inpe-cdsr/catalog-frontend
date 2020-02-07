@@ -160,45 +160,10 @@ export class SearchComponent implements OnInit {
     this.resetSearch();
   }
 
-  /** separating features by providers and collections */
-  private getFeaturesSeparateByProvidersAndCollections (features: Feature[], collectionsFollowingSTACComposeStandard: string[]) {
-    // separate features by providers and collections
-    let features_separate_by_providers = {};
-
-    features.forEach( feature => {
-      if (feature['type'].toLowerCase() === 'feature') {
-        // get the collection related to the feature
-        let collection = (feature['properties']['collection'] || feature['collection']);
-
-        // 'filter' creates a new list with the elements of 'collections' that satisfies the condition
-        let providers_by_collection = collectionsFollowingSTACComposeStandard.filter(
-          // 'pc' is a provider with collection (e.g 'development_seed_stac: landsat-8-l1')
-          pc => {
-            // if the second part of the string (e.g. 'landsat-8-l1') is equal to the 'collection',
-            // then return the 'pc' variable inside a new list
-            return pc.split(':')[1].trim() === collection
-          }
-        );
-
-        // get the only 'provider:collection' in the array and get just the provider
-        let provider = providers_by_collection[0].split(':')[0];
-
-        // if a 'provider' already exists, then return the existing content, else create an empty provider object
-        features_separate_by_providers[provider] = features_separate_by_providers[provider] || {};
-        // if a 'collection' already exists, then return the existing content, else create an empty collection object
-        features_separate_by_providers[provider][collection] = features_separate_by_providers[provider][collection] || {};
-        // if 'features' already exists, then return the existing content, else create an empty 'features' list
-        features_separate_by_providers[provider][collection]['features'] = features_separate_by_providers[provider][collection]['features'] || [];
-        // add the 'feature' to the array of 'features'
-        features_separate_by_providers[provider][collection]['features'].push(feature);
-      }
-    });
-
-    return features_separate_by_providers;
-  }
-
   /** searching feature/items on STAC-COMPOSE */
   public async search() {
+    // console.log('\nSearchComponent.search()');
+
     try {
       validateForm(this.formSearch);
 
@@ -226,19 +191,22 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
-      // console.log('\n\n query: ', query);
+      // console.log('SearchComponent.search() - query: ', query);
 
       // look for features on STAC service
       const response = await this.ss.searchSTAC(query);
 
-      const feats = response.features.filter(f => f['type'].toLowerCase() === 'feature')
-      if (response.meta.found > 0 && feats.length > 0) {
-        // separate features by providers and collections
-        let f_by_p = this.getFeaturesSeparateByProvidersAndCollections(response.features, collectionsFollowingSTACComposeStandard);
+      // console.log('SearchComponent.search() - response: ', response);
 
+      // const features = response.features.filter(f => f['type'].toLowerCase() === 'feature')
+
+      // console.log('SearchComponent.search() - features: ', features);
+
+      // if 'response' is not empty...
+      if (!(Object.keys(response).length === 0 && response.constructor === Object)) {
         // save 'features' and 'features_separate_by_providers' in the memory
-        this.store.dispatch(setFeatures(feats));
-        this.store.dispatch(setFeaturesSeparateByProviders(f_by_p));
+        // this.store.dispatch(setFeatures(features));
+        this.store.dispatch(setFeaturesSeparateByProviders(response));
 
         // chance the tab on sidebar in order to show the 'tiles' tab
         this.changeStepNav(2);
