@@ -17,7 +17,6 @@ import {
   closeLoading,
   setLayers,
   setPositionMap,
-  setFeatures,
   setFeaturesSeparateByProviders,
   setBbox,
   removeGroupLayer
@@ -188,7 +187,6 @@ export class SearchComponent implements OnInit {
         throw new Error("You must choose at least one collection in the previous tab!");
       }
 
-      this.store.dispatch(setFeatures([]));
       this.store.dispatch(showLoading());
 
       // get the start and end date, and format them
@@ -215,8 +213,7 @@ export class SearchComponent implements OnInit {
       if (!(Object.keys(response).length === 0 && response.constructor === Object)) {
         response = initializeFeaturesSeparateByProviders(response);
 
-        // save 'features' and 'features_separate_by_providers' in the memory
-        // this.store.dispatch(setFeatures(features));
+        // save 'features_separate_by_providers' in the memory
         this.store.dispatch(setFeaturesSeparateByProviders(response));
 
         // chance the tab on sidebar in order to show the 'tiles' tab

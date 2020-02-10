@@ -8,7 +8,7 @@ import { imageOverlay, geoJSON } from 'leaflet';
 
 // state management
 import { ExploreState } from 'src/app/pages/explore/explore.state';
-import { setLayers, setPositionMap, setFeatures, removeGroupLayer, setFeatureToDownload } from 'src/app/pages/explore/explore.action';
+import { setLayers, setPositionMap, removeGroupLayer, setFeatureToDownload } from 'src/app/pages/explore/explore.action';
 
 // interface
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
@@ -98,17 +98,6 @@ export class FeatureTablePaginationComponent implements OnInit {
     const featureGeoJson = geoJSON(feature);
     const bounds = featureGeoJson.getBounds();
     this.store.dispatch(setPositionMap(bounds));
-  }
-
-  /** enable or disable actions box in the feature */
-  public enableFeatureActions(featureId: string) {
-    this.features = this.features.map( f => {
-      if (f.id === featureId) {
-        f['actions'] = !(f['actions'] === true);
-      }
-      return f;
-    });
-    this.store.dispatch(setFeatures(this.features));
   }
 
   /** open dialog with features infos */

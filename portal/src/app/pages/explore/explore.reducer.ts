@@ -6,7 +6,6 @@ import {
   setBbox,
   setDatasetSelectedCollections,
   setPositionMap,
-  setFeatures,
   setFeaturesSeparateByProviders,
   removeGroupLayer,
   setFeatureToDownload,
@@ -35,9 +34,6 @@ const initialState: ExploreState = {
  * set new values in ExploreState
  */
 export const reducer = createReducer(initialState,
-  on(setFeatures, (state, payload) => {
-    return { ...state, features: payload };
-  }),
   on(removeGroupLayer, (state, payload) => {
     return { ...state, layerGroupToDisabled: payload };
   }),

@@ -8,14 +8,6 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 /**
  * set Features in store application
  */
-export const setFeatures = createAction(
-    '[Explore Component] Features',
-    props<Feature[]>()
-);
-
-/**
- * set Features in store application
- */
 export const setFeaturesSeparateByProviders = createAction(
   '[Explore Component] Features Separate by Providers',
   props<Object>()
