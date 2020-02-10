@@ -32,9 +32,7 @@
               <div *ngIf='getContextFromCollection(provider, collection) as context'>
                 {{ collection }}
                 <span style="color: #000;">
-                  ({{ context.returned }} returned
-                  of
-                  {{ context.matched }} matched)
+                  ({{ context.returned }}/{{ context.matched }})
                 </span>
               </div>
             </h1>
