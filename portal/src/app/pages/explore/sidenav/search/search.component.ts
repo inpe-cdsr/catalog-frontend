@@ -84,7 +84,7 @@ function validateForm(form) {
 }
 
 
-/** initialize each feature collection and its features with false, in other words, they will not be turned on */
+/** initialize each feature collection and features with their default extra values */
 function initializeFeaturesSeparateByProviders(featuresSeparateByProviders: object){
   for (let [provider_name, collections] of Object.entries(featuresSeparateByProviders)) {
     for (let [collection_name, collection] of Object.entries(collections)) {
