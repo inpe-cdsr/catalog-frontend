@@ -58,7 +58,7 @@ export class TileComponent{
     });
   }
 
-  public changeVisibleFeatByProvider(provider) {
+  public changeVisibilityProviderCollapse(provider) {
     this.providersVisible[provider] = !this.providersVisible[provider];
   }
 

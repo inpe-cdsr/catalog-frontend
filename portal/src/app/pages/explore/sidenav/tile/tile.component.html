@@ -6,52 +6,50 @@
   </app-alert>
 
   <!-- get provider -->
-  <div *ngIf="providers.length">
-    <div *ngFor="let provider of providers" class="box-providers">
-      <!-- show provider name -->
-      <h2
-        class="providers_header"
-        (click)="changeVisibleFeatByProvider(provider)">
-        {{ provider }}
-      </h2>
+  <div *ngFor="let provider of providers" class="box-providers">
+    <!-- show provider name -->
+    <h2
+      class="providers_header"
+      (click)="changeVisibilityProviderCollapse(provider)">
+      {{ provider }}
+    </h2>
 
-      <!-- get collection -->
-      <div *ngIf="providersVisible[provider]">
-        <div
-          *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])"
-          class="box-collection">
-          <header>
-            <mat-slide-toggle
-              [(ngModel)]='features_separate_by_providers$[provider][collection].enabled'
-              (change)='onChangeLayersByCollection($event, provider, collection)'>
-            </mat-slide-toggle>
+    <!-- get collection -->
+    <div *ngIf="providersVisible[provider]">
+      <div
+        *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])"
+        class="box-collection">
+        <header>
+          <mat-slide-toggle
+            [(ngModel)]='features_separate_by_providers$[provider][collection].enabled'
+            (change)='onChangeLayersByCollection($event, provider, collection)'>
+          </mat-slide-toggle>
 
-            <!-- show collection name -->
-            <h1>
-              <!-- create variable 'context' with the function return value -->
-              <div *ngIf='getContextFromCollection(provider, collection) as context'>
-                {{ collection }}
-                <span style="color: #000;">
-                  ({{ context.returned }}/{{ context.matched }})
-                </span>
-              </div>
-            </h1>
+          <!-- show collection name -->
+          <h1>
+            <!-- create variable 'context' with the function return value -->
+            <div *ngIf='getContextFromCollection(provider, collection) as context'>
+              {{ collection }}
+              <span style="color: #000;">
+                ({{ context.returned }}/{{ context.matched }})
+              </span>
+            </div>
+          </h1>
 
-            <mat-icon
-              *ngIf="providersInfos[provider]['downloadable']"
-              (click)='addCollectionToShopping(provider, collection)'
-              class='tile-download-button'>
-              add_shopping_cart
-            </mat-icon>
-          </header>
+          <mat-icon
+            *ngIf="providersInfos[provider]['downloadable']"
+            (click)='addCollectionToShopping(provider, collection)'
+            class='tile-download-button'>
+            add_shopping_cart
+          </mat-icon>
+        </header>
 
-          <!-- get features and pass to the child component create the table with pagination -->
-          <app-feature-table-pagination
-            [collection]="collection"
-            [providerInfos]="providersInfos[provider]"
-            [features]="features_separate_by_providers$[provider][collection]['features']"
-            ></app-feature-table-pagination>
-        </div>
+        <!-- get features and pass to the child component create the table with pagination -->
+        <app-feature-table-pagination
+          [collection]="collection"
+          [providerInfos]="providersInfos[provider]"
+          [features]="features_separate_by_providers$[provider][collection]['features']"
+          ></app-feature-table-pagination>
       </div>
     </div>
   </div>
