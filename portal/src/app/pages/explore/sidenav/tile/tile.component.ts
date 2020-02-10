@@ -157,10 +157,11 @@ export class TileComponent{
 
     // any other STAC service that does not have 'context' or 'meta' key
     } else {
-      // add 'returned' and 'matched' keys by length of features returned
+      // add 'returned' key by length of features returned
+      // how I don't know 'matched' value, then I return a string
       return {
         'returned': selected_fcollection.features.length,
-        'matched': undefined,
+        'matched': '?',
         'page': -1,
         'limit': -1
       }
