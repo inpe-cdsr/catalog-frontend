@@ -23,7 +23,7 @@ import {
 } from '../../explore.action';
 
 // interface
-import { Feature, Collection } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
@@ -210,7 +210,7 @@ export class SearchComponent implements OnInit {
       // const features = response.features.filter(f => f['type'].toLowerCase() === 'feature')
 
       // if 'response' is not empty...
-      if (!(Object.keys(response).length === 0 && response.constructor === Object)) {
+      if (!isObjectEmpty(response)) {
         response = initializeFeaturesSeparateByProviders(response);
 
         // save 'features_separate_by_providers' in the memory

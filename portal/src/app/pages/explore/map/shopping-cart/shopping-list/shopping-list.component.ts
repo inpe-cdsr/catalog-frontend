@@ -6,7 +6,8 @@ import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { Store, select } from '@ngrx/store';
 import { ExploreState } from '../../../explore.state';
 import { removeFeatureToDownload, removeAllFeaturesToDownload } from '../../../explore.action';
-import { downloadFile } from 'src/app/shared/helpers/common';
+import { downloadFile, join } from 'src/app/shared/helpers/common';
+
 
 /**
  * Dialog Features
@@ -67,11 +68,6 @@ export class ShoppingListComponent {
       });
   }
 
-  removeFeatureOfDownload(feature: Feature) {
-    this.features = this.features.filter( f => f.id !== feature.id );
-    this.store.dispatch(removeFeatureToDownload(feature));
-  }
-
   clearList() {
     this.features = [];
     this.store.dispatch(removeAllFeaturesToDownload());
@@ -90,8 +86,8 @@ export class ShoppingListComponent {
     })
   }
 
-  filterFeatures(features, collection) {
-    return features.filter(f => this.getCollectionFromFeature(f) === collection);
+  formatID(id: string): string {
+    return `${id.substring(0, 13)} ${id.length > 13 ? '...' : ''}`;
   }
 
   getFormattedDate(date: string) {
@@ -106,8 +102,13 @@ export class ShoppingListComponent {
     return 'eo:cloud_cover' in feature['properties'] ? feature['properties']['eo:cloud_cover'] : feature['properties']['cloud_cover'];
   }
 
-  formatID(id: string) {
-    return `${id.substring(0, 13)} ${id.length > 13 ? '...' : ''}`;
+  filterFeatures(features, collection) {
+    return features.filter(f => this.getCollectionFromFeature(f) === collection);
+  }
+
+  removeFeatureOfDownload(feature: Feature) {
+    this.features = this.features.filter( f => f.id !== feature.id );
+    this.store.dispatch(removeFeatureToDownload(feature));
   }
 
   downloadLinks() {
@@ -124,24 +125,27 @@ export class ShoppingListComponent {
             const url = this.generateURL(feat['id'], feat.assets[asset]['href']);
             data += `${url} \n`;
           }
-        })
+        });
       }
     });
 
-    downloadFile('catalog_DGI_data.txt', data)
+    let now = new Date();
+    let formattedNow = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
+
+    downloadFile(`catalog_DGI_${formattedNow}.txt`, data);
   }
 
-  async downloadFeature(feat) {
-    if ('eo:bands' in feat.properties) {
-      feat.properties['eo:bands'].forEach(band => {
-        const url = feat.assets[band['name']]['href'];
-        this.dispatchDownload(this.generateURL(feat['id'], url));
+  async downloadFeature(feature) {
+    if ('eo:bands' in feature.properties) {
+      feature.properties['eo:bands'].forEach(band => {
+        const url = feature.assets[band['name']]['href'];
+        this.dispatchDownload(this.generateURL(feature['id'], url));
       });
     } else {
-      Object.keys(feat.assets).forEach(asset => {
+      Object.keys(feature.assets).forEach(asset => {
         if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
-          const url = feat.assets[asset]['href'];
-          this.dispatchDownload(this.generateURL(feat['id'], url));
+          const url = feature.assets[asset]['href'];
+          this.dispatchDownload(this.generateURL(feature['id'], url));
         }
       });
     }
@@ -158,9 +162,27 @@ export class ShoppingListComponent {
     element.click();
   }
 
-  private generateURL(sceneId, url): string {
-    const feats = this.features_by_providers.filter(f => f['id'] === sceneId); 
-    return feats.length > 0 ? `${url}?key=${this.credentials.username}:${this.credentials.password}` : url;
+  private generateURL(sceneId: string, url: string): string {
+    const features = this.features_by_providers.filter(f => f['id'] === sceneId);
+
+    // if there is a selected feature, then return the url with its parameters
+    if (features.length > 0) {
+      // 'sceneId' is unique, then there is just one feature inside the features list
+      let keys = {
+        'key': `${this.credentials.username}:${this.credentials.password}`,
+        'collection': features[0]['collection'],
+        'scene_id': sceneId
+      };
+
+      // create the parameters dynamically using the object above
+      let parameters = join(keys, '=', '&');
+      let urlWithParameters = `${url}?${parameters}`;
+
+      return urlWithParameters;
+    }
+
+    // if there is not a selected feature, then return the url
+    return url;
   }
 
 }

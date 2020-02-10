@@ -44,3 +44,32 @@ export function isObjectEmpty(obj: object): boolean{
   // we have to do some additional check
   return Object.entries(obj).length === 0 && obj.constructor === Object
 }
+
+/** create a join method to Object class */
+// Object.prototype.join = function(glue, separator) {
+//   // Source: https://gist.github.com/lucasdavila/4331999
+//   const object = this;
+
+//   if (glue == undefined) {
+//     glue = '=';
+//   }
+
+//   if (separator == undefined) {
+//     separator = ',';
+//   }
+
+//   return Object.keys(object).map((key) => { return key + glue + object[key]; }).join(separator);
+// }
+
+export function join (obj: object, glue: string, separator: string) {
+  // Source: https://gist.github.com/lucasdavila/4331999
+  if (glue == undefined) {
+    glue = '=';
+  }
+
+  if (separator == undefined) {
+    separator = ',';
+  }
+
+  return Object.keys(obj).map((key) => { return key + glue + obj[key]; }).join(separator);
+}
