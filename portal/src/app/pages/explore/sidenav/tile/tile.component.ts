@@ -134,14 +134,36 @@ export class TileComponent{
     }
   }
 
-  public getContextFromCollection(provider, collection){
-    let selected_collection = this.features_separate_by_providers$[provider][collection];
+  /** get context extension from FeatureCollection based on STAC 9  */
+  public getContextFromCollection(provider: string, collection: string): object{
+    // get the FeatureCollection based on 'provider' and 'collection'
+    let selected_fcollection = this.features_separate_by_providers$[provider][collection];
 
-    console.log('\n\n this.features_separate_by_providers$: ', this.features_separate_by_providers$);
-    console.log('provider: ', this.features_separate_by_providers$[provider]);
-    console.log('selected_collection: ', selected_collection);
+    // inpe-stac standard. This STAC is already following STAC 9 extension
+    if (selected_fcollection.context) {
+      return selected_fcollection.context;
 
-    return selected_collection;
+    // development seed standard. This STAC is not following STAC 9 extension,
+    // then I build it following the standard
+    } else if (selected_fcollection.meta) {
+      // I'm destructuring the 'meta' object, then I get 'found' key into 'found' variable and
+      // the rest ones I put inside 'context' object
+      // 'context' object does not have 'found' key because I've removed it during destructuring
+      const { found, ...context } = selected_fcollection.meta;
+      // rename 'found' key by 'matched' key
+      context.matched = found;
+
+      return context;
+
+    // any other STAC service that does not have 'context' or 'meta' key
+    } else {
+      // add 'returned' and 'matched' keys by length of features returned
+      return {
+        'returned': selected_fcollection.features.length,
+        'matched': undefined,
+        'page': -1,
+        'limit': -1
+      }
+    }
   }
-
 }

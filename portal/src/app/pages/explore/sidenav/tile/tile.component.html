@@ -28,12 +28,14 @@
 
             <!-- show collection name -->
             <h1>
-              {{ collection }}
-              <span style="color: #000;">
-                ({{ getContextFromCollection(provider, collection)['features'].length }} returned
-                of
-                {{ getContextFromCollection(provider, collection)['features'].length }} matched)
-              </span>
+              <div *ngIf='getContextFromCollection(provider, collection) as context'>
+                {{ collection }}
+                <span style="color: #000;">
+                  ({{ context.returned }} returned
+                  of
+                  {{ context.matched }} matched)
+                </span>
+              </div>
             </h1>
 
             <mat-icon
