@@ -24,7 +24,7 @@ import {
 } from '../../explore.action';
 
 // interface
-import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
+import { Feature, Collection } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
@@ -81,6 +81,22 @@ function validateForm(form) {
 
     throw new Error("There are problems with required fields! Error: " + errorMessage.join(';'));
   }
+}
+
+
+/** initialize each feature collection and its features with false, in other words, they will not be turned on */
+function initializeFeaturesSeparateByProviders(featuresSeparateByProviders: object){
+  for (let [provider_name, collections] of Object.entries(featuresSeparateByProviders)) {
+    for (let [collection_name, collection] of Object.entries(collections)) {
+      collection['enabled'] = false;
+
+      collection['features'].forEach((feature: Feature) => {
+        feature.enabled = false;
+      });
+    }
+  }
+
+  return featuresSeparateByProviders;
 }
 
 
@@ -191,19 +207,14 @@ export class SearchComponent implements OnInit {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
-      // console.log('SearchComponent.search() - query: ', query);
-
       // look for features on STAC service
-      const response = await this.ss.searchSTAC(query);
-
-      // console.log('SearchComponent.search() - response: ', response);
-
+      let response = await this.ss.searchSTAC(query);
       // const features = response.features.filter(f => f['type'].toLowerCase() === 'feature')
-
-      // console.log('SearchComponent.search() - features: ', features);
 
       // if 'response' is not empty...
       if (!(Object.keys(response).length === 0 && response.constructor === Object)) {
+        response = initializeFeaturesSeparateByProviders(response);
+
         // save 'features' and 'features_separate_by_providers' in the memory
         // this.store.dispatch(setFeatures(features));
         this.store.dispatch(setFeaturesSeparateByProviders(response));

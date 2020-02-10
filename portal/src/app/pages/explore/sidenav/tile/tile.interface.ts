@@ -26,8 +26,8 @@ export interface Feature {
  * interface of each Collection
  */
 export interface Collection {
-    /** name of cube */
     name: string;
-    /** cube items */
     features: Feature[];
+    /** this field is not returned by STAC response, it is created on JS */
+    enabled: boolean;
 }

@@ -98,6 +98,7 @@ export class TileComponent{
   }
 
   public onChangeLayersByCollection(event, provider, collection) {
+    // turn the features on
     if (event.checked) {
       let newLayers = [];
       this.features_separate_by_providers$[provider][collection]['enabled'] = true;
@@ -121,6 +122,8 @@ export class TileComponent{
       });
       this.store.dispatch(setLayers(newLayers));
 
+
+    // turn the features off
     } else {
       this.features_separate_by_providers$[provider][collection]['enabled'] = false;
       const featsByProviders = this.features_separate_by_providers$[provider][collection].features.map(f => {
