@@ -167,6 +167,17 @@ export class ShoppingListComponent {
 
     // if there is a selected feature, then return the url with its parameters
     if (features.length > 0) {
+
+      // let response = await this.sls.getClientIP();
+
+      // var origin = window.location.origin // this will give you the ip:port
+      // var hostname = window.location.hostname // this will give you the ip:port
+      // var location = window.location // this will give you the ip:port
+
+      // console.log('\n\n generateURL - origin: ', origin);
+      // console.log(' generateURL - origin: ', hostname);
+      // console.log(' generateURL - location: ', location);
+
       // 'sceneId' is unique, then there is just one feature inside the features list
       let keys = {
         'key': `${this.credentials.username}:${this.credentials.password}`,
