@@ -73,3 +73,17 @@ export function join (obj: object, glue: string, separator: string) {
 
   return Object.keys(obj).map((key) => { return key + glue + obj[key]; }).join(separator);
 }
+
+export function isNumeric (string: any) {
+  // Source: https://stackoverflow.com/questions/175739/built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+  if (/^-{0,1}\d+$/.test(string)) {
+    // valid integer (positive or negative)
+    return true;
+  } else if(/^\d+\.\d+$/.test(string)) {
+    // valid float
+    return true;
+  } else {
+    // not valid number
+    return false;
+  }
+}

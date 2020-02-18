@@ -29,7 +29,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 // import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
-import { isObjectEmpty } from 'src/app/shared/helpers/common';
+import { isObjectEmpty, isNumeric } from 'src/app/shared/helpers/common';
 
 
 function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
@@ -165,7 +165,7 @@ export class SearchComponent implements OnInit {
       south: ['', [Validators.required]],
       start_date: ['', [Validators.required]],
       last_date: ['', [Validators.required]],
-      cloud: [''],
+      cloud: ['', [Validators.min(0),  Validators.max(100)]],
       limit: ['', [Validators.required, Validators.min(0),  Validators.max(1000)]]
     })
   }
@@ -201,7 +201,7 @@ export class SearchComponent implements OnInit {
       query += `&time=${startDate}T00:00:00/${endDate}T23:59:00`;
       query += `&limit=${this.searchObj['limit']}`;
 
-      if (parseInt(this.searchObj['cloud']) > 0) {
+      if (isNumeric(this.searchObj['cloud'])) {
         query += `&cloud_cover=${this.searchObj['cloud']}`;
       }
 
