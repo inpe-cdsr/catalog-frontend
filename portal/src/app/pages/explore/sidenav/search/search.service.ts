@@ -29,11 +29,33 @@ export class SearchService {
   }
 
   /**
-   * get Features in STAC Search
+   * get features by the /collections/items endpoint
    */
-  public async searchSTAC(query: string): Promise<any> {
-    const urlSuffix = `/collections/items?${query}`;
+  // public async searchSTAC(query: string): Promise<any> {
+  //   const urlSuffix = `/collections/items?${query}`;
+  //   const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
+  //   return response;
+  // }
+
+  /**
+   * get features by the `GET /stac/search` endpoint
+   */
+  public async getStacSearch(query: string): Promise<any> {
+    const urlSuffix = `/stac/search?${query}`;
     const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
+
+    return response;
+  }
+
+  /**
+   * get features by the `POST /stac/search` endpoint
+   */
+  public async postStacSearch(data: Object): Promise<any> {
+    const url = `/stac/search/`;
+
+    const headers = {'Content-Type': 'application/json'};
+    const response = this.http.post<any>(`${this.urlStacCompose}${url}`, data, { headers }).toPromise();
+
     return response;
   }
 }

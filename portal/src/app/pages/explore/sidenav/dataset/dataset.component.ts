@@ -119,6 +119,8 @@ export class ChecklistDatabase {
     try {
       this.store.dispatch(showLoading());
 
+      // console.log('\n providers: ', providers);
+
       this.providersWithItsCollections = await this.ss.getCollections(providers);
       this.collections = [];
 
@@ -131,8 +133,8 @@ export class ChecklistDatabase {
         ]
       })
 
-      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections)
-      // console.log('\n this.collections: ', this.collections)
+      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections);
+      // console.log('\n this.collections: ', this.collections);
 
     } catch(err) {
       console.log('getCollections() error: ', err);

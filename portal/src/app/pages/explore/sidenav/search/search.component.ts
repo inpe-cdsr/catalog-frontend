@@ -32,23 +32,70 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.ad
 import { isObjectEmpty, isNumeric } from 'src/app/shared/helpers/common';
 
 
-function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
-  let collectionsFollowingSTACComposeStandard: string[] = [];
+// function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
+//   let collectionsFollowingSTACComposeStandard: string[] = [];
 
-  for (let provider in providers_with_collections) {
-    // 'type' is not a provider, then ignore it
-    if (provider === 'type') {
-      continue;
-    }
+//   for (let provider in providers_with_collections) {
+//     // 'type' is not a provider, then ignore it
+//     if (provider === 'type') {
+//       continue;
+//     }
 
-    let collections: string[] = providers_with_collections[provider];
+//     let collections: string[] = providers_with_collections[provider];
 
-    for (let collection of collections) {
-      collectionsFollowingSTACComposeStandard.push(provider + ':' + collection);
+//     for (let collection of collections) {
+//       collectionsFollowingSTACComposeStandard.push(provider + ':' + collection);
+//     }
+//   }
+
+//   return collectionsFollowingSTACComposeStandard;
+// }
+
+
+function getProvidersPropertyFollowingSTACComposeStandard(selectedProvidersWithCollections: object, method: string, query: object): object[]{
+  let providers = [];
+
+  for (let provider in selectedProvidersWithCollections) {
+    if (selectedProvidersWithCollections.hasOwnProperty(provider)) {
+      let collections = selectedProvidersWithCollections[provider];
+
+      let __provider = {
+        "name": provider,
+        "collections": collections.map((collection: string) => ({name: collection}))
+      }
+
+      // - Add method to provider
+
+      // if the provider is CBERS4-AWS, I add the method to GET, because this provider just works with GET method
+      if (provider.toLowerCase() === 'cbers4-aws') {
+        __provider['method'] = 'GET';
+      // other providers can use the passed one
+      } else {
+        __provider['method'] = method;
+      }
+
+      // - Add query to provider
+
+      // create a copy of query in order to not change original one
+      let query_copy = {...query};
+
+      // if query is not empty, then I add it to the provider
+      if (!isObjectEmpty(query_copy)){
+        // if the provider is the dev. seed, then I update to the correct `cloud_cover` field
+        if (provider.toLowerCase() === 'landsat8-sentinel2-aws' && 'cloud_cover' in query_copy) {
+          Object.defineProperty(query_copy, 'eo:cloud_cover', Object.getOwnPropertyDescriptor(query_copy, 'cloud_cover'));
+          delete query_copy['cloud_cover'];
+        }
+
+        __provider['query'] = query_copy;
+      }
+
+      // - Add the provider to the list of providers
+      providers.push(__provider);
     }
   }
 
-  return collectionsFollowingSTACComposeStandard;
+  return providers;
 }
 
 
@@ -194,20 +241,33 @@ export class SearchComponent implements OnInit {
       const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
 
       const bbox = Object.values(this.searchObj['bbox']);
-      const collectionsFollowingSTACComposeStandard = getCollectionsFollowingSTACComposeStandard(this.searchObj['selectedCollections']);
 
-      let query = `collections=${collectionsFollowingSTACComposeStandard.join(',')}`;
-      query += `&bbox=${bbox[2]},${bbox[1]},${bbox[3]},${bbox[0]}`;
-      query += `&time=${startDate}T00:00:00/${endDate}T23:59:00`;
-      query += `&limit=${this.searchObj['limit']}`;
+      let query = {};
 
+      // if cloud cover was added, then add it to the query
       if (isNumeric(this.searchObj['cloud'])) {
-        query += `&cloud_cover=${this.searchObj['cloud']}`;
+        query = {
+          "cloud_cover": {
+            "lte": this.searchObj['cloud']
+          }
+        }
       }
 
+      const providers = getProvidersPropertyFollowingSTACComposeStandard(this.searchObj['selectedCollections'], 'POST', query);
+
+      let data = {
+        "providers": providers,
+        "bbox": [bbox[2], bbox[1], bbox[3], bbox[0]],
+        "time": `${startDate}T00:00:00/${endDate}T23:59:00`,
+        "limit": this.searchObj['limit']
+      }
+
+      // console.log('\n data: ', data);
+
       // look for features on STAC service
-      let response = await this.ss.searchSTAC(query);
-      // const features = response.features.filter(f => f['type'].toLowerCase() === 'feature')
+      let response = await this.ss.postStacSearch(data);
+
+      // console.log('\n response: ', response);
 
       // if 'response' is not empty...
       if (!isObjectEmpty(response)) {
