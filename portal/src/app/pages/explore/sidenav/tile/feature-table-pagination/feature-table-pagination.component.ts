@@ -105,7 +105,8 @@ export class FeatureTablePaginationComponent implements OnInit {
     this.dialog.open(DialogFeatureComponent, {
       data: {
         feature
-      }
+      },
+      maxWidth: 800
     });
   }
 

@@ -33,4 +33,21 @@ export class DialogFeatureComponent {
   getCollectionFromFeature(feature: Feature): string {
     return 'collection' in feature ? feature['collection'] : feature['properties']['collection'];
   }
+
+  printValue(value: any): any {
+    // if value is instance of Array, then I make it look nice
+    if (value instanceof Array) {
+      let values = value.map( item => item['name'] );
+      // return JSON.stringify(values, undefined, 2);
+      return values;
+    }
+
+    // if value is instance of Object, then I make it look nice
+    if (value instanceof Object) {
+      return JSON.stringify(value, undefined, 2);
+    }
+
+    // other types, such as: string, integer, float, etc.
+    return value;
+  }
 }
