@@ -42,9 +42,6 @@ export class TileComponent{
 
         this.features_separate_by_providers$ = res.features_separate_by_providers;
 
-        console.log('\n\n this.providers: ', this.providers);
-        console.log(' this.features_separate_by_providers$: ', this.features_separate_by_providers$);
-
         if (!lastFeatures || lastFeatures != this.features_separate_by_providers$) {
           this.providers.forEach( (provider, index) => {
             this.providersVisible[provider] = true;
