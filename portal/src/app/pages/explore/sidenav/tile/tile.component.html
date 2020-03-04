@@ -20,12 +20,13 @@
         *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])"
         class="box-collection">
         <header>
+          <!-- checkbox button -->
           <mat-slide-toggle
             [(ngModel)]='features_separate_by_providers$[provider][collection].enabled'
             (change)='onChangeLayersByCollection($event, provider, collection)'>
           </mat-slide-toggle>
 
-          <!-- show collection name -->
+          <!-- show collection name with `returned` and `matched` -->
           <h1>
             <!-- create variable 'context' with the function return value -->
             <div *ngIf='getContextFromCollection(provider, collection) as context'>
@@ -43,6 +44,15 @@
             add_shopping_cart
           </mat-icon>
         </header>
+
+        <!-- create variable 'context' with the function return value -->
+        <div *ngIf='getContextFromCollection(provider, collection) as context'>
+          <app-alert
+            type="warning"
+            [message]="showErrorMessageFromCollection(context)"
+            *ngIf="isToShowErrorMessageFromCollection(context)">
+          </app-alert>
+        </div>
 
         <!-- get features and pass to the child component create the table with pagination -->
         <app-feature-table-pagination

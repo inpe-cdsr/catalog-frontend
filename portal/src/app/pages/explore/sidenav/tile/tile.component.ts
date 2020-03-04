@@ -12,7 +12,7 @@ import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // component
 import { DialogCollectionDownloadComponent } from 'src/app/shared/components/dialog-collection-download/dialog-collection-download.component';
-import { setFeatureToDownload, removeGroupLayer, setLayers, setFeaturesSeparateByProviders } from '../../explore.action';
+import { setFeatureToDownload, removeGroupLayer, setLayers } from '../../explore.action';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { imageOverlay, geoJSON } from 'leaflet';
 
@@ -42,6 +42,9 @@ export class TileComponent{
 
         this.features_separate_by_providers$ = res.features_separate_by_providers;
 
+        console.log('\n\n this.providers: ', this.providers);
+        console.log(' this.features_separate_by_providers$: ', this.features_separate_by_providers$);
+
         if (!lastFeatures || lastFeatures != this.features_separate_by_providers$) {
           this.providers.forEach( (provider, index) => {
             this.providersVisible[provider] = true;
@@ -66,6 +69,18 @@ export class TileComponent{
   public getKeysFromObject(object: Object): Array<string> {
     // get the keys of an 'object' and sort the array
     return Object.keys(object).sort();
+  }
+
+  public isToShowErrorMessageFromCollection(context: Object): boolean {
+    return ('meta' in context && 'error' in context['meta']);
+  }
+
+  public showErrorMessageFromCollection(context: Object): String {
+    if (this.isToShowErrorMessageFromCollection(context)) {
+      return context['meta']['error'];
+    }
+
+    return "No error message is available";
   }
 
   public openCollectionDownloadDialog(collection_name: string, features: Feature[]): void {

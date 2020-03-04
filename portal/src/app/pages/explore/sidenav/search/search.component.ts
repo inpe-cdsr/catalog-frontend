@@ -253,7 +253,9 @@ export class SearchComponent implements OnInit {
         }
       }
 
-      const providers = getProvidersPropertyFollowingSTACComposeStandard(this.searchObj['selectedCollections'], 'POST', query);
+      const providers = getProvidersPropertyFollowingSTACComposeStandard(
+        this.searchObj['selectedCollections'], 'POST', query
+      );
 
       let data = {
         "providers": providers,
