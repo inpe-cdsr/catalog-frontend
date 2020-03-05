@@ -19,7 +19,7 @@ import {
   removeGroupLayer
 } from '../../explore.action';
 
-// tile
+// tile component
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
@@ -27,7 +27,7 @@ import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
 import { isObjectEmpty, isNumeric, isValueNotNullAndNotUndefined } from 'src/app/shared/helpers/common';
 
-// search
+// search component
 import { SearchService } from './search.service';
 import { FormFieldsInterface } from './search.interface';
 

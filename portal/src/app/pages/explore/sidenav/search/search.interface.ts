@@ -7,7 +7,7 @@ export interface BboxInterface {
   east: number;
 }
 
-/** State Model - used in Auth module */
+/** FormFieldsInterface */
 export interface FormFieldsInterface {
   bbox: BboxInterface;
   selectedCollections: object;

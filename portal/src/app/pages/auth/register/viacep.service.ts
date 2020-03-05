@@ -16,7 +16,7 @@ export class ViaCEPServie {
     /**
      * get Address by CEP
      */
-    public async getAddress(cep: object): Promise<any> {
+    public async getAddress(cep: string): Promise<any> {
         const urlSuffix = `/${cep}/json/`;
         const response = await this.http.get(`${this.urlViaCEP}${urlSuffix}`).toPromise();
         return response;
