@@ -1,3 +1,4 @@
+
 export function convertArrayAsObjectToArray (array_as_object) {
   /*
     array_as_object: an object that seems an array. An object that its keys are numbers and values are objects.
@@ -86,4 +87,8 @@ export function isNumeric (string: any) {
     // not valid number
     return false;
   }
+}
+
+export function isValueNotNullAndNotUndefined(value: any): boolean {
+  return value !== null && value !== undefined;
 }

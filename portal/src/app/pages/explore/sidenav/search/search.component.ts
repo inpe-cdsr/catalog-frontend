@@ -7,10 +7,7 @@ import { Store, select } from '@ngrx/store';
 // leaflet
 import { rectangle, LatLngBoundsExpression } from 'leaflet';
 
-// service
-import { SearchService } from './search.service';
-
-// state management
+// explore state
 import { ExploreState } from '../../explore.state';
 import {
   showLoading,
@@ -22,14 +19,17 @@ import {
   removeGroupLayer
 } from '../../explore.action';
 
-// interface
+// tile
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
-// import { formatDateUSA, getLastDateMonth } from 'src/app/shared/helpers/date';
 import { formatDateUSA } from 'src/app/shared/helpers/date';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/shared/helpers/date.adapter';
-import { isObjectEmpty, isNumeric } from 'src/app/shared/helpers/common';
+import { isObjectEmpty, isNumeric, isValueNotNullAndNotUndefined } from 'src/app/shared/helpers/common';
+
+// search
+import { SearchService } from './search.service';
+import { FormFieldsInterface } from './search.interface';
 
 
 // function getCollectionsFollowingSTACComposeStandard(providers_with_collections: object): string[]{
@@ -166,12 +166,8 @@ export class SearchComponent implements OnInit {
   /** emit event to sidenav */
   @Output() stepToEmit = new EventEmitter();
 
-  /** cubes type */
-  public typesCollection: string[];
-  /** infos with parameters to search Cube */
-  public searchObj: object;
-
-  public formSearch: FormGroup;
+  public formFields: FormFieldsInterface;
+  public formGroup: FormGroup;
 
   /** get infos of store application and set group of validators */
   constructor(
@@ -184,7 +180,7 @@ export class SearchComponent implements OnInit {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.bbox) {
         const bbox = Object.values(res.bbox);
-        this.searchObj['bbox'] = {
+        this.formFields['bbox'] = {
           north: bbox[1]['lat'],
           south: bbox[0]['lat'],
           west: bbox[0]['lng'],
@@ -201,18 +197,18 @@ export class SearchComponent implements OnInit {
           delete res.datasetSelectedCollections['type'];
         }
 
-        this.searchObj['selectedCollections'] = res.datasetSelectedCollections;
+        this.formFields['selectedCollections'] = res.datasetSelectedCollections;
       }
     });
 
-    this.formSearch = this.fb.group({
+    this.formGroup = this.fb.group({
       north: ['', [Validators.required]],
       west: ['', [Validators.required]],
       east: ['', [Validators.required]],
       south: ['', [Validators.required]],
       start_date: ['', [Validators.required]],
-      last_date: ['', [Validators.required]],
-      cloud: ['', [Validators.min(0),  Validators.max(100)]],
+      end_date: ['', [Validators.required]],
+      cloud_cover: ['', [Validators.min(0),  Validators.max(100)]],
       limit: ['', [Validators.required, Validators.min(0),  Validators.max(1000)]]
     })
   }
@@ -227,41 +223,41 @@ export class SearchComponent implements OnInit {
     // console.log('\nSearchComponent.search()');
 
     try {
-      validateForm(this.formSearch);
+      validateForm(this.formGroup);
 
       // if the object is empty, then raise an exception
-      if (isObjectEmpty(this.searchObj['selectedCollections'])) {
+      if (isObjectEmpty(this.formFields['selectedCollections'])) {
         throw new Error("You must choose at least one collection in the previous tab!");
       }
 
       this.store.dispatch(showLoading());
 
       // get the start and end date, and format them
-      const startDate = formatDateUSA(new Date(this.searchObj['start_date']));
-      const endDate = formatDateUSA(new Date(this.searchObj['last_date']));
+      const startDate = formatDateUSA(new Date(this.formFields['start_date']));
+      const endDate = formatDateUSA(new Date(this.formFields['end_date']));
 
-      const bbox = Object.values(this.searchObj['bbox']);
+      const bbox = Object.values(this.formFields['bbox']);
 
       let query = {};
 
       // if cloud cover was added, then add it to the query
-      if (isNumeric(this.searchObj['cloud'])) {
+      if (isNumeric(this.formFields['cloud_cover'])) {
         query = {
           "cloud_cover": {
-            "lte": this.searchObj['cloud']
+            "lte": this.formFields['cloud_cover']
           }
         }
       }
 
       const providers = getProvidersPropertyFollowingSTACComposeStandard(
-        this.searchObj['selectedCollections'], 'POST', query
+        this.formFields['selectedCollections'], 'POST', query
       );
 
       let data = {
         "providers": providers,
         "bbox": [bbox[2], bbox[1], bbox[3], bbox[0]],
         "time": `${startDate}T00:00:00/${endDate}T23:59:00`,
-        "limit": this.searchObj['limit']
+        "limit": this.formFields['limit']
       }
 
       // console.log('\n data: ', data);
@@ -307,7 +303,7 @@ export class SearchComponent implements OnInit {
 
   /** cleaning fields on the search form */
   private resetSearch() {
-    this.searchObj = {
+    this.formFields = {
       bbox: {
         north: 0.3515602,
         south: -25.0059726,
@@ -315,9 +311,9 @@ export class SearchComponent implements OnInit {
         east: -34.9365234
       },
       selectedCollections: {},
-      cloud: null,
+      cloud_cover: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
-      last_date: new Date(),
+      end_date: new Date(),
       limit: 10
     };
   }
@@ -358,8 +354,11 @@ export class SearchComponent implements OnInit {
     }));
   }
 
-  /** if it exists all selected coordinates, then it returns true, else it returns false */
-  public bboxNotEmpty(): boolean {
-    return this.searchObj['bbox'].north && this.searchObj['bbox'].south && this.searchObj['bbox'].east && this.searchObj['bbox'].west;
+  /** if all coordinates are not emtpy, then it returns true, else it returns false */
+  public isBboxNotEmpty(): boolean {
+    return isValueNotNullAndNotUndefined(this.formFields.bbox.north) &&
+           isValueNotNullAndNotUndefined(this.formFields.bbox.south) &&
+           isValueNotNullAndNotUndefined(this.formFields.bbox.east) &&
+           isValueNotNullAndNotUndefined(this.formFields.bbox.west);
   }
 }
