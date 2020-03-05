@@ -10,12 +10,12 @@ import { showLoading, closeLoading } from '../../explore/explore.action';
 import { AuthState } from 'src/app/pages/auth/auth.state';
 import { Login } from '../auth.action';
 import { AuthService } from '../auth.service';
+import { UserInterface, ErrorInterface } from '../auth.interface';
 
 // other
 import { sectors, orgTypes } from 'src/app/shared/helpers/CONST';
 
 // register component
-import { UserInterface, ErrorInterface } from './register.interface';
 import { ViaCEPServie } from './viacep.service';
 
 
@@ -90,7 +90,7 @@ export class RegisterComponent {
         type: 'error',
         message: 'Fill in all fields!'
       };
-      // go out from the function
+      // go out from the method
       return;
     }
 
@@ -102,7 +102,7 @@ export class RegisterComponent {
           type: 'error',
           message: 'Password and password confirmation must match'
         };
-        // go out from the function
+        // go out from the method
         return;
       }
 

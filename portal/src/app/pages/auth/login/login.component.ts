@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthState } from 'src/app/pages/auth/auth.state';
 import { Store } from '@ngrx/store';
+
+// explore state
 import { showLoading, closeLoading } from '../../explore/explore.action';
+
+// auth component
 import { AuthService } from '../auth.service';
 import { Login } from '../auth.action';
+import { AuthState } from '../auth.state';
+import { ErrorInterface } from '../auth.interface';
 
 /**
  * login page component
@@ -24,7 +29,7 @@ export class LoginComponent {
   /** form options */
   public formLogin: FormGroup;
   /** infos of the login error, used to display in the window */
-  public error: object;
+  public error: ErrorInterface;
 
   /** set validators of the form */
   constructor(
@@ -40,8 +45,8 @@ export class LoginComponent {
     });
   }
 
-  /** 
-   * request login in the system (Oauth Sevrer OBT) 
+  /**
+   * request login in the system (Oauth Sevrer OBT)
    */
   public async login() {
     if (this.formLogin.status !== 'VALID') {
@@ -49,46 +54,49 @@ export class LoginComponent {
         type: 'error',
         message: 'Fill in all fields!'
       };
-    } else {
-      try {
-        this.store.dispatch(showLoading());
+      // go out from the method
+      return;
+    }
 
-        const credentials = {
+    try {
+      this.store.dispatch(showLoading());
+
+      const response = await this.as.login(
+        {
           email: this.email,
           password: this.password
-        };
-        const response = await this.as.login(credentials);
-        this.store.dispatch(Login({
-          userId  : response.user_id,
-          token : response.access_token,
-          fullname : response.fullname,
-          email : response.email,
-          password : response.password
-        }));
+        }
+      );
 
-        this.snackBar.open('Login Successfully!', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: 'app_snack-bar-success'
-        });
-        this.dialogRef.close();
+      this.store.dispatch(Login({
+        userId: response.user_id,
+        token: response.access_token,
+        fullname: response.fullname,
+        email: response.email,
+        password: response.password
+      }));
 
-      } catch (err) {
-        const message = err.error.message ? err.error.message : 'Authentication Error!';
-        this.error = {
-          type: 'error',
-          message
-        };
+      this.snackBar.open('Login Successfully!', '', {
+        duration: 3000,
+        verticalPosition: 'top',
+        panelClass: 'app_snack-bar-success'
+      });
 
-      } finally {
-        this.store.dispatch(closeLoading());
-      }
+      this.dialogRef.close();
+
+    } catch (err) {
+      this.error = {
+        type: 'error',
+        message: err.error.message ? err.error.message : 'Authentication Error!'
+      };
+    } finally {
+      this.store.dispatch(closeLoading());
     }
+
   }
 
   /** close dialog of the window */
   public closeDialog() {
     this.dialogRef.close();
   }
-
 }
