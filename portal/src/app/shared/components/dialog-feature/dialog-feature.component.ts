@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 import { formatDateUSA } from '../../helpers/date';
 
+import { convertObjectToMap } from 'src/app/shared/helpers/common';
+
 /**
  * Dialog Features
  * view infos of the cube and downloads assets
@@ -24,6 +26,9 @@ export class DialogFeatureComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.feature = data.feature;
   }
+
+  // add static function as a class method to be used on the template
+  convertObjectToMap = convertObjectToMap;
 
   /** format date to USA template */
   getFormattedDate(date: string) {

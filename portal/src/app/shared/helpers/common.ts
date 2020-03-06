@@ -92,3 +92,10 @@ export function isNumeric (string: any) {
 export function isValueNotNullAndNotUndefined(value: any): boolean {
   return value !== null && value !== undefined;
 }
+
+export function convertObjectToMap (obj: object): any {
+  // Source: http://xahlee.info/js/js_object_to_map_datatype.html
+  const map = new Map;
+  Object.keys(obj).forEach(key => { map.set(key, obj[key]) });
+  return map;
+}
