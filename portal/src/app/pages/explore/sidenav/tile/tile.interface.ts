@@ -58,8 +58,7 @@ export interface Feature {
     type?: string;
     geometry?: object;
     bbox?: Array<number>;
-    // properties?: Properties;
-    properties?: object;
+    properties?: Properties;
     links?: Array<Link>;
     assets?: Assets;
     /** this field is not returned by STAC response, it is created on TS */
