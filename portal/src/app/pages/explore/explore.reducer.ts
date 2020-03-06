@@ -53,7 +53,7 @@ export const reducer = createReducer(initialState,
     return { ...state, datasetSelectedCollections: payload };
   }),
   on(setFeatureToDownload, (state, payload) => {
-    if (state.featuresToDownload.filter( f => f.id === payload.id ).length === 0) {
+    if (state.featuresToDownload.filter( f => f.id === payload['id'] ).length === 0) {
       const features = state.featuresToDownload;
       features.push(payload);
       return { ...state, featuresToDownload: features };
@@ -62,7 +62,7 @@ export const reducer = createReducer(initialState,
     }
   }),
   on(removeFeatureToDownload, (state, payload) => {
-    const features = state.featuresToDownload.filter( f => f.id !== payload.id );
+    const features = state.featuresToDownload.filter( f => f.id !== payload['id'] );
     return { ...state, featuresToDownload: features };
   }),
   on(removeAllFeaturesToDownload, (state, _) => {
