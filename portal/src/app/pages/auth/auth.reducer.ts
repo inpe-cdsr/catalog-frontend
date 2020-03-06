@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import {
   Login, Logout
 } from './auth.action';
@@ -17,12 +17,12 @@ const initialState: AuthState = {
  * reducer to manage Auth state
  * set new values in AuthState
  */
-export const reducer = createReducer(initialState,
+export const __reducer = createReducer(initialState,
   on(Login, (state, payload) => {
     localStorage.setItem('user', JSON.stringify(payload));
-    return { 
-      ...state, 
-      userId: payload['userId'].toString(), 
+    return {
+      ...state,
+      userId: payload['userId'].toString(),
       token: payload['token'].toString(),
       fullname: payload['fullname'].toString(),
       email: payload['email'].toString(),
@@ -34,3 +34,7 @@ export const reducer = createReducer(initialState,
     return { ...state, userId: '', token: '', fullname: '' };
   })
 );
+
+export function reducer(state: AuthState | undefined, action: Action) {
+  return __reducer(state, action);
+}

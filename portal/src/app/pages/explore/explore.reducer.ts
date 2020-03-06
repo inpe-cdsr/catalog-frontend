@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import {
   showLoading,
   closeLoading,
@@ -33,7 +33,7 @@ const initialState: ExploreState = {
  * reducer to manage explore state
  * set new values in ExploreState
  */
-export const reducer = createReducer(initialState,
+const __reducer = createReducer(initialState,
   on(removeGroupLayer, (state, payload) => {
     return { ...state, layerGroupToDisabled: payload };
   }),
@@ -78,3 +78,7 @@ export const reducer = createReducer(initialState,
     return { ...state, providersInfos: payload };
   })
 );
+
+export function reducer(state: ExploreState | undefined, action: Action) {
+  return __reducer(state, action);
+}
