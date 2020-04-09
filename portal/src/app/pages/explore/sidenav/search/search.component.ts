@@ -314,7 +314,7 @@ export class SearchComponent implements OnInit {
       cloud_cover: null,
       start_date: new Date(new Date().setMonth((new Date().getMonth()) - 1)),
       end_date: new Date(),
-      limit: 10
+      limit: 100
     };
   }
 
