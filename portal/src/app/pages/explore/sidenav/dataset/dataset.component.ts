@@ -285,6 +285,8 @@ export class DatasetComponent {
     });
 
     this.checkAllParentsSelection(node);
+
+    this.activeEventWhenUserClicksOnTheCheckbox()
   }
 
   /** Toggle a leaf item selection. Check all the parents to see if they changed */
@@ -296,6 +298,8 @@ export class DatasetComponent {
     this.checklistSelection.toggle(node);
 
     this.checkAllParentsSelection(node);
+
+    this.activeEventWhenUserClicksOnTheCheckbox()
   }
 
   /** Checks all the parents when a leaf node is selected/unselected */
@@ -351,7 +355,7 @@ export class DatasetComponent {
     return null;
   }
 
-  selectCollections(): void {
+  saveSelectedCollectionsInTheStore(): void {
     try {
       this.selectedCollections = {};
       const providersWithTheirCollections = this._database.providersWithItsCollections;
@@ -375,16 +379,13 @@ export class DatasetComponent {
         }
       });
 
-      // add the 'selectedCollections' to the store
+      // add the 'selectedCollections' in the store
       this.store.dispatch(setDatasetSelectedCollections(this.selectedCollections));
 
       // if the object is empty, then raise an exception
       if (isObjectEmpty(this.selectedCollections)) {
         throw new Error("You must choose at least one collection!");
       }
-
-      // change to the 'search' tab
-      this.changeStepNav(1);
     } catch (err) {
       this.snackBar.open(err.message.toUpperCase(), '', {
         duration: 5000,
@@ -394,8 +395,7 @@ export class DatasetComponent {
     }
   }
 
-  /** changing displayed menu */
-  private changeStepNav(step: number) {
-    this.stepToEmit.emit(step);
+  activeEventWhenUserClicksOnTheCheckbox(): void{
+    this.saveSelectedCollectionsInTheStore()
   }
 }
