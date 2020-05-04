@@ -38,7 +38,6 @@ export class ItemFlatNode {
   parent: ItemFlatNode;
 }
 
-
 /**
  * Checklist database, it can build a tree structured Json object.
  * Each node in Json object represents a item or a category.
@@ -386,7 +385,6 @@ export class DatasetComponent {
 
       // change to the 'search' tab
       this.changeStepNav(1);
-
     } catch (err) {
       this.snackBar.open(err.message.toUpperCase(), '', {
         duration: 5000,
