@@ -70,12 +70,7 @@
         "title": "IMAGE GENERATION DIVISION",
         "subtitle": "OBT | INPE",
         "dataset": {
-          "title": "Dataset",
-          "form": {
-            "button": {
-              "submit": "Select collections"
-            }
-          }
+          "title": "Dataset"
         },
         "search": {
           "title": "Search",
