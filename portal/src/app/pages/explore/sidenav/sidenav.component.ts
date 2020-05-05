@@ -9,7 +9,6 @@ import { ExploreState } from 'src/app/pages/explore/explore.state';
 import { Feature } from 'src/app/pages/explore/sidenav/tile/tile.interface';
 
 // other
-// import { FEATURES } from 'src/app/shared/example/feature';
 import { convertArrayAsObjectToArray } from 'src/app/shared/helpers/common';
 import { FormControl } from '@angular/forms';
 
@@ -34,11 +33,7 @@ export class SidenavComponent {
   constructor(private store: Store<ExploreState>) {
     this.store.pipe(select('explore')).subscribe(res => {
       if (res.features) {
-        // original
         this.features$ = convertArrayAsObjectToArray(res.features) as Feature[];
-
-        // test/example (this line can be removed) (tile.component must be updated as well)
-        // this.features$ = FEATURES as Feature[];
       }
     });
   }
