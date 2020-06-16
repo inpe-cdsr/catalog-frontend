@@ -45,9 +45,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './sidenav/search/search.component';
 import { TileComponent } from './sidenav/tile/tile.component';
 import { FeatureTablePaginationComponent } from './sidenav/tile/feature-table-pagination/feature-table-pagination.component';
-import { ShoppingCartComponent } from './map/shopping-cart/shopping-cart.component';
+import { ShoppingCartComponent } from './toolbar/shopping-cart/shopping-cart.component';
+import { ShoppingListComponent } from './toolbar/shopping-cart/shopping-list/shopping-list.component';
 import { AuthModule } from '../auth/auth.module';
-import { ShoppingListComponent } from './map/shopping-cart/shopping-list/shopping-list.component';
 import { DatasetComponent } from './sidenav/dataset/dataset.component';
 
 /**

@@ -45,8 +45,6 @@
     "explore": {
       "map": {
         "shopping_cart": {
-          "title": "Shopping cart",
-          "download_images": "Download images here",
           "shopping_cart_list": {
             "title": "Images to download",
             "button": {
@@ -68,7 +66,7 @@
       },
       "sidenav": {
         "title": "IMAGE GENERATION DIVISION",
-        "subtitle": "INPE | OBT | DIDGI",
+        "subtitle": "INPE | CGOBT | DIDGI",
         "dataset": {
           "title": "Dataset"
         },

@@ -14,6 +14,7 @@
       </div>
 
       <div class="tol_cont-buttons">
+        <!-- login button -->
         <button
           *ngIf="!logged"
           mat-flat-button
@@ -22,6 +23,8 @@
           <mat-icon style="font-size: 20px;">https</mat-icon>
           {{ 'pages.explore.toolbar.button.login' | translate }}
         </button>
+
+        <!-- register button -->
         <button
           *ngIf="!logged"
           mat-flat-button
@@ -32,10 +35,14 @@
           {{ 'pages.explore.toolbar.button.register' | translate }}
         </button>
 
-        <p *ngIf="logged" style="margin-right: 10px;">
+        <p *ngIf="logged">
           {{ 'pages.explore.toolbar.welcome' | translate }}, <b>{{ logged }}</b>!
         </p>
 
+        <!-- shopping cart component -->
+        <app-map-shopping-cart></app-map-shopping-cart>
+
+        <!-- language selection component -->
         <app-select-lang></app-select-lang>
 
         <button

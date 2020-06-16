@@ -132,7 +132,7 @@ export class ShoppingListComponent {
     let now = new Date();
     let formattedNow = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
 
-    downloadFile(`catalog_DGI_${formattedNow}.txt`, data);
+    downloadFile(`inpe_catalog_${formattedNow}.txt`, data);
   }
 
   async downloadFeature(feature) {

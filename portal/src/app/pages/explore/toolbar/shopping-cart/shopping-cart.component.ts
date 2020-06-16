@@ -5,6 +5,7 @@ import { Feature } from '../../sidenav/tile/tile.interface';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { MatDialog } from '@angular/material';
 
+
 @Component({
     selector: 'app-map-shopping-cart',
     templateUrl: './shopping-cart.component.html',
@@ -19,14 +20,14 @@ export class ShoppingCartComponent implements OnInit {
         public dialog: MatDialog,
         private store: Store<ExploreState>) {
         this.store.pipe(select('explore')).subscribe(res => {
-            if(res.featuresToDownload) {
+            if (res.featuresToDownload) {
                 this.features = res.featuresToDownload;
             }
-            if(res.providersInfos) {
+            if (res.providersInfos) {
                 this.providers = res.providersInfos;
             }
         });
-    }    
+    }
 
     ngOnInit(): void {
         this.features = [];
@@ -44,5 +45,4 @@ export class ShoppingCartComponent implements OnInit {
             }
         });
     }
-  
 }
