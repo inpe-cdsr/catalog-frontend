@@ -25,7 +25,6 @@ import { formatDateUSA } from 'src/app/shared/helpers/date';
   encapsulation: ViewEncapsulation.None
 })
 export class FeatureTablePaginationComponent implements OnInit {
-
   public page = {}
 
   // I receive this attribute by binding, because of that, I use '@Input()' decorator
@@ -110,14 +109,11 @@ export class FeatureTablePaginationComponent implements OnInit {
     });
   }
 
-  public getInfosFeature(feature) {
-    return `
-      ${formatDateUSA(new Date(feature.properties.datetime))}
-    `;
+  public getTooltip(feature) {
+    return feature.id;
   }
 
   public addToShopping(feature) {
     this.store.dispatch(setFeatureToDownload(feature));
   }
-
 }

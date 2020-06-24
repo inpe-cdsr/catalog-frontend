@@ -1,8 +1,8 @@
 <div class="box-features">
 
   <div *ngFor="let feature of features | paginate: { id: collection, itemsPerPage: page[collection].perPage, currentPage: page[collection].page }" class="card">
-    <a 
-      [matTooltip]="getInfosFeature(feature)"
+    <a
+      [matTooltip]="getTooltip(feature)"
       matTooltipClass="tooltip-features"
       matTooltipPosition="above"
       (click)="viewFeatureDetails(feature)">
@@ -10,7 +10,7 @@
     </a>
 
     <div class="actions">
-      <mat-slide-toggle 
+      <mat-slide-toggle
         [(ngModel)]='feature.enabled'
         (change)='onChangeLayer($event, feature)'>
       </mat-slide-toggle>
@@ -19,7 +19,7 @@
         fullscreen
       </mat-icon>
 
-      <mat-icon 
+      <mat-icon
         *ngIf="providerInfos['downloadable']"
         (click)='addToShopping(feature)'>
         add_shopping_cart
