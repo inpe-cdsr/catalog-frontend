@@ -305,10 +305,10 @@ export class SearchComponent implements OnInit {
   private resetSearch() {
     this.formFields = {
       bbox: {
-        north: 0.3515602,
-        south: -25.0059726,
-        west: -68.0273437,
-        east: -34.9365234
+        north: 11,
+        south: -37,
+        west: -81,
+        east: -30
       },
       selectedCollections: {},
       cloud_cover: null,
