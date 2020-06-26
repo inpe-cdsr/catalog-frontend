@@ -80,7 +80,7 @@
             "start_date": "Start date",
             "end_date": "End date",
             "cloud_cover": "Cloud cover (max)",
-            "limit": "Limit",
+            "limit": "Number of scenes per Dataset (max)",
             "button": {
               "submit": "Filter"
             }

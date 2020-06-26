@@ -80,7 +80,7 @@
             "start_date": "Data inicial",
             "end_date": "Data final",
             "cloud_cover": "Cobertura de nuvem (max)",
-            "limit": "Limite",
+            "limit": "Número de cenas por Dataset (max)",
             "button": {
               "submit": "Filtrar"
             }
