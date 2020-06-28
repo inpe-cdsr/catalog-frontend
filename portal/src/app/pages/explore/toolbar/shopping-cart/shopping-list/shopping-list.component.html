@@ -68,6 +68,15 @@
                 <mat-icon>cloud_download</mat-icon>
               </button>
             </div>
+
+            <div *ngIf="logged">
+              <a *ngFor="let key of getKeys(feature.assets)"
+                  [href]="generateURL(feature.id, feature.assets[key]['href'])"
+                  style="margin-left: 10px;">
+                <mat-icon>cloud_download</mat-icon>
+              </a>
+            </div>
+
           </div>
         </div>
 

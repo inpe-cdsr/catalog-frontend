@@ -196,4 +196,18 @@ export class ShoppingListComponent {
     return url;
   }
 
+  private getKeys(object) {
+    let keys = Object.keys(object);
+    let keysToRemove = ['thumbnail', 'metadata'];
+
+    // if there are unnecessary keys, then remove them
+    keysToRemove.forEach(keyToRemove => {
+      let index = keys.indexOf(keyToRemove);
+      if (index !== -1)
+        keys.splice(index, 1);
+    });
+
+    return keys;
+  }
+
 }
