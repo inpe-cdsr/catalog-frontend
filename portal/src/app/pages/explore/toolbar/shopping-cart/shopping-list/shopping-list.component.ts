@@ -135,33 +135,6 @@ export class ShoppingListComponent {
     downloadFile(`inpe_catalog_${formattedNow}.txt`, data);
   }
 
-  async downloadFeature(feature) {
-    if ('eo:bands' in feature.properties) {
-      feature.properties['eo:bands'].forEach(band => {
-        const url = feature.assets[band['name']]['href'];
-        this.dispatchDownload(this.generateURL(feature['id'], url));
-      });
-    } else {
-      Object.keys(feature.assets).forEach(asset => {
-        if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
-          const url = feature.assets[asset]['href'];
-          this.dispatchDownload(this.generateURL(feature['id'], url));
-        }
-      });
-    }
-  }
-
-  private dispatchDownload(url) {
-    const urlParts = url.split('/')
-    let fileName = urlParts[urlParts.length-1];
-
-    const element = document.createElement("a");
-    element.href = url;
-    element.target = "_blank";
-    element.setAttribute("download", fileName.split('?')[0]);
-    element.click();
-  }
-
   private generateURL(sceneId: string, url: string): string {
     const features = this.features_by_providers.filter(f => f['id'] === sceneId);
 
@@ -209,5 +182,4 @@ export class ShoppingListComponent {
 
     return keys;
   }
-
 }

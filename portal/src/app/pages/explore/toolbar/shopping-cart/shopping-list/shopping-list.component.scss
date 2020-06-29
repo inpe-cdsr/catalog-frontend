@@ -31,7 +31,7 @@
             flex-wrap: wrap;
             padding: 10px;
             border: 1px solid #CCC;
-    
+
             .image-card {
                 width: 250px;
                 display: flex;
@@ -39,20 +39,21 @@
                 border-radius: 5px;
                 align-items: center;
                 margin-top: 5px;
-    
+
                 .description {
                     width: 200px;
                     padding: 10px;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
-    
+
                     p {
                         margin: 0;
                     }
-    
+
                     .box-btns {
                         display: flex;
+                        justify-content: center;
 
                         button.remove {
                             border-radius: 25px;
@@ -61,7 +62,7 @@
                             background: none;
                             border: 1px solid #f44336;
                             color: #f44336;
-    
+
                             &:hover {
                                 background: rgba(#f44336, 0.1);
                             }
@@ -73,7 +74,7 @@
                         }
                     }
                 }
-    
+
                 img {
                     width: 80px;
                     margin-left: 10px;

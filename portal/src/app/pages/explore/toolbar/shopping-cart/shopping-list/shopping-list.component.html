@@ -58,22 +58,16 @@
               >
                 {{ 'pages.explore.map.shopping_cart.shopping_cart_list.collection.button.remove' | translate }}
               </button>
-              <button
-                mat-button
-                *ngIf="logged"
-                color="primary"
-                class="download"
-                (click)="downloadFeature(feature)"
-              >
-                <mat-icon>cloud_download</mat-icon>
-              </button>
             </div>
 
             <div *ngIf="logged">
               <a *ngFor="let key of getKeys(feature.assets)"
                   [href]="generateURL(feature.id, feature.assets[key]['href'])"
                   style="margin-left: 10px;">
-                <mat-icon>cloud_download</mat-icon>
+
+                  <abbr [title]="key">
+                    <mat-icon>cloud_download</mat-icon>
+                  </abbr>
               </a>
             </div>
 
