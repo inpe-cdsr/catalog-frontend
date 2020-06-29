@@ -135,7 +135,7 @@ export class ShoppingListComponent {
     downloadFile(`inpe_catalog_${formattedNow}.txt`, data);
   }
 
-  private generateURL(sceneId: string, url: string): string {
+  generateURL(sceneId: string, url: string): string {
     const features = this.features_by_providers.filter(f => f['id'] === sceneId);
 
     // if there is a selected feature, then return the url with its parameters
@@ -169,7 +169,7 @@ export class ShoppingListComponent {
     return url;
   }
 
-  private getKeys(object) {
+  getKeys(object) {
     let keys = Object.keys(object);
     let keysToRemove = ['thumbnail', 'metadata'];
 
