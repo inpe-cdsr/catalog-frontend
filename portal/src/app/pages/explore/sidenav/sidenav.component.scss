@@ -18,7 +18,7 @@
 
         header {
             .sidenav-logo {
-                padding: 30px 0 30px 0;
+                padding: 20px 0;
                 color: var(--mainColor);
                 background: var(--mainBgGray);
                 font-size: 1.2em;
@@ -53,7 +53,7 @@
         }
 
         .sidenav_content {
-            padding: 15px;
+            padding: 5px 10px;
             background: var(--mainBgLight);
         }
     }

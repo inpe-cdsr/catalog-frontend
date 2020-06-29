@@ -1,3 +1,7 @@
+mat-tree {
+  margin: 5px 0;
+}
+
 .example-tree-invisible {
   display: none;
 }
@@ -7,16 +11,4 @@
   margin-top: 0;
   margin-bottom: 0;
   list-style-type: none;
-}
-
-.container-search {
-  padding: 20px 0px;
-
-  .btn-filter {
-      background: var(--mainBgPrimary);
-      width: 75%;
-      font-size: 1.2em;
-      display: block;
-      margin: 0 auto;
-  }
 }

@@ -8,17 +8,18 @@
   <!-- get provider -->
   <div *ngFor="let provider of providers" class="box-providers">
     <!-- show provider name -->
-    <h2
+    <h4
       class="providers_header"
       (click)="changeVisibilityProviderCollapse(provider)">
       {{ provider }}
-    </h2>
+    </h4>
 
     <!-- get collection -->
     <div *ngIf="providersVisible[provider]">
       <div
         *ngFor="let collection of getKeysFromObject(features_separate_by_providers$[provider])"
         class="box-collection">
+
         <header>
           <!-- checkbox button -->
           <mat-slide-toggle
@@ -27,7 +28,7 @@
           </mat-slide-toggle>
 
           <!-- show collection name with `returned` and `matched` -->
-          <h1>
+          <h4>
             <!-- create variable 'context' with the function return value -->
             <div *ngIf='getContextFromCollection(provider, collection) as context'>
               {{ collection }}
@@ -35,7 +36,7 @@
                 ({{ context.returned }}/{{ context.matched }})
               </span>
             </div>
-          </h1>
+          </h4>
 
           <mat-icon
             *ngIf="providersInfos[provider]['downloadable']"

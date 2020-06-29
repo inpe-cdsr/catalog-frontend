@@ -22,10 +22,6 @@ body {
     padding: 0 5px;
 }
 
-.ngx-pagination {
-    margin-left: -15px !important;
-}
-
 .mat-radio-button.mat-accent.mat-radio-checked {
     color: var(--mainBgPrimary) !important;
 
@@ -76,7 +72,7 @@ body {
     margin-left: 210px;
     display: flex;
     margin-bottom: -30px;
-    
+
     .leaflet-control-scale-line {
         background: rgba(#FFF, 0.9);
         border: none;
@@ -106,7 +102,7 @@ body {
 }
 .mat-tab-label {
     font-size: 1.2em;
-    color: var(--mainBgPrimary);    
+    color: var(--mainBgPrimary);
     min-width: 48% !important;
     padding: 30px 24px !important;
     border: 1px solid #CCC;

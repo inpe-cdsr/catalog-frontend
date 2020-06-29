@@ -34,6 +34,20 @@
 .box-paginator {
   display: flex;
   justify-content: center;
+
+  pagination-controls {
+
+    pagination-template {
+
+      ul {
+        margin: 5px;
+        padding: 0px;
+      }
+
+    }
+
+  }
+
 }
 
 .tooltip-features {
