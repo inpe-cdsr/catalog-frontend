@@ -50,22 +50,19 @@ export class ChecklistDatabase {
   /** available providers */
   public providers: string[];
 
-  /** available collections */
-  public collections: string[];
-
-  /** providers with its collections */
-  private _providersWithItsCollections: object;
+  /** collections by providers to build the tree */
+  private _providersCollectionsTree: object;
 
   get data(): ItemNode[] {
     return this.dataChange.value;
   }
 
-  get providersWithItsCollections(): object {
-    return this._providersWithItsCollections;
+  get providersCollectionsTree(): object {
+    return this._providersCollectionsTree;
   }
 
-  set providersWithItsCollections(newValue: object) {
-      this._providersWithItsCollections = newValue;
+  set providersCollectionsTree(newValue: object) {
+      this._providersCollectionsTree = newValue;
   }
 
   constructor(
@@ -79,12 +76,12 @@ export class ChecklistDatabase {
   private async initialize() {
     // get providers and collections from the server
     await this.getProviders();
-    await this.getCollections(this.providers);
+    await this.getProvidersCollections(this.providers);
 
     // Build the tree nodes from Json object.
     // The result is a list of `ItemNode` with nested
     // file node as children.
-    const data = this.buildFileTree(this.providersWithItsCollections, 0);
+    const data = this.buildFileTree(this.providersCollectionsTree, 0);
 
     // Notify the change.
     this.dataChange.next(data);
@@ -109,7 +106,7 @@ export class ChecklistDatabase {
   }
 
   /** getting available collections */
-  private async getCollections(providers: string[]) {
+  private async getProvidersCollections(providers: string[]) {
     // when there is not one provider, it is not necessary to request collections to the server
     if (providers.length === 0) {
       return;
@@ -124,34 +121,23 @@ export class ChecklistDatabase {
       let providersCollections = await this.ss.getCollections(providers);
       let collection_ids = null;
 
-      this.providersWithItsCollections = {};
+      this.providersCollectionsTree = {};
 
-      // build the `providersWithItsCollections` structure where:
+      // build the `providersCollectionsTree` structure where:
       // the key is the provider name and the value is the collection names
       for (let provider of providersCollections.providers) {
         collection_ids = provider.collections.map(collection => collection.id);
-        this.providersWithItsCollections[provider.title] = collection_ids;
+        this.providersCollectionsTree[provider.title] = collection_ids;
       }
 
-      this.collections = [];
-
-      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections);
-
-      Object.keys(this.providersWithItsCollections).forEach( provider => {
-        this.collections = [
-          ...this.collections,
-          ...this.providersWithItsCollections[provider].map(
-            collection => `${provider}:${collection}`
-          )
-        ]
-      });
-
-      // console.log('\n this.collections: ', this.collections);
+      // console.log('\n this.providersCollectionsTree: ', this.providersCollectionsTree);
 
     } catch(err) {
       console.log('getCollections() error: ', err);
+
     } finally {
       this.store.dispatch(closeLoading());
+
     }
   }
 
@@ -371,7 +357,7 @@ export class DatasetComponent {
   saveSelectedCollectionsInTheStore(): void {
     try {
       this.selectedCollections = {};
-      const providersWithTheirCollections = this._database.providersWithItsCollections;
+      const providersCollections = this._database.providersCollectionsTree;
 
       this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
         // if 'node.level == 1', then this node is a collection
@@ -383,7 +369,7 @@ export class DatasetComponent {
           // (1) check if the provider is not inside the 'selectedCollections' object; and
           // (2) check if the provider was initialized before;
           // then create a new list of collections by using the provider as a key
-          if (!(provider in this.selectedCollections) && (provider in providersWithTheirCollections)) {
+          if (!(provider in this.selectedCollections) && (provider in providersCollections)) {
             this.selectedCollections[provider] = [];
           }
 
