@@ -28,6 +28,7 @@ import { isObjectEmpty } from 'src/app/shared/helpers/common';
 export class ItemNode {
   children: ItemNode[];
   item: string;
+  metadata: object;
 }
 
 /** Flat item node with expandable and level information */
@@ -36,6 +37,7 @@ export class ItemFlatNode {
   level: number;
   expandable: boolean;
   parent: ItemFlatNode;
+  metadata: object;
 }
 
 /**
@@ -49,6 +51,9 @@ export class ChecklistDatabase {
 
   /** available providers */
   public providers: string[];
+
+  /** original collections by providers returned by stac-compose */
+  private providersCollections: object;
 
   /** collections by providers to build the tree */
   private _providersCollectionsTree: object;
@@ -108,25 +113,21 @@ export class ChecklistDatabase {
   /** getting available collections */
   private async getProvidersCollections(providers: string[]) {
     // when there is not one provider, it is not necessary to request collections to the server
-    if (providers.length === 0) {
+    if (providers.length === 0)
       return;
-    }
 
     try {
       this.store.dispatch(showLoading());
 
-      // console.log('\n providers: ', providers);
-
       // get the collection information by each provider
-      let providersCollections = await this.ss.getCollections(providers);
-      let collection_ids = null;
+      this.providersCollections = await this.ss.getCollections(providers);
 
       this.providersCollectionsTree = {};
 
       // build the `providersCollectionsTree` structure where:
       // the key is the provider name and the value is the collection names
-      for (let provider of providersCollections.providers) {
-        collection_ids = provider.collections.map(collection => collection.id);
+      for (let provider of this.providersCollections['providers']) {
+        const collection_ids = provider.collections.map(collection => collection.id);
         this.providersCollectionsTree[provider.title] = collection_ids;
       }
 
@@ -229,11 +230,14 @@ export class DatasetComponent {
     const flatNode = existingNode && existingNode.item === node.item
         ? existingNode
         : new ItemFlatNode();
+
     flatNode.item = node.item;
     flatNode.level = level;
     flatNode.expandable = !!node.children;
+
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
+
     return flatNode;
   }
 
