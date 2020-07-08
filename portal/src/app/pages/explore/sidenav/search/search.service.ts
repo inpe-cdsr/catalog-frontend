@@ -15,8 +15,7 @@ export class SearchService {
    */
   public async getProviders(): Promise<any> {
     const urlSuffix = '/providers';
-    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
-    return response;
+    return await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
   }
 
   /**
@@ -24,8 +23,7 @@ export class SearchService {
    */
   public async getCollections(providers: string[]): Promise<any> {
     const urlSuffix = `/collections?providers=${providers.length > 1 ? providers.join(',') : providers[0]}`;
-    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
-    return response;
+    return await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
   }
 
   /**
@@ -42,9 +40,7 @@ export class SearchService {
    */
   public async getStacSearch(query: string): Promise<any> {
     const urlSuffix = `/stac/search?${query}`;
-    const response = await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
-
-    return response;
+    return await this.http.get(`${this.urlStacCompose}${urlSuffix}`).toPromise();
   }
 
   /**
@@ -52,10 +48,7 @@ export class SearchService {
    */
   public async postStacSearch(data: Object): Promise<any> {
     const url = `/stac/search/`;
-
     const headers = {'Content-Type': 'application/json'};
-    const response = this.http.post<any>(`${this.urlStacCompose}${url}`, data, { headers }).toPromise();
-
-    return response;
+    return this.http.post<any>(`${this.urlStacCompose}${url}`, data, { headers }).toPromise();
   }
 }

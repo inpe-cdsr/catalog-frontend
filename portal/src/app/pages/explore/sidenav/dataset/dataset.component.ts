@@ -120,8 +120,22 @@ export class ChecklistDatabase {
 
       // console.log('\n providers: ', providers);
 
-      this.providersWithItsCollections = await this.ss.getCollections(providers);
+      // get the collection information by each provider
+      let providersCollections = await this.ss.getCollections(providers);
+      let collection_ids = null;
+
+      this.providersWithItsCollections = {};
+
+      // build the `providersWithItsCollections` structure where:
+      // the key is the provider name and the value is the collection names
+      for (let provider of providersCollections.providers) {
+        collection_ids = provider.collections.map(collection => collection.id);
+        this.providersWithItsCollections[provider.title] = collection_ids;
+      }
+
       this.collections = [];
+
+      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections);
 
       Object.keys(this.providersWithItsCollections).forEach( provider => {
         this.collections = [
@@ -130,9 +144,8 @@ export class ChecklistDatabase {
             collection => `${provider}:${collection}`
           )
         ]
-      })
+      });
 
-      // console.log('\n this.providersWithItsCollections: ', this.providersWithItsCollections);
       // console.log('\n this.collections: ', this.collections);
 
     } catch(err) {
