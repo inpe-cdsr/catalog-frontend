@@ -18,9 +18,11 @@ import {
   closeLoading
 } from '../../explore.action';
 
+// interface
+import { StacCollection } from 'src/app/shared/helpers/interface';
+
 // other
 import { isObjectEmpty } from 'src/app/shared/helpers/common';
-
 
 /**
  * Node for item
@@ -28,7 +30,6 @@ import { isObjectEmpty } from 'src/app/shared/helpers/common';
 export class ItemNode {
   children: ItemNode[];
   item: string;
-  metadata: object;
 }
 
 /** Flat item node with expandable and level information */
@@ -37,7 +38,6 @@ export class ItemFlatNode {
   level: number;
   expandable: boolean;
   parent: ItemFlatNode;
-  metadata: object;
 }
 
 /**
@@ -74,14 +74,20 @@ export class ChecklistDatabase {
     private ss: SearchService,
     private store: Store<ExploreState>
   ) {
-    this.initialize();
+    // this method is called inside the DatasetComponent constructor
+    // this.initialize();
   }
 
   /** getting available provider */
-  private async initialize() {
+  getProvidersCollections() : object{
+    return this.providersCollections;
+  }
+
+  /** getting available provider */
+  async initialize() {
     // get providers and collections from the server
-    await this.getProviders();
-    await this.getProvidersCollections(this.providers);
+    await this.getProvidersFromTheServer();
+    await this.getProvidersCollectionsFromTheServer(this.providers);
 
     // Build the tree nodes from Json object.
     // The result is a list of `ItemNode` with nested
@@ -93,14 +99,12 @@ export class ChecklistDatabase {
   }
 
   /** getting available provider */
-  private async getProviders() {
+  private async getProvidersFromTheServer() {
     try {
       this.store.dispatch(showLoading());
 
       const response = await this.ss.getProviders();
       this.providers = Object.keys(response.providers);
-
-      // console.log('\n this.providers: ', this.providers)
 
       this.store.dispatch(setProvidersInfos(response.providers));
     } catch(err) {
@@ -111,7 +115,7 @@ export class ChecklistDatabase {
   }
 
   /** getting available collections */
-  private async getProvidersCollections(providers: string[]) {
+  private async getProvidersCollectionsFromTheServer(providers: string[]) {
     // when there is not one provider, it is not necessary to request collections to the server
     if (providers.length === 0)
       return;
@@ -119,7 +123,7 @@ export class ChecklistDatabase {
     try {
       this.store.dispatch(showLoading());
 
-      // get the collection information by each provider
+      // get the collection information by each provider from stac-compose
       this.providersCollections = await this.ss.getCollections(providers);
 
       this.providersCollectionsTree = {};
@@ -128,10 +132,8 @@ export class ChecklistDatabase {
       // the key is the provider name and the value is the collection names
       for (let provider of this.providersCollections['providers']) {
         const collection_ids = provider.collections.map(collection => collection.id);
-        this.providersCollectionsTree[provider.title] = collection_ids;
+        this.providersCollectionsTree[provider.id] = collection_ids;
       }
-
-      // console.log('\n this.providersCollectionsTree: ', this.providersCollectionsTree);
 
     } catch(err) {
       console.log('getCollections() error: ', err);
@@ -196,6 +198,9 @@ export class DatasetComponent {
   /** which collections were selected after post processing */
   selectedCollections: object;
 
+  /** original collections by providers returned by stac-compose */
+  private providersCollections: object;
+
   constructor(
     private _database: ChecklistDatabase,
     private store: Store<ExploreState>,
@@ -208,6 +213,13 @@ export class DatasetComponent {
 
     _database.dataChange.subscribe(data => {
       this.dataSource.data = data;
+    });
+
+    _database.initialize().then(() => {
+      // just get the collections by providers after async initialize method runs
+      this.providersCollections = _database.getProvidersCollections();
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -400,5 +412,29 @@ export class DatasetComponent {
 
   activeEventWhenUserClicksOnTheCheckbox(): void{
     this.saveSelectedCollectionsInTheStore()
+  }
+
+  private getCollectionInformation(providerId: string, collectionId: string): StacCollection {
+    // get the provider by title
+    const provider = this.providersCollections['providers'].filter(
+      provider => provider.id === providerId
+    )[0];
+
+    // get the collection by id
+    return provider.collections.filter(
+      collection => collection.id === collectionId
+    )[0];
+  }
+
+  getTooltipMessage(node: ItemFlatNode): string {
+    // get the parent, in other words, the provider node
+    let parent = this.getParentNode(node);
+
+    let collection = this.getCollectionInformation(parent.item, node.item);
+
+    return `ID: ${collection.id}` +
+            `\nStart date: ${collection.extent.temporal[0]}` +
+            `\nEnd date: ${collection.extent.temporal[1]}` +
+            `\nDescription: ${collection.description}`;
   }
 }

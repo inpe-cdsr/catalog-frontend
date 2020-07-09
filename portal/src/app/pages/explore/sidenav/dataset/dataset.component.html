@@ -1,14 +1,19 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
+  <!-- leaf - collections -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
     <button mat-icon-button disabled></button>
     <mat-checkbox class="checklist-leaf-node"
                   [checked]="checklistSelection.isSelected(node)"
                   (change)="todoLeafItemSelectionToggle(node)">
-      {{node.item}}
+
+                  <abbr [title]="getTooltipMessage(node)">
+                    {{node.item}}
+                  </abbr>
     </mat-checkbox>
   </mat-tree-node>
 
+  <!-- root - providers -->
   <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.filename">
       <mat-icon class="mat-icon-rtl-mirror">
