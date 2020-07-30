@@ -1,6 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, Injectable, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Injectable, Output} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {MatSnackBar} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
@@ -218,6 +218,9 @@ export class DatasetComponent {
     _database.initialize().then(() => {
       // just get the collections by providers after async initialize method runs
       this.providersCollections = _database.getProvidersCollections();
+
+      // expand all providers
+      this.treeControl.expandAll();
     }).catch(err => {
       console.log(err);
     });
