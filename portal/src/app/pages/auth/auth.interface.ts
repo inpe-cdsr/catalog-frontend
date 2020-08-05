@@ -11,7 +11,7 @@ export interface UserInterface {
   street: string;
   number: string;
   city: string;
-  uf: string;
+  state: string;
   country: string;
   company: string;
   companyType: string;

@@ -42,7 +42,6 @@
             </mat-form-field>
           </div>
 
-
           <!-- ddd / phone / cep -->
           <div class="display-inline">
               <mat-form-field appearance="fill" style="width: 80px;">
@@ -115,10 +114,11 @@
                 {{ 'pages.auth.register.form.address.state' | translate }}
               </mat-label>
               <input matInput
-                name="uf"
+                name="state"
                 placeholder="State"
-                [(ngModel)]="user.uf"
-                formControlName="uf"/>
+                [(ngModel)]="user.state"
+                formControlName="state"
+                maxlength="2"/>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>

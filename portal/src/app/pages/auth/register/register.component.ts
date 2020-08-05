@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 // explore state
@@ -58,7 +58,7 @@ export class RegisterComponent {
       street: '',
       number: '',
       city: '',
-      uf: '',
+      state: '',
       country: '',
       company: '',
       companyType: '',
@@ -67,14 +67,14 @@ export class RegisterComponent {
 
     this.formRegister = this.fb.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       ddd: [''],
       phone: [''],
       cep: [''],
       street: [''],
       number: [''],
       city: [''],
-      uf: [''],
+      state: ['', [Validators.maxLength(2)]],
       country: [''],
       company: ['', [Validators.required]],
       companyType: ['', [Validators.required]],
@@ -84,13 +84,74 @@ export class RegisterComponent {
     });
   }
 
-  public async register() {
+  private getFormValidationErrors(){
+    // Source: https://stackoverflow.com/a/44280487
+
+    let errors = [];
+
+    Object.keys(this.formRegister.controls).forEach(key => {
+      const controlErrors: ValidationErrors = this.formRegister.get(key).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(keyError => {
+          errors.push({
+            'field': key,
+            'error': keyError,
+            'error_value': controlErrors[keyError]
+          });
+        });
+      }
+    });
+
+    return errors;
+  }
+
+  private doesRegisterFormHaveValidationError() {
     if (this.formRegister.status !== 'VALID') {
+      let controls = this.formRegister.controls;
+
+      if (controls['email'].hasError('email')) {
+        this.error = {
+          type: 'error',
+          message: 'Invalid e-mail!'
+        };
+        return true;
+      }
+
+      if (controls['state'].hasError('maxlength')) {
+        this.error = {
+          type: 'error',
+          message: 'State can be max 2 characters long!'
+        };
+        return true;
+      }
+
+      for (let key of Object.keys(controls)) {
+        if (controls[key].hasError('required')) {
+          this.error = {
+            type: 'error',
+            message: 'Field `' + key + '` is required!'
+          };
+          return true;
+        }
+      }
+
+      // generic error
+      let errors = this.getFormValidationErrors();
+
       this.error = {
         type: 'error',
-        message: 'Fill in all fields!'
+        message: JSON.stringify(errors)
       };
-      // go out from the method
+      return true;
+    }
+
+    return false;
+  }
+
+  public async register() {
+    if (this.doesRegisterFormHaveValidationError()) {
+      // if there is some error on the register form,
+      // then go out from the method and the error message is showed
       return;
     }
 
@@ -117,7 +178,7 @@ export class RegisterComponent {
           street: this.user.street,
           number: this.user.number,
           city: this.user.city,
-          state: this.user.uf,
+          state: this.user.state,
           country: this.user.country
         },
         company: this.user.company,
@@ -171,7 +232,7 @@ export class RegisterComponent {
         if (response.logradouro) {
           this.user.street = response.logradouro;
           this.user.city = response.localidade;
-          this.user.uf = response.uf;
+          this.user.state = response.state;
           this.user.country = 'Brazil';
         }
 
