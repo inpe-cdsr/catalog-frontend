@@ -111,6 +111,29 @@ export class ShoppingListComponent {
     this.store.dispatch(removeFeatureToDownload(feature));
   }
 
+  generateURL(sceneId: string, url: string): string {
+    const features = this.features_by_providers.filter(f => f['id'] === sceneId);
+
+    // if there is a selected feature, then return the url with its parameters
+    if (features.length > 0) {
+      // 'sceneId' is unique, then there is just one feature inside the features list
+      let keys = {
+        'key': `${this.credentials.username}`,
+        'collection': features[0]['collection'],
+        'scene_id': sceneId
+      };
+
+      // create the parameters dynamically using the object above
+      let parameters = join(keys, '=', '&');
+      let urlWithParameters = `${url}?${parameters}`;
+
+      return urlWithParameters;
+    }
+
+    // if there is not a selected feature, then return the url
+    return url;
+  }
+
   downloadLinks() {
     let data = '';
     this.features.forEach(feat => {
@@ -133,40 +156,6 @@ export class ShoppingListComponent {
     let formattedNow = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
 
     downloadFile(`inpe_catalog_${formattedNow}.txt`, data);
-  }
-
-  generateURL(sceneId: string, url: string): string {
-    const features = this.features_by_providers.filter(f => f['id'] === sceneId);
-
-    // if there is a selected feature, then return the url with its parameters
-    if (features.length > 0) {
-
-      // let response = await this.sls.getClientIP();
-
-      // var origin = window.location.origin // this will give you the ip:port
-      // var hostname = window.location.hostname // this will give you the ip:port
-      // var location = window.location // this will give you the ip:port
-
-      // console.log('\n\n generateURL - origin: ', origin);
-      // console.log(' generateURL - origin: ', hostname);
-      // console.log(' generateURL - location: ', location);
-
-      // 'sceneId' is unique, then there is just one feature inside the features list
-      let keys = {
-        'key': `${this.credentials.username}:${this.credentials.password}`,
-        'collection': features[0]['collection'],
-        'scene_id': sceneId
-      };
-
-      // create the parameters dynamically using the object above
-      let parameters = join(keys, '=', '&');
-      let urlWithParameters = `${url}?${parameters}`;
-
-      return urlWithParameters;
-    }
-
-    // if there is not a selected feature, then return the url
-    return url;
   }
 
   getKeys(object) {
