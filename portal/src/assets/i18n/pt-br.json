@@ -52,6 +52,19 @@
             "close": "Fechar"
           }
         }
+      },
+      "reset_password": {
+        "title": "Redefinir a senha",
+        "form": {
+          "description": "Digite a tua nova senha abaixo.",
+          "email": "E-mail",
+          "new_password": "Nova senha",
+          "confirm_new_password": "Confirme a tua nova senha",
+          "button": {
+            "submit": "Enviar",
+            "close": "Fechar"
+          }
+        }
       }
     },
     "explore": {

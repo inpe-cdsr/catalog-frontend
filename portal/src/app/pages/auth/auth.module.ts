@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatSelectModule } from '@angular/material';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 /**
  * Auth Module
@@ -18,7 +19,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   declarations: [
     LoginComponent,
     RegisterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   exports: [
     LoginComponent,

@@ -52,6 +52,19 @@
             "close": "Close"
           }
         }
+      },
+      "reset_password": {
+        "title": "Reset password",
+        "form": {
+          "description": "Type your new password below.",
+          "email": "E-mail",
+          "new_password": "New password",
+          "confirm_new_password": "Confirm your new password",
+          "button": {
+            "submit": "Submit",
+            "close": "Close"
+          }
+        }
       }
     },
     "explore": {
