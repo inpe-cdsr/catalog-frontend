@@ -15,6 +15,7 @@
           [message]="error.message">
         </app-alert>
 
+        <!-- email -->
         <mat-form-field appearance="fill">
           <mat-label>
             {{ 'pages.auth.login.form.email' | translate }}
@@ -28,6 +29,7 @@
             required />
         </mat-form-field>
 
+        <!-- password -->
         <mat-form-field appearance="fill" style="margin-top: -15px !important;">
           <mat-label>
             {{ 'pages.auth.login.form.password' | translate }}
@@ -40,6 +42,12 @@
             formControlName="password"
             required />
         </mat-form-field>
+
+        <p>
+          <a (click)="openForgotPasswordDialog()">
+            {{ 'pages.auth.login.form.button.forgot_password' | translate }}
+          </a>
+        </p>
     </div>
 
     <div class="actions">

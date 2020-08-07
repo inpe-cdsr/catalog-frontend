@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -37,6 +37,7 @@ export class LoginComponent {
     private snackBar: MatSnackBar,
     private as: AuthService,
     public dialogRef: MatDialogRef<LoginComponent>,
+    public dialog: MatDialog,
     private fb: FormBuilder) {
 
     this.formLogin = this.fb.group({
@@ -93,6 +94,18 @@ export class LoginComponent {
       this.store.dispatch(closeLoading());
     }
 
+  }
+
+  /**
+   * Open Forgot Password Dialog
+   */
+  openForgotPasswordDialog() {
+    console.log('\n openForgotPasswordDialog() ...');
+    // this.dialog.open(LoginComponent, {
+    //   width: '400px',
+    //   restoreFocus: false,
+    //   disableClose: true
+    // });
   }
 
   /** close dialog of the window */

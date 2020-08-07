@@ -8,6 +8,7 @@
           "email": "E-mail",
           "password": "Password",
           "button": {
+            "forgot_password": "Forgot password?",
             "login": "Login",
             "close": "Close"
           }

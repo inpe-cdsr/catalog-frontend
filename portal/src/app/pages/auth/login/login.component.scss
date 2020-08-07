@@ -19,18 +19,39 @@
         justify-content: center;
 
         p {
+            margin: 0;
+        }
+
+        p:first-child {
             text-align: center;
+            margin: 10px 0;
+        }
+
+        p:last-child {
+            text-align: right;
+            margin-bottom: 15px;
+
+            a {
+              cursor: pointer;
+              font-weight: bold;
+            }
+
+            a:hover {
+              color: blue;
+              text-decoration: underline;
+            }
         }
 
         .mat-form-field {
             margin-top: 10px !important;
+            padding: 0;
         }
     }
 
     .actions {
         display: flex;
         justify-content: flex-end;
-        
+
         .btn-cancel {
             margin-right: 10px;
         }
