@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 // explore state
 import { showLoading, closeLoading } from '../../explore/explore.action';
@@ -37,6 +37,7 @@ export class ResetPasswordComponent{
     private as: AuthService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private snackBar: MatSnackBar,
     private store: Store<AuthState>
   ) {
@@ -83,11 +84,16 @@ export class ResetPasswordComponent{
         }
       );
 
-      this.snackBar.open('Password has been updated! Please, login again.', '', {
+      this.snackBar.open('Password has been updated! Please, login again. You will be redirected...', '', {
         duration: 3000,
         verticalPosition: 'top',
         panelClass: 'app_snack-bar-success'
       });
+
+      // after 3 seconds, the user is redirected to index
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 3000);
 
     } catch (err) {
       this.error = {
@@ -98,5 +104,4 @@ export class ResetPasswordComponent{
       this.store.dispatch(closeLoading());
     }
   }
-
 }
