@@ -7,10 +7,12 @@ import { Store } from '@ngrx/store';
 import { showLoading, closeLoading } from '../../explore/explore.action';
 
 // auth component
-import { AuthService } from '../auth.service';
 import { Login } from '../auth.action';
-import { AuthState } from '../auth.state';
 import { ErrorInterface } from '../auth.interface';
+import { AuthService } from '../auth.service';
+import { AuthState } from '../auth.state';
+
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 /**
  * login page component
@@ -26,22 +28,22 @@ export class LoginComponent {
   public email: string;
   /** password */
   public password: string;
+  /** infos of the login error, used to display on the window */
+  public error: ErrorInterface;
   /** form options */
   public formLogin: FormGroup;
-  /** infos of the login error, used to display in the window */
-  public error: ErrorInterface;
 
   /** set validators of the form */
   constructor(
-    private store: Store<AuthState>,
-    private snackBar: MatSnackBar,
     private as: AuthService,
-    public dialogRef: MatDialogRef<LoginComponent>,
     public dialog: MatDialog,
-    private fb: FormBuilder) {
+    public dialogRef: MatDialogRef<LoginComponent>,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private store: Store<AuthState>) {
 
     this.formLogin = this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }
@@ -93,19 +95,21 @@ export class LoginComponent {
     } finally {
       this.store.dispatch(closeLoading());
     }
-
   }
 
   /**
    * Open Forgot Password Dialog
    */
   openForgotPasswordDialog() {
-    console.log('\n openForgotPasswordDialog() ...');
-    // this.dialog.open(LoginComponent, {
-    //   width: '400px',
-    //   restoreFocus: false,
-    //   disableClose: true
-    // });
+    // close login dialog
+    this.closeDialog();
+
+    // open forgot password dialog
+    this.dialog.open(ForgotPasswordComponent, {
+      width: '400px',
+      restoreFocus: false,
+      disableClose: true
+    });
   }
 
   /** close dialog of the window */

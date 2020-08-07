@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 /**
  * Service to authentication
@@ -7,28 +7,36 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-    /** base url of DGIBack */
+    /** base url to catalog backend */
     private urlDGIBack = window['__env'].urlDGIBack;
 
     /** start http service client */
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
     /**
-     * login in DPI DGIBack
+     * login
      */
     public async login(credentials: object): Promise<any> {
         const urlSuffix = `/auth/login`;
-        const response = await this.http.post(`${this.urlDGIBack}${urlSuffix}`, credentials).toPromise();
-        return response;
+        return await this.http.post(`${this.urlDGIBack}${urlSuffix}`, credentials).toPromise();
     }
+
+    /**
+     * forgot password
+     */
+    public async forgotPassword(email: string): Promise<any> {
+      const urlSuffix = `/auth/forgot-password`;
+      const params = new HttpParams({
+        fromObject: { email: email }
+      });
+      return await this.http.get(`${this.urlDGIBack}${urlSuffix}`, {params: params}).toPromise();
+  }
 
     /**
      * add user
      */
     public async addUser(data: object): Promise<any> {
         const urlSuffix = `/user/`;
-        const response = await this.http.post(`${this.urlDGIBack}${urlSuffix}`, data).toPromise();
-        return response;
+        return await this.http.post(`${this.urlDGIBack}${urlSuffix}`, data).toPromise();
     }
 }

@@ -1,6 +1,17 @@
 {
   "pages": {
     "auth": {
+      "forgot_password": {
+        "title": "Esqueceu a senha?",
+        "form": {
+          "description": "Digite a tua conta de e-mail e nós enviaremos a ti um e-mail para ajudá-lo a recuperar a tua senha.",
+          "email": "E-mail",
+          "button": {
+            "submit": "Enviar",
+            "close": "Fechar"
+          }
+        }
+      },
       "login": {
         "title": "DGI - INPE",
         "form": {

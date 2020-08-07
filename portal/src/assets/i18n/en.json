@@ -1,6 +1,17 @@
 {
   "pages": {
     "auth": {
+      "forgot_password": {
+        "title": "Forgot password?",
+        "form": {
+          "description": "Type your e-mail address and we will send you an e-mail to help you to recover your password.",
+          "email": "E-mail",
+          "button": {
+            "submit": "Submit",
+            "close": "Close"
+          }
+        }
+      },
       "login": {
         "title": "DGI - INPE",
         "form": {
