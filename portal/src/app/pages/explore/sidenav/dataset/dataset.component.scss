@@ -2,6 +2,14 @@ mat-tree {
   margin: 5px 0;
 }
 
+.mat-tree-node, .mat-nested-tree-node {
+  font-size: 0.85em;
+}
+// spacing among the checkboxes
+.mat-tree-node {
+  min-height: 40px;
+}
+
 .example-tree-invisible {
   display: none;
 }
