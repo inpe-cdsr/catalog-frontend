@@ -61,8 +61,7 @@
           "new_password": "Nova senha",
           "confirm_new_password": "Confirme a tua nova senha",
           "button": {
-            "submit": "Enviar",
-            "close": "Fechar"
+            "submit": "Enviar"
           }
         }
       }
