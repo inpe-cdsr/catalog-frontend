@@ -170,7 +170,7 @@ export class SearchComponent implements OnInit {
   public formGroup: FormGroup;
 
   // max limit
-  private searchFormMaxLimit = window['__env'].searchFormMaxLimit;
+  public searchFormMaxLimit = window['__env'].searchFormMaxLimit;
 
   /** get infos of store application and set group of validators */
   constructor(
