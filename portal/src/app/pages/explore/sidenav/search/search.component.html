@@ -129,7 +129,7 @@
       </mat-label>
       <input type='number'
           min='0'
-          max='1000'
+          [(max)]='searchFormMaxLimit'
           matInput
           name='limit'
           [(ngModel)]='formFields.limit'

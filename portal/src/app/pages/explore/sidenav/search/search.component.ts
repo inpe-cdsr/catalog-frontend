@@ -169,6 +169,9 @@ export class SearchComponent implements OnInit {
   public formFields: FormFieldsInterface;
   public formGroup: FormGroup;
 
+  // max limit
+  private searchFormMaxLimit = window['__env'].searchFormMaxLimit;
+
   /** get infos of store application and set group of validators */
   constructor(
     private ss: SearchService,
@@ -209,7 +212,7 @@ export class SearchComponent implements OnInit {
       start_date: ['', [Validators.required]],
       end_date: ['', [Validators.required]],
       cloud_cover: ['', [Validators.min(0),  Validators.max(100)]],
-      limit: ['', [Validators.required, Validators.min(0),  Validators.max(1000)]]
+      limit: ['', [Validators.required, Validators.min(0),  Validators.max(this.searchFormMaxLimit)]]
     })
   }
 
