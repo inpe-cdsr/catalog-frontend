@@ -1,6 +1,6 @@
-deploy/dist/*
+deploy/dist/
 
-add_to_the_portal/*
+add_to_the_portal/
 
 # IDE - VSCode
-.vscode/*
+.vscode/
