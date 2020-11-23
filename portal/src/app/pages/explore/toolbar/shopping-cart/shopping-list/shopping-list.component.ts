@@ -27,7 +27,7 @@ export class ShoppingListComponent {
   private providersToken = [];
 
   private credentials = {
-    username: '',
+    email: '',
     password: ''
   }
 
@@ -46,7 +46,7 @@ export class ShoppingListComponent {
       this.getCollections();
       this.store.pipe(select('auth')).subscribe(res => {
         this.logged = res.userId && res.token && res.fullname && res.email && res.password;
-        this.credentials.username = res.email;
+        this.credentials.email = res.email;
         this.credentials.password = res.password;
       });
 
@@ -111,16 +111,16 @@ export class ShoppingListComponent {
     this.store.dispatch(removeFeatureToDownload(feature));
   }
 
-  generateURL(sceneId: string, url: string): string {
-    const features = this.features_by_providers.filter(f => f['id'] === sceneId);
+  generateURL(itemId: string, url: string): string {
+    const features = this.features_by_providers.filter(f => f['id'] === itemId);
 
     // if there is a selected feature, then return the url with its parameters
     if (features.length > 0) {
-      // 'sceneId' is unique, then there is just one feature inside the features list
+      // 'itemId' is unique, then there is just one feature inside the features list
       let keys = {
-        'key': `${this.credentials.username}`,
+        'email': `${this.credentials.email}`,
         'collection': features[0]['collection'],
-        'scene_id': sceneId
+        'item_id': itemId
       };
 
       // create the parameters dynamically using the object above

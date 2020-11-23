@@ -79,11 +79,11 @@ Build the production Docker image:
 
 ```
 cd ../deploy/
-docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:0.0.18 -f prod.Dockerfile . --no-cache
+docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.0 -f prod.Dockerfile . --no-cache
 ```
 
 You can send the image above to your registry:
 
 ```
-docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:0.0.18
+docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.0
 ```
