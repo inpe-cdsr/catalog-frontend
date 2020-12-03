@@ -107,6 +107,20 @@
             </mat-form-field>
           </div>
 
+          <!-- complement -->
+          <div class="display-inline">
+            <mat-form-field appearance="fill">
+              <mat-label>
+                {{ 'pages.auth.register.form.address.complement' | translate }}
+              </mat-label>
+              <input matInput
+                name="complement"
+                placeholder="Complement"
+                [(ngModel)]="user.complement"
+                formControlName="complement"/>
+            </mat-form-field>
+          </div>
+
           <!-- state / country -->
           <div class="display-inline">
             <mat-form-field appearance="fill">

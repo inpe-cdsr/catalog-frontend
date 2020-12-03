@@ -57,6 +57,7 @@ export class RegisterComponent {
       cep: '',
       street: '',
       number: '',
+      complement: '',
       city: '',
       state: '',
       country: '',
@@ -71,11 +72,12 @@ export class RegisterComponent {
       ddd: [''],
       phone: [''],
       cep: [''],
-      street: [''],
-      number: [''],
-      city: [''],
-      state: ['', [Validators.maxLength(2)]],
-      country: [''],
+      street: [{disabled: true, value: ''}],
+      number: ['', [Validators.maxLength(9)]],
+      complement: ['', [Validators.maxLength(60)]],
+      city: [{disabled: true, value: ''}],
+      state: [{disabled: true, value: ''}, [Validators.maxLength(2)]],
+      country: [{disabled: true, value: ''}],
       company: ['', [Validators.required]],
       companyType: ['', [Validators.required]],
       sector: ['', [Validators.required]],
@@ -177,6 +179,7 @@ export class RegisterComponent {
           cep: this.user.cep,
           street: this.user.street,
           number: this.user.number,
+          complement: this.user.complement,
           city: this.user.city,
           state: this.user.state,
           country: this.user.country
@@ -189,12 +192,10 @@ export class RegisterComponent {
       const responseUser = await this.as.addUser(user);
 
       // login
-      const response = await this.as.login(
-        {
-          email: this.user.email,
-          password: this.user.password
-        }
-      );
+      const response = await this.as.login({
+        email: this.user.email,
+        password: this.user.password
+      });
 
       this.store.dispatch(Login({
         userId: response.user_id,
@@ -230,12 +231,12 @@ export class RegisterComponent {
       try {
         const response = await this.vs.getAddress(cep.replace('-', ''));
         if (response.logradouro) {
+          this.user.cep = response.cep;
           this.user.street = response.logradouro;
           this.user.city = response.localidade;
-          this.user.state = response.state;
+          this.user.state = response.uf;
           this.user.country = 'Brazil';
         }
-
       } catch(err) {
         return
       }
@@ -246,5 +247,4 @@ export class RegisterComponent {
   public closeDialog() {
     this.dialogRef.close();
   }
-
 }

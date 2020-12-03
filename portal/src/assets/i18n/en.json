@@ -36,6 +36,7 @@
             "cep": "CEP",
             "street": "Street",
             "number": "Number",
+            "complement": "Complement",
             "city": "City",
             "state": "State",
             "country": "Country"

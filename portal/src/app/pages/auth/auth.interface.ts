@@ -10,6 +10,7 @@ export interface UserInterface {
   cep: string;
   street: string;
   number: string;
+  complement: string;
   city: string;
   state: string;
   country: string;
