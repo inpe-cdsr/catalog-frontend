@@ -224,20 +224,53 @@ export class RegisterComponent {
     }
   }
 
+  private async clearUserInformation(){
+    this.user.state = '';
+    this.user.city = '';
+    this.user.country = '';
+    this.user.street = '';
+    // disable control, if it is enabled
+    this.formRegister.controls['street'].disable()
+  }
+
   public async getAddress() {
+    // disable control, if it is enabled
+    this.formRegister.controls['street'].disable()
+
     const cep = this.user.cep;
 
     if (cep && (cep.length === 8 || cep.length === 9)) {
       try {
         const response = await this.vs.getAddress(cep.replace('-', ''));
-        if (response.logradouro) {
-          this.user.cep = response.cep;
-          this.user.street = response.logradouro;
-          this.user.city = response.localidade;
-          this.user.state = response.uf;
-          this.user.country = 'Brazil';
+
+        console.log('response: ',response)
+
+        if (response.erro) {
+          this.clearUserInformation()
+          return
+        }
+
+        if (response.localidade) {
+          this.user.cep = response.cep
+          this.user.state = response.uf
+          this.user.city = response.localidade
+          this.user.country = 'Brazil'
+
+          // there are cities that do not have CEP by streets, like Cachoeira Paulista,
+          // because of that, if the response contains street, it is added automatically [...]
+          if (response.logradouro) {
+            // disable the control, if it is enabled
+            this.user.street = response.logradouro
+            return
+          }
+
+          // [...] else, the street input is cleared and enabled in order to
+          // the user adds his street manually
+          this.user.street = ''
+          this.formRegister.controls['street'].enable()
         }
       } catch(err) {
+        this.clearUserInformation()
         return
       }
     }

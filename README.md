@@ -78,12 +78,12 @@ npm run build -- --base-href /catalogo/ --prod
 Build the production Docker image:
 
 ```
-cd ../deploy/
-docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.1 -f prod.Dockerfile . --no-cache
+cd ../deploy/ && \
+    docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.2 -f prod.Dockerfile . --no-cache
 ```
 
 You can send the image above to your registry:
 
 ```
-docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.1
+docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.2
 ```
