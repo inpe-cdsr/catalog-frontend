@@ -26,8 +26,8 @@ Make sure you have the following libraries installed:
 Install the dependencies:
 
 ```
-cd portal/
-npm install
+$ cd portal/
+$ npm install
 ```
 
 ### Run a development server
@@ -35,8 +35,8 @@ npm install
 Run a development server.
 
 ```
-cd portal/
-npm start
+$ cd portal/
+$ npm start
 ```
 
 Navigate to `http://localhost:8000/catalogo`. The application will reload automatically if you change any of the source files.
@@ -51,8 +51,8 @@ You can build a new development Docker image to run the application inside the `
 Build the development Docker image:
 
 ```
-cd portal/
-docker build -t inpe-cdsr-catalog-frontend -f dev.Dockerfile . --no-cache
+$ cd portal/ && \
+    docker build -t inpe-cdsr-catalog-frontend -f dev.Dockerfile . --no-cache
 ```
 
 #### Production
@@ -64,26 +64,26 @@ Building the web portal. The built code below will be added inside the final ima
 - Building in development mode:
 
 ```
-cd portal/
-npm run build -- --base-href /catalogo/
+$ cd portal/ && \
+    npm run build -- --base-href /catalogo/
 ```
 
 - Building in production mode:
 
 ```
-cd portal/
-npm run build -- --base-href /catalogo/ --prod
+$ cd portal/ && \
+    npm run build -- --base-href /catalogo/ --prod
 ```
 
 Build the production Docker image:
 
 ```
-cd ../deploy/ && \
-    docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.2 -f prod.Dockerfile . --no-cache
+$ cd ../deploy/ && \
+    docker build -t registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.3 -f prod.Dockerfile . --no-cache
 ```
 
 You can send the image above to your registry:
 
 ```
-docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.2
+$ docker push registry.dpi.inpe.br/inpe-cdsr/catalog-frontend:1.0.3
 ```
