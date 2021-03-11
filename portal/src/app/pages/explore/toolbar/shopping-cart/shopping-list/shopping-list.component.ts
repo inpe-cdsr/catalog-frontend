@@ -111,41 +111,34 @@ export class ShoppingListComponent {
     this.store.dispatch(removeFeatureToDownload(feature));
   }
 
-  generateURL(itemId: string, url: string): string {
-    const features = this.features_by_providers.filter(f => f['id'] === itemId);
+  generateURL(feature: Feature, url: string): string {
+    const collection = this.getCollectionFromFeature(feature)
 
-    // if there is a selected feature, then return the url with its parameters
-    if (features.length > 0) {
-      // 'itemId' is unique, then there is just one feature inside the features list
-      let keys = {
-        'email': `${this.credentials.email}`,
-        'collection': features[0]['collection'],
-        'item_id': itemId
-      };
+    const keys = {
+      'email': `${this.credentials.email}`,
+      'collection': collection,
+      'item_id': feature.id
+    };
 
-      // create the parameters dynamically using the object above
-      let parameters = join(keys, '=', '&');
-      let urlWithParameters = `${url}?${parameters}`;
+    // create the parameters dynamically using the object above
+    const parameters = join(keys, '=', '&');
+    const urlWithParameters = `${url}?${parameters}`;
 
-      return urlWithParameters;
-    }
-
-    // if there is not a selected feature, then return the url
-    return url;
+    return urlWithParameters;
   }
 
   downloadLinks() {
     let data = '';
-    this.features.forEach(feat => {
-      if (feat.properties['eo:bands']) {
-        feat.properties['eo:bands'].forEach(band => {
-          const url = this.generateURL(feat['id'], feat.assets[band['name']]['href']);
+    this.features.forEach(feature => {
+      if (feature.properties['eo:bands']) {
+        feature.properties['eo:bands'].forEach(band => {
+          const url = this.generateURL(feature, feature.assets[band['name']]['href']);
           data += `${url} \n`;
         });
       } else {
-        Object.keys(feat.assets).forEach(asset => {
+        Object.keys(feature.assets).forEach(asset => {
           if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
-            const url = this.generateURL(feat['id'], feat.assets[asset]['href']);
+            const url = this.generateURL(feature, feature.assets[asset]['href']);
             data += `${url} \n`;
           }
         });

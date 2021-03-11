@@ -62,7 +62,7 @@
 
             <div *ngIf="logged">
               <a *ngFor="let key of getKeys(feature.assets)"
-                  [href]="generateURL(feature.id, feature.assets[key]['href'])"
+                  [href]="generateURL(feature, feature.assets[key]['href'])"
                   style="margin-left: 10px;">
 
                   <abbr [title]="key">
