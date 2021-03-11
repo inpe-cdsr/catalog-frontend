@@ -259,7 +259,7 @@ export class SearchComponent implements OnInit {
       let data = {
         "providers": providers,
         "bbox": [bbox[2], bbox[1], bbox[3], bbox[0]],
-        "time": `${startDate}T00:00:00/${endDate}T23:59:00`,
+        "datetime": `${startDate}T00:00:00/${endDate}T23:59:00`,
         "limit": this.formFields['limit']
       }
 

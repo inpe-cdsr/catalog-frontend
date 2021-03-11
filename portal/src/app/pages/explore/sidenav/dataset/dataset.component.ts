@@ -108,7 +108,7 @@ export class ChecklistDatabase {
 
       this.store.dispatch(setProvidersInfos(response.providers));
     } catch(err) {
-      console.log('getProviders() error: ', err);
+      console.log('getProvidersFromTheServer - error: ', err);
     } finally {
       this.store.dispatch(closeLoading());
     }
@@ -134,13 +134,10 @@ export class ChecklistDatabase {
         const collection_ids = provider.collections.map(collection => collection.id);
         this.providersCollectionsTree[provider.id] = collection_ids;
       }
-
     } catch(err) {
-      console.log('getCollections() error: ', err);
-
+      console.log('getProvidersCollectionsFromTheServer - error: ', err);
     } finally {
       this.store.dispatch(closeLoading());
-
     }
   }
 
