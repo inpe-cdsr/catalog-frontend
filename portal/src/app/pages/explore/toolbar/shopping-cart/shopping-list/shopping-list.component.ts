@@ -36,6 +36,7 @@ export class ShoppingListComponent {
     private store: Store<ExploreState>,
     public dialogRef: MatDialogRef<ShoppingListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+
       Object.keys(data.providers).forEach(p => {
         if (data.providers[p]['require_credentials'] === 1) {
           this.providersToken.push(p);
@@ -44,6 +45,7 @@ export class ShoppingListComponent {
 
       this.features = data.features;
       this.getCollections();
+
       this.store.pipe(select('auth')).subscribe(res => {
         this.logged = res.userId && res.token && res.fullname && res.email && res.password;
         this.credentials.email = res.email;
@@ -51,9 +53,11 @@ export class ShoppingListComponent {
       });
 
       this.store.pipe(select('explore')).subscribe(res => {
+
         if (res.features_separate_by_providers) {
           const f_by_p = res.features_separate_by_providers
           this.features_by_providers = [];
+
           Object.keys(res.features_separate_by_providers).forEach(p => {
             this.providersToken.forEach(provider => {
               if (p.toLowerCase() === provider.toLowerCase()) {
@@ -64,6 +68,7 @@ export class ShoppingListComponent {
               }
             });
           });
+
         }
       });
   }

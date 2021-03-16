@@ -45,7 +45,7 @@ export class FeatureTablePaginationComponent implements OnInit {
     }
   }
 
-  /** enable or disable cube in the map */
+  /** enable or disable cube on the map */
   public onChangeLayer(event, feature) {
     if (event.checked) {
       this.features = this.features.map( (f: any) => {
