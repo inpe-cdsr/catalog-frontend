@@ -125,15 +125,29 @@ export class ChecklistDatabase {
 
       // get the collection information by each provider from stac-compose
       this.providersCollections = await this.ss.getCollections(providers);
+      // console.log('getProvidersCollectionsFromTheServer - this.providersCollections: ',
+      //             this.providersCollections)
 
       this.providersCollectionsTree = {};
 
       // build the `providersCollectionsTree` structure where:
       // the key is the provider name and the value is the collection names
       for (let provider of this.providersCollections['providers']) {
-        const collection_ids = provider.collections.map(collection => collection.id);
-        this.providersCollectionsTree[provider.id] = collection_ids;
+        let collection_tree = {}
+
+        for (let collection of provider.collections) {
+          let satellite = collection.id.split('_')[0]
+
+          // if the satellite name is not inside `collection_tree`, then initialize it
+          if (!(satellite in collection_tree))
+            collection_tree[satellite] = []
+
+          collection_tree[satellite].push(collection.id)
+        }
+
+        this.providersCollectionsTree[provider.id] = collection_tree;
       }
+
     } catch(err) {
       console.log('getProvidersCollectionsFromTheServer - error: ', err);
     } finally {
@@ -376,9 +390,10 @@ export class DatasetComponent {
       const providersCollections = this._database.providersCollectionsTree;
 
       this.checklistSelection.selected.forEach((node: ItemFlatNode) => {
-        // if 'node.level == 1', then this node is a collection
-        if (node.level == 1) {
+        // if 'node.level == 2', then this node is a collection
+        if (node.level == 2) {
           // if I'm a collection, then my parent is a provider
+          // (PS: I do not know why the parent is not the satellite)
           let provider = node.parent.item;
 
           // initialize 'selectedCollections' with 'provider' for the first time
@@ -427,14 +442,26 @@ export class DatasetComponent {
   }
 
   getTooltipMessage(node: ItemFlatNode): string {
-    // get the parent, in other words, the provider node
-    let parent = this.getParentNode(node);
+    // if node is expandable, then it is a provider or a satellite
+    if (node.expandable)
+      return ''
+    // else, if node is not expandable, then it is a collection
 
-    let collection = this.getCollectionInformation(parent.item, node.item);
+    // get the provider node based on the satellite node
+    // `this.getParentNode(node)` gets the satellite name
+    let provider = this.getParentNode(this.getParentNode(node));
+
+    let collection = this.getCollectionInformation(provider.item, node.item);
+
+    let temporal = collection.extent.temporal
+
+    // if `temporal` contains `interval`, then get the start and end dates
+    if ('interval' in temporal)
+      temporal = temporal['interval'][0]
 
     return `ID: ${collection.id}` +
-            `\nStart date: ${collection.extent.temporal[0]}` +
-            `\nEnd date: ${collection.extent.temporal[1]}` +
-            `\nDescription: ${collection.description}`;
+           `\nStart date: ${temporal[0]}` +
+           `\nEnd date: ${temporal[1]}` +
+           `\nDescription: ${collection.description}`;
   }
 }
