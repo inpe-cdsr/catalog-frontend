@@ -47,7 +47,7 @@ export class ShoppingListComponent {
       this.getCollections();
 
       this.store.pipe(select('auth')).subscribe(res => {
-        this.logged = res.userId && res.token && res.fullname && res.email && res.password;
+        this.logged = res.username && res.token && res.name && res.email && res.password;
         this.credentials.email = res.email;
         this.credentials.password = res.password;
       });

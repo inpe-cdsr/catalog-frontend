@@ -25,7 +25,7 @@ export class ToolbarComponent {
     public dialog: MatDialog,
     private store: Store<AuthState>){
     this.store.pipe(select('auth')).subscribe(res => {
-      this.logged = res.userId && res.token && res.fullname;
+      this.logged = res.username && res.token && res.name;
     });
   }
 

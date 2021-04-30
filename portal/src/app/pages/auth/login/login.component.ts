@@ -72,9 +72,9 @@ export class LoginComponent {
       );
 
       this.store.dispatch(Login({
-        userId: response.user_id,
+        username: response.username,
         token: response.access_token,
-        fullname: response.fullname,
+        name: response.name,
         email: response.email,
         password: response.password
       }));

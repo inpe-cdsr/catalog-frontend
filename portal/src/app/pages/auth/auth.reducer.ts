@@ -6,9 +6,9 @@ import { AuthState } from './auth.state';
 
 /** initial values to Auth State */
 const initialState: AuthState = {
-  userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['userId'] : '',
+  username: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['username'] : '',
   token: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['token'] : '',
-  fullname: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['fullname'] : '',
+  name: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['name'] : '',
   email: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['email'] : '',
   password: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))['password'] : ''
 };
@@ -22,16 +22,16 @@ export const __reducer = createReducer(initialState,
     localStorage.setItem('user', JSON.stringify(payload));
     return {
       ...state,
-      userId: payload['userId'].toString(),
+      username: payload['username'].toString(),
       token: payload['token'].toString(),
-      fullname: payload['fullname'].toString(),
+      name: payload['name'].toString(),
       email: payload['email'].toString(),
       password: payload['password'].toString()
     };
   }),
   on(Logout, (state) => {
     localStorage.removeItem('user');
-    return { ...state, userId: '', token: '', fullname: '' };
+    return { ...state, username: '', token: '', name: '' };
   })
 );
 
