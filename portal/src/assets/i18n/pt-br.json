@@ -29,22 +29,24 @@
         "title": "DGI - INPE",
         "form": {
           "title": "Registrar",
-          "full_name": "Nome completo",
+          "name": "Nome completo",
+          "username": "Nome de usuário",
           "email": "E-mail",
           "phone": "Telefone",
           "address": {
             "cep": "CEP",
             "street": "Rua",
             "number": "Número",
-            "complement": "Complemento",
+            "district": "Bairro",
             "city": "Cidade",
             "state": "Estado",
-            "country": "País"
+            "country": "País",
+            "complement": "Complemento"
           },
-          "organization": {
+          "company": {
             "name": "Nome da organização",
             "type": "Tipo da organização",
-            "sector_activity": "Atividade do setor"
+            "activity": "Atividade do setor"
           },
           "password": "Senha",
           "confirm_password": "Confirmação de Senha",

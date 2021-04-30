@@ -29,22 +29,24 @@
         "title": "DGI - INPE",
         "form": {
           "title": "Register",
-          "full_name": "Full name",
+          "name": "Full name",
+          "username": "Username",
           "email": "E-mail",
           "phone": "Phone",
           "address": {
             "cep": "CEP",
             "street": "Street",
             "number": "Number",
-            "complement": "Complement",
+            "district": "District",
             "city": "City",
             "state": "State",
-            "country": "Country"
+            "country": "Country",
+            "complement": "Complement"
           },
-          "organization": {
-            "name": "Organization name",
-            "type": "Organization type",
-            "sector_activity": "Sector activity"
+          "company": {
+            "name": "Company name",
+            "type": "Company type",
+            "activity": "Company activity"
           },
           "password": "Password",
           "confirm_password": "Password Confirmation",
