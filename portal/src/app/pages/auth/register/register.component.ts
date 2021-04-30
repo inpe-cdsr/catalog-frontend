@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
 import { UserInterface, ErrorInterface } from '../auth.interface';
 
 // other
-import { sectors, orgTypes } from 'src/app/shared/helpers/CONST';
+import { companyActivities, companyTypes } from 'src/app/shared/helpers/CONST';
 
 // register component
 import { ViaCEPServie } from './viacep.service';
@@ -34,7 +34,7 @@ export class RegisterComponent {
   public error: ErrorInterface;
   public user: UserInterface;
   public listTypes = [];
-  public listSectors = [];
+  public listActivities = [];
 
   /** set validators of the form */
   constructor(
@@ -45,42 +45,44 @@ export class RegisterComponent {
     public dialogRef: MatDialogRef<RegisterComponent>,
     private fb: FormBuilder) {
 
-    this.listTypes = orgTypes;
-    this.listSectors = sectors;
+    this.listTypes = companyTypes;
+    this.listActivities = companyActivities;
     this.user = {
+      username: '',
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
-      ddd: '',
       phone: '',
       cep: '',
       street: '',
       number: '',
-      complement: '',
+      district: '',
       city: '',
       state: '',
       country: '',
-      company: '',
-      companyType: '',
-      sector: ''
+      complement: '',
+      company_name: '',
+      company_type: '',
+      company_activity: ''
     }
 
     this.formRegister = this.fb.group({
-      name: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.minLength(6)]],
+      name: ['', [Validators.required, Validators.minLength(10)]],
       email: ['', [Validators.required, Validators.email]],
-      ddd: [''],
       phone: [''],
       cep: [''],
       street: [{disabled: true, value: ''}],
       number: ['', [Validators.maxLength(9)]],
       complement: ['', [Validators.maxLength(60)]],
       city: [{disabled: true, value: ''}],
+      district: [{disabled: true, value: ''}],
       state: [{disabled: true, value: ''}, [Validators.maxLength(2)]],
       country: [{disabled: true, value: ''}],
-      company: ['', [Validators.required]],
-      companyType: ['', [Validators.required]],
-      sector: ['', [Validators.required]],
+      company_name: ['', [Validators.required]],
+      company_type: ['', [Validators.required]],
+      company_activity: ['', [Validators.required]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });
@@ -110,6 +112,22 @@ export class RegisterComponent {
   private doesRegisterFormHaveValidationError() {
     if (this.formRegister.status !== 'VALID') {
       let controls = this.formRegister.controls;
+
+      if (controls['username'].hasError('minlength')) {
+        this.error = {
+          type: 'error',
+          message: 'Username can be min 6 characters long!'
+        };
+        return true;
+      }
+
+      if (controls['name'].hasError('minlength')) {
+        this.error = {
+          type: 'error',
+          message: 'Username can be min 10 characters long!'
+        };
+        return true;
+      }
 
       if (controls['email'].hasError('email')) {
         this.error = {
@@ -170,23 +188,24 @@ export class RegisterComponent {
       }
 
       const user = {
-        fullname: this.user.name,
+        username: this.user.username,
+        name: this.user.name,
         email: this.user.email,
         password: this.user.password,
-        areaCode: this.user.ddd,
         phone: this.user.phone,
         address: {
           cep: this.user.cep,
           street: this.user.street,
           number: this.user.number,
-          complement: this.user.complement,
+          district: this.user.district,
           city: this.user.city,
           state: this.user.state,
-          country: this.user.country
+          country: this.user.country,
+          complement: this.user.complement
         },
-        company: this.user.company,
-        companyType: this.user.companyType,
-        activity: this.user.sector
+        company_name: this.user.company_name,
+        company_type: this.user.company_type,
+        company_activity: this.user.company_activity
       }
 
       const responseUser = await this.as.addUser(user);
@@ -198,9 +217,9 @@ export class RegisterComponent {
       });
 
       this.store.dispatch(Login({
-        userId: response.user_id,
+        username: response.username,
         token: response.access_token,
-        fullname: response.fullname,
+        name: response.name,
         email: response.email,
         password: response.password
       }));
@@ -224,18 +243,23 @@ export class RegisterComponent {
     }
   }
 
-  private async clearUserInformation(){
-    this.user.state = '';
-    this.user.city = '';
-    this.user.country = '';
-    this.user.street = '';
+  private async disableControls(){
     // disable control, if it is enabled
     this.formRegister.controls['street'].disable()
+    this.formRegister.controls['district'].disable()
+  }
+
+  private async clearUserInformation(){
+    this.user.street = '';
+    this.user.district = '';
+    this.user.city = '';
+    this.user.state = '';
+    this.user.country = '';
+    this.disableControls()
   }
 
   public async getAddress() {
-    // disable control, if it is enabled
-    this.formRegister.controls['street'].disable()
+    this.disableControls()
 
     const cep = this.user.cep;
 
@@ -243,7 +267,7 @@ export class RegisterComponent {
       try {
         const response = await this.vs.getAddress(cep.replace('-', ''));
 
-        console.log('response: ',response)
+        // console.log('response: ',response)
 
         if (response.erro) {
           this.clearUserInformation()
@@ -252,8 +276,9 @@ export class RegisterComponent {
 
         if (response.localidade) {
           this.user.cep = response.cep
-          this.user.state = response.uf
+          this.user.district = response.bairro
           this.user.city = response.localidade
+          this.user.state = response.uf
           this.user.country = 'Brazil'
 
           // there are cities that do not have CEP by streets, like Cachoeira Paulista,
@@ -267,7 +292,9 @@ export class RegisterComponent {
           // [...] else, the street input is cleared and enabled in order to
           // the user adds his street manually
           this.user.street = ''
+          this.user.district = ''
           this.formRegister.controls['street'].enable()
+          this.formRegister.controls['district'].enable()
         }
       } catch(err) {
         this.clearUserInformation()
