@@ -116,13 +116,9 @@ export class ShoppingListComponent {
     this.store.dispatch(removeFeatureToDownload(feature));
   }
 
-  generateURL(feature: Feature, url: string): string {
-    const collection = this.getCollectionFromFeature(feature)
-
+  generateURL(url: string): string {
     const keys = {
-      'email': `${this.credentials.email}`,
-      'collection': collection,
-      'item_id': feature.id
+      'email': `${this.credentials.email}`
     };
 
     // create the parameters dynamically using the object above
@@ -137,13 +133,13 @@ export class ShoppingListComponent {
     this.features.forEach(feature => {
       if (feature.properties['eo:bands']) {
         feature.properties['eo:bands'].forEach(band => {
-          const url = this.generateURL(feature, feature.assets[band['name']]['href']);
+          const url = this.generateURL(feature.assets[band['name']]['href']);
           data += `${url} \n`;
         });
       } else {
         Object.keys(feature.assets).forEach(asset => {
           if (asset.toLowerCase() !== 'thumbnail' && asset.toLowerCase() !== 'metadata') {
-            const url = this.generateURL(feature, feature.assets[asset]['href']);
+            const url = this.generateURL(feature.assets[asset]['href']);
             data += `${url} \n`;
           }
         });
